@@ -4,8 +4,10 @@ import { prisma } from '@/lib/prisma';
 import OpenAI from 'openai';
 import { summarizeMeeting } from '@/lib/deepseek';
 
+// Fallback key so the client doesn't throw at module load during `next build`
+// (OPENAI_API_KEY isn't present at build time); real key is read at request time.
 const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: process.env.OPENAI_API_KEY ?? 'dummy-key',
 });
 
 export async function POST(
