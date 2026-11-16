@@ -58,6 +58,19 @@ export function EmbeddableRoom({ slug, theme }: { slug: string; theme: RoomTheme
 
       const c = new StreamVideoClient({ apiKey, user: { id: userId, name: userName || 'Guest' }, token });
       const theCall = c.call('default', slug);
+
+      // Probe camera/mic permission first. If the guest has no device or blocks
+      // it, disable both so join() never calls getUserMedia (which otherwise
+      // throws "Permission was not granted") — they join muted and can enable
+      // later from the call controls.
+      try {
+        const probe = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        probe.getTracks().forEach((t) => t.stop());
+      } catch {
+        await theCall.camera.disable().catch(() => {});
+        await theCall.microphone.disable().catch(() => {});
+      }
+
       await theCall.join({ create: true });
 
       cleanup.current = () => {
