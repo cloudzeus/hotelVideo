@@ -5,6 +5,7 @@ import { getContacts } from '@/lib/data/contacts';
 import { Navigation } from '@/components/layout/navigation';
 import { ContactsTable } from '@/components/contacts/contacts-table';
 import { CreateContactButton } from '@/components/contacts/create-contact-button';
+import { InviteEmailButton } from '@/components/contacts/invite-email-button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
@@ -60,7 +61,10 @@ export default async function ContactsPage() {
                 Διαχείριση επαφών και των συσχετίσεων με εταιρίες
               </p>
             </div>
-            <CreateContactButton />
+            <div className="flex items-center gap-2">
+              <InviteEmailButton />
+              <CreateContactButton />
+            </div>
           </div>
           
           <Suspense fallback={<ContactsTableSkeleton />}>
