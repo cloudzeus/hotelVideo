@@ -7,9 +7,11 @@ import {
   StreamCall,
   SpeakerLayout,
   CallControls,
+  useCallStateHooks,
   type Call,
 } from '@stream-io/video-react-sdk';
 import '@stream-io/video-react-sdk/dist/css/styles.css';
+import { Users } from 'lucide-react';
 
 export type RoomTheme = {
   primary: string; // hex, taken from the hotel site
@@ -19,6 +21,106 @@ export type RoomTheme = {
 };
 
 type Phase = 'prejoin' | 'joining' | 'incall' | 'error';
+
+function formatDuration(totalSeconds: number): string {
+  const m = Math.floor(totalSeconds / 60);
+  const s = totalSeconds % 60;
+  return `${m}:${String(s).padStart(2, '0')}`;
+}
+
+/** Branded in-call shell: top bar (brand + live status + participants + timer),
+ *  framed video stage, floating control dock. Rendered inside StreamCall so the
+ *  Stream state hooks work. */
+function InCallChrome({ theme, onLeave }: { theme: RoomTheme; onLeave: () => void }) {
+  const { useParticipants } = useCallStateHooks();
+  const participants = useParticipants();
+  const [seconds, setSeconds] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setSeconds((s) => s + 1), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const primary = theme.primary || '#2563EB';
+
+  return (
+    <div
+      className="str-video"
+      style={{ height: '100dvh', display: 'flex', flexDirection: 'column', background: '#0b0f1a', color: '#fff' }}
+    >
+      <header
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 12,
+          padding: '10px 16px',
+          borderBottom: '1px solid rgba(255,255,255,.08)',
+          background: 'rgba(17,22,36,.72)',
+          backdropFilter: 'blur(8px)',
+        }}
+      >
+        {theme.logo ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={theme.logo} alt={theme.hotelName} style={{ height: 28 }} />
+        ) : (
+          <div style={{ width: 28, height: 28, borderRadius: 7, display: 'grid', placeItems: 'center', background: primary, fontWeight: 700, fontSize: 13 }}>
+            {theme.hotelName.charAt(0)}
+          </div>
+        )}
+        <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.15, minWidth: 0 }}>
+          <span style={{ fontWeight: 600, fontSize: 14, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '38vw' }}>
+            {theme.hotelName}
+          </span>
+          <span style={{ fontSize: 11, opacity: 0.55 }}>Concierge</span>
+        </div>
+        <div
+          style={{
+            marginLeft: 8,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+            fontSize: 12,
+            padding: '4px 10px',
+            borderRadius: 99,
+            background: 'rgba(43,191,106,.12)',
+            border: '1px solid rgba(43,191,106,.3)',
+          }}
+        >
+          <span style={{ width: 7, height: 7, borderRadius: 99, background: '#2bbf6a', boxShadow: '0 0 0 3px rgba(43,191,106,.2)' }} />
+          <span>Σε σύνδεση</span>
+        </div>
+        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 16, fontSize: 13 }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 6, opacity: 0.85 }} title="Συμμετέχοντες">
+            <Users size={15} /> {participants.length}
+          </span>
+          <span style={{ fontVariantNumeric: 'tabular-nums', opacity: 0.85, minWidth: 48, textAlign: 'right' }}>
+            {formatDuration(seconds)}
+          </span>
+        </div>
+      </header>
+
+      <main style={{ flex: 1, minHeight: 0, padding: 16 }}>
+        <div style={{ height: '100%', borderRadius: 14, overflow: 'hidden', border: '1px solid rgba(255,255,255,.08)', background: '#05070d' }}>
+          <SpeakerLayout participantsBarPosition="bottom" />
+        </div>
+      </main>
+
+      <footer style={{ display: 'flex', justifyContent: 'center', paddingBottom: 18 }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            padding: '8px 14px',
+            borderRadius: 16,
+            background: 'rgba(17,22,36,.92)',
+            border: '1px solid rgba(255,255,255,.08)',
+            boxShadow: '0 8px 30px rgba(0,0,0,.45)',
+          }}
+        >
+          <CallControls onLeave={onLeave} />
+        </div>
+      </footer>
+    </div>
+  );
+}
 
 export function EmbeddableRoom({ slug, theme }: { slug: string; theme: RoomTheme }) {
   const [phase, setPhase] = useState<Phase>('prejoin');
@@ -96,18 +198,11 @@ export function EmbeddableRoom({ slug, theme }: { slug: string; theme: RoomTheme
 
   if (phase === 'incall' && client && call) {
     return (
-      <div style={{ height: '100dvh', background: '#0b0b0f' }}>
-        <StreamVideo client={client}>
-          <StreamCall call={call}>
-            <div className="str-video" style={{ height: '100dvh', display: 'flex', flexDirection: 'column' }}>
-              <div style={{ flex: 1, minHeight: 0 }}>
-                <SpeakerLayout participantsBarPosition="bottom" />
-              </div>
-              <CallControls onLeave={leave} />
-            </div>
-          </StreamCall>
-        </StreamVideo>
-      </div>
+      <StreamVideo client={client}>
+        <StreamCall call={call}>
+          <InCallChrome theme={theme} onLeave={leave} />
+        </StreamCall>
+      </StreamVideo>
     );
   }
 
