@@ -37,7 +37,13 @@ export async function GET() {
 export async function PUT(request: NextRequest) {
   const a = await requireAdmin();
   if (a.error || !a.session) return NextResponse.json({ error: a.error }, { status: a.status });
-  const companyId = a.session.user.companyId;
+  // AppConfig is a per-deployment singleton: bind it to the real (default/first)
+  // company, not the session's companyId which can be stale after reseeds.
+  const company =
+    (await prisma.company.findFirst({ where: { default: true }, select: { id: true } })) ??
+    (await prisma.company.findFirst({ select: { id: true } }));
+  if (!company) return NextResponse.json({ error: 'No company found' }, { status: 400 });
+  const companyId = company.id;
   const body = (await request.json().catch(() => ({}))) as Partial<IntegrationConfig>;
 
   const existing = (await prisma.appConfig.findUnique({ where: { companyId } }))?.config as Partial<IntegrationConfig> | undefined;

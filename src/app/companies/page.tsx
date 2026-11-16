@@ -121,12 +121,12 @@ export default async function CompaniesPage({
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <h1 className="text-3xl font-bold tracking-tight">
-                {isAdmin ? 'Companies' : 'Company Information'}
+                {isAdmin ? 'Εταιρίες' : 'Στοιχεία Εταιρίας'}
               </h1>
               <p className="text-muted-foreground">
-                {isAdmin 
-                  ? 'Manage all companies in the system'
-                  : 'View your company information'
+                {isAdmin
+                  ? 'Διαχείριση όλων των εταιριών'
+                  : 'Προβολή στοιχείων εταιρίας'
                 }
               </p>
             </div>

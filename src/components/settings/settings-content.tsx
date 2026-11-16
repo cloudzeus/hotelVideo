@@ -34,7 +34,7 @@ export function SettingsContent() {
       <div className="flex items-center justify-center py-20">
         <div className="text-center space-y-4">
           <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto" />
-          <div className="text-lg font-medium">Loading Settings...</div>
+          <div className="text-lg font-medium">Φόρτωση ρυθμίσεων...</div>
           <div className="text-sm text-muted-foreground">Please wait while we prepare your settings</div>
         </div>
       </div>
@@ -46,11 +46,11 @@ export function SettingsContent() {
       <TabsList className="grid w-full grid-cols-3">
         <TabsTrigger value="company" className="flex items-center space-x-2">
           <Building2 className="h-4 w-4" />
-          <span>Company</span>
+          <span>Εταιρία</span>
         </TabsTrigger>
         <TabsTrigger value="departments" className="flex items-center space-x-2">
           <Network className="h-4 w-4" />
-          <span>Departments</span>
+          <span>Τμήματα</span>
         </TabsTrigger>
         <TabsTrigger value="integrations" className="flex items-center space-x-2">
           <Plug className="h-4 w-4" />
@@ -61,9 +61,9 @@ export function SettingsContent() {
       <TabsContent value="company" className="space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>Company Settings</CardTitle>
+            <CardTitle>Ρυθμίσεις Εταιρίας</CardTitle>
             <CardDescription>
-              Set default company and manage company-wide preferences
+              Όρισε προεπιλεγμένη εταιρία και διαχειρίσου προτιμήσεις
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -75,9 +75,9 @@ export function SettingsContent() {
       <TabsContent value="departments" className="space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>Department Hierarchy</CardTitle>
+            <CardTitle>Ιεραρχία Τμημάτων</CardTitle>
             <CardDescription>
-              Manage department structure with drag and drop functionality
+              Διαχείριση δομής τμημάτων με drag & drop
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -91,7 +91,7 @@ export function SettingsContent() {
           <CardHeader>
             <CardTitle>Integrations</CardTitle>
             <CardDescription>
-              Video conference (Stream.io), Bunny CDN, OpenRouter and Mailgun — status and connection tests.
+              Βιντεοκλήσεις (Stream.io), Bunny CDN, OpenRouter και Mailgun — κατάσταση και έλεγχοι σύνδεσης.
             </CardDescription>
           </CardHeader>
           <CardContent>

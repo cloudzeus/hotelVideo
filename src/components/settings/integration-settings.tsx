@@ -8,7 +8,7 @@ type Svc = 'stream' | 'bunny' | 'openrouter' | 'mailgun';
 type TestResult = { ok: boolean; status: number; detail: string };
 
 const META: Record<Svc, { title: string; Icon: typeof FiVideo; color: string }> = {
-  stream: { title: 'Video Conference (Stream.io)', Icon: FiVideo, color: '#0078D4' },
+  stream: { title: 'Βιντεοκλήσεις (Stream.io)', Icon: FiVideo, color: '#0078D4' },
   bunny: { title: 'Bunny CDN', Icon: FiHardDrive, color: '#F59E0B' },
   openrouter: { title: 'OpenRouter (AI)', Icon: FiZap, color: '#8B5CF6' },
   mailgun: { title: 'Mailgun (Email)', Icon: FiMail, color: '#E31E2A' },
@@ -17,26 +17,26 @@ const META: Record<Svc, { title: string; Icon: typeof FiVideo; color: string }> 
 // field key, label, secret?
 const FIELDS: Record<Svc, [string, string, boolean][]> = {
   stream: [
-    ['apiKey', 'API key', false],
-    ['publicKey', 'Public key', false],
-    ['secret', 'Secret', true],
-    ['webhookSecret', 'Webhook secret', true],
+    ['apiKey', 'Κλειδί API', false],
+    ['publicKey', 'Δημόσιο κλειδί', false],
+    ['secret', 'Μυστικό', true],
+    ['webhookSecret', 'Μυστικό webhook', true],
   ],
   bunny: [
-    ['storageZone', 'Storage zone', false],
+    ['storageZone', 'Ζώνη αποθήκευσης', false],
     ['cdnUrl', 'CDN URL', false],
     ['storageUrl', 'Storage URL', false],
-    ['accessKey', 'Access key', true],
+    ['accessKey', 'Κλειδί πρόσβασης', true],
   ],
   openrouter: [
-    ['model', 'Model', false],
-    ['apiKey', 'API key', true],
+    ['model', 'Μοντέλο', false],
+    ['apiKey', 'Κλειδί API', true],
   ],
   mailgun: [
     ['domain', 'Domain', false],
-    ['from', 'From', false],
-    ['region', 'Region (us/eu)', false],
-    ['apiKey', 'API key', true],
+    ['from', 'Αποστολέας', false],
+    ['region', 'Περιοχή (us/eu)', false],
+    ['apiKey', 'Κλειδί API', true],
   ],
 };
 
@@ -113,7 +113,7 @@ export function IntegrationSettings() {
   if (!view) {
     return (
       <div className="flex items-center gap-2 text-muted-foreground py-6">
-        <Loader2 className="h-4 w-4 animate-spin" /> Loading integrations…
+        <Loader2 className="h-4 w-4 animate-spin" /> Φόρτωση…
       </div>
     );
   }
@@ -135,9 +135,9 @@ export function IntegrationSettings() {
                   <h3 className="font-semibold">{title}</h3>
                 </div>
                 <span
-                  className={`text-xs px-2 py-0.5 rounded-full ${configured ? 'bg-emerald-500/15 text-emerald-600' : 'bg-amber-500/15 text-amber-600'}`}
+                  className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${configured ? 'bg-emerald-600 text-white' : 'bg-amber-500 text-white'}`}
                 >
-                  {configured ? 'Configured' : 'Not set'}
+                  {configured ? 'Ρυθμισμένο' : 'Μη ρυθμισμένο'}
                 </span>
               </div>
 
@@ -167,7 +167,7 @@ export function IntegrationSettings() {
                   disabled={testing === svc}
                   className="text-sm px-3 py-1.5 rounded border border-border hover:bg-muted disabled:opacity-60"
                 >
-                  {testing === svc ? 'Testing…' : 'Test connection'}
+                  {testing === svc ? 'Έλεγχος…' : 'Έλεγχος σύνδεσης'}
                 </button>
                 {res && (
                   <span className={`flex items-center gap-1 text-sm ${res.ok ? 'text-emerald-600' : 'text-destructive'}`}>
@@ -188,10 +188,10 @@ export function IntegrationSettings() {
           className="inline-flex items-center gap-2 rounded-md bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:bg-primary/90 disabled:opacity-60"
         >
           {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <FiSave className="h-4 w-4" />}
-          Save changes
+          Αποθήκευση
         </button>
-        {saved && <span className="text-sm text-emerald-600">Saved</span>}
-        <span className="text-xs text-muted-foreground">Leave a secret blank to keep the current value. Values override <code>.env.local</code>.</span>
+        {saved && <span className="text-sm text-emerald-600">Αποθηκεύτηκε</span>}
+        <span className="text-xs text-muted-foreground">Άφησε κενό ένα μυστικό για να κρατήσει την τρέχουσα τιμή. Οι τιμές υπερισχύουν του <code>.env.local</code>.</span>
       </div>
     </div>
   );

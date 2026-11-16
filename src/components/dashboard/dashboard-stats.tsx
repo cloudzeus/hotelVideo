@@ -11,28 +11,28 @@ interface DashboardStatsProps {
 export function DashboardStats({ meetingStats, companyStats, userStats, isAdmin }: DashboardStatsProps) {
   const stats = [
     {
-      title: 'Total Meetings',
+      title: 'Σύνολο Συναντήσεων',
       value: meetingStats?.totalMeetings || 0,
       icon: Video,
-      description: 'All time meetings',
+      description: 'Όλες οι συναντήσεις',
     },
     {
-      title: 'Active Users',
+      title: 'Ενεργοί Χρήστες',
       value: userStats?.activeUsers || 0,
       icon: Users,
-      description: 'Currently active',
+      description: 'Ενεργοί τώρα',
     },
     ...(isAdmin ? [{
-      title: 'Companies',
+      title: 'Εταιρίες',
       value: companyStats?.totalCompanies || 0,
       icon: Building2,
-      description: 'Total companies',
+      description: 'Σύνολο εταιριών',
     }] : []),
     {
-      title: 'This Month',
+      title: 'Αυτόν τον Μήνα',
       value: meetingStats?.monthlyMeetings || 0,
       icon: BarChart3,
-      description: 'Meetings this month',
+      description: 'Συναντήσεις αυτόν τον μήνα',
     },
   ]
 

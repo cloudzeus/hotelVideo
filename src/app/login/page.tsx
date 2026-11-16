@@ -50,7 +50,7 @@ export default async function LoginPage() {
                 Ephyria Concierge
               </h1>
               <p className="text-xl text-white/90 font-light">
-                Welcome back
+                Καλώς ήρθες
               </p>
             </div>
           </div>
@@ -68,7 +68,7 @@ export default async function LoginPage() {
 
           {/* Footer */}
           <p className="text-center text-white/70 text-sm mt-6">
-            Secure video conferencing platform
+            Ασφαλής πλατφόρμα βιντεοκλήσεων
           </p>
         </div>
       </div>

@@ -94,16 +94,16 @@ export function Navigation({ user }: NavigationProps) {
   const handleSignOut = () => signOut({ callbackUrl: '/login' })
 
   const navigationItems = [
-    { href: '/', label: 'Dashboard', icon: Home },
-    { href: '/meetings', label: 'Meetings', icon: Video },
-    { href: '/recordings', label: 'Recordings', icon: FileText },
-    { href: '/companies', label: 'Companies', icon: Building2 },
-    { href: '/contacts', label: 'Contacts', icon: UserPlus },
-    { href: '/service-requests', label: 'Service Requests', icon: ClipboardList },
-    { href: '/appointments', label: 'Appointments', icon: CalendarClock },
-    { href: '/users', label: 'Users', icon: Users },
-    { href: '/statistics', label: 'Statistics', icon: BarChart3 },
-    { href: '/settings', label: 'Settings', icon: Settings },
+    { href: '/', label: 'Πίνακας', icon: Home },
+    { href: '/meetings', label: 'Συναντήσεις', icon: Video },
+    { href: '/recordings', label: 'Εγγραφές', icon: FileText },
+    { href: '/companies', label: 'Εταιρίες', icon: Building2 },
+    { href: '/contacts', label: 'Επαφές', icon: UserPlus },
+    { href: '/service-requests', label: 'Αιτήματα', icon: ClipboardList },
+    { href: '/appointments', label: 'Ραντεβού', icon: CalendarClock },
+    { href: '/users', label: 'Χρήστες', icon: Users },
+    { href: '/statistics', label: 'Στατιστικά', icon: BarChart3 },
+    { href: '/settings', label: 'Ρυθμίσεις', icon: Settings },
   ]
 
   const initials = `${user.firstName?.charAt(0) ?? ''}${user.lastName?.charAt(0) ?? ''}`
@@ -228,15 +228,15 @@ export function Navigation({ user }: NavigationProps) {
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <Link href="/profile" className="flex items-center">
-                  <User className="mr-2 h-4 w-4" /> Profile
+                  <User className="mr-2 h-4 w-4" /> Προφίλ
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/license" className="flex items-center">License</Link>
+                <Link href="/license" className="flex items-center">Άδεια</Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleSignOut} className="text-destructive focus:text-destructive">
-                <LogOut className="mr-2 h-4 w-4" /> Sign out
+                <LogOut className="mr-2 h-4 w-4" /> Αποσύνδεση
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

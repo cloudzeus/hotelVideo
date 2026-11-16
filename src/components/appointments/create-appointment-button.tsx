@@ -44,7 +44,7 @@ export function CreateAppointmentButton({
 
   async function submit() {
     if (!f.managerId || !f.title.trim() || !f.scheduledAt) {
-      setError('Manager, title and date/time are required.');
+      setError('Ο υπεύθυνος, ο τίτλος και η ημ/ώρα είναι υποχρεωτικά.');
       return;
     }
     setSaving(true);
@@ -60,7 +60,7 @@ export function CreateAppointmentButton({
           scheduledAt: new Date(f.scheduledAt).toISOString(),
         }),
       });
-      if (!res.ok) throw new Error('Could not create appointment');
+      if (!res.ok) throw new Error('Αδυναμία δημιουργίας ραντεβού');
       setOpen(false);
       setF((p) => ({ ...p, title: '', scheduledAt: '', guestId: '', villaId: '' }));
       router.refresh();
@@ -75,56 +75,56 @@ export function CreateAppointmentButton({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>
-          <Plus className="h-4 w-4 mr-2" /> New appointment
+          <Plus className="h-4 w-4 mr-2" /> Νέο ραντεβού
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>New appointment</DialogTitle>
-          <DialogDescription>Schedule a manager appointment before, during or after a stay.</DialogDescription>
+          <DialogTitle>Νέο ραντεβού</DialogTitle>
+          <DialogDescription>Προγραμμάτισε ραντεβού με τον υπεύθυνο πριν, κατά ή μετά τη διαμονή.</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-3">
           <div>
-            <label className="text-sm text-muted-foreground">Title *</label>
-            <input className={field} value={f.title} onChange={(e) => set('title', e.target.value)} placeholder="e.g. Pre-arrival concierge call" />
+            <label className="text-sm text-muted-foreground">Τίτλος *</label>
+            <input className={field} value={f.title} onChange={(e) => set('title', e.target.value)} placeholder="π.χ. Κλήση concierge πριν την άφιξη" />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-sm text-muted-foreground">Manager *</label>
+              <label className="text-sm text-muted-foreground">Υπεύθυνος *</label>
               <select className={field} value={f.managerId} onChange={(e) => set('managerId', e.target.value)}>
                 {managers.map((m) => <option key={m.id} value={m.id}>{m.label}</option>)}
               </select>
             </div>
             <div>
-              <label className="text-sm text-muted-foreground">Stage</label>
+              <label className="text-sm text-muted-foreground">Φάση</label>
               <select className={field} value={f.timing} onChange={(e) => set('timing', e.target.value)}>
-                <option value="BEFORE">Before stay</option>
-                <option value="DURING">During stay</option>
-                <option value="AFTER">After stay</option>
+                <option value="BEFORE">Πριν τη διαμονή</option>
+                <option value="DURING">Κατά τη διαμονή</option>
+                <option value="AFTER">Μετά τη διαμονή</option>
               </select>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-sm text-muted-foreground">When *</label>
+              <label className="text-sm text-muted-foreground">Πότε *</label>
               <input type="datetime-local" className={field} value={f.scheduledAt} onChange={(e) => set('scheduledAt', e.target.value)} />
             </div>
             <div>
-              <label className="text-sm text-muted-foreground">Duration (min)</label>
+              <label className="text-sm text-muted-foreground">Διάρκεια (λεπτά)</label>
               <input type="number" min={5} step={5} className={field} value={f.durationMin} onChange={(e) => set('durationMin', Number(e.target.value))} />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-sm text-muted-foreground">Guest</label>
+              <label className="text-sm text-muted-foreground">Πελάτης</label>
               <select className={field} value={f.guestId} onChange={(e) => set('guestId', e.target.value)}>
                 <option value="">—</option>
                 {guests.map((g) => <option key={g.id} value={g.id}>{g.label}</option>)}
               </select>
             </div>
             <div>
-              <label className="text-sm text-muted-foreground">Villa</label>
+              <label className="text-sm text-muted-foreground">Βίλα</label>
               <select className={field} value={f.villaId} onChange={(e) => set('villaId', e.target.value)}>
                 <option value="">—</option>
                 {villas.map((v) => <option key={v.id} value={v.id}>{v.label}</option>)}
@@ -135,8 +135,8 @@ export function CreateAppointmentButton({
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
-          <Button onClick={submit} disabled={saving}>{saving ? 'Saving…' : 'Create'}</Button>
+          <Button variant="outline" onClick={() => setOpen(false)}>Άκυρο</Button>
+          <Button onClick={submit} disabled={saving}>{saving ? 'Αποθήκευση…' : 'Δημιουργία'}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

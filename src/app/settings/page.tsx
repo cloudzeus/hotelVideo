@@ -34,9 +34,9 @@ export default async function SettingsPage() {
             <div className="flex items-center gap-3">
               <Settings className="h-8 w-8" />
               <div>
-                <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
+                <h1 className="text-3xl font-bold tracking-tight">Ρυθμίσεις</h1>
                 <p className="text-muted-foreground">
-                  Manage system settings, company defaults, department hierarchy, and integrations
+                  Διαχείριση ρυθμίσεων συστήματος, προεπιλεγμένης εταιρίας, τμημάτων και integrations
                 </p>
               </div>
             </div>

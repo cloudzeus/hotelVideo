@@ -20,8 +20,8 @@ export default async function ServiceRequestsPage() {
       <main className="container-responsive py-6 pt-16 md:pt-8">
         <div className="space-y-6">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Service Requests</h1>
-            <p className="text-muted-foreground">Guest requests captured from concierge video calls.</p>
+            <h1 className="text-3xl font-bold tracking-tight">Αιτήματα Εξυπηρέτησης</h1>
+            <p className="text-muted-foreground">Αιτήματα πελατών από βιντεοκλήσεις concierge.</p>
           </div>
           <ServiceRequestsTable rows={rows} />
         </div>

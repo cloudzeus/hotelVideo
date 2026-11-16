@@ -16,6 +16,8 @@ type Row = {
 };
 
 const STATUSES = ['REQUESTED', 'CONFIRMED', 'COMPLETED', 'CANCELLED'];
+const STATUS_LABELS: Record<string, string> = { REQUESTED: 'Αιτήθηκε', CONFIRMED: 'Επιβεβαιώθηκε', COMPLETED: 'Ολοκληρώθηκε', CANCELLED: 'Ακυρώθηκε' };
+const TIMING_LABELS: Record<string, string> = { BEFORE: 'Πριν', DURING: 'Κατά', AFTER: 'Μετά' };
 const statusBadge: Record<string, string> = {
   REQUESTED: 'bg-amber-500 text-white',
   CONFIRMED: 'bg-sky-600 text-white',
@@ -47,7 +49,7 @@ export function AppointmentsTable({ rows }: { rows: Row[] }) {
   }
 
   if (rows.length === 0) {
-    return <p className="text-muted-foreground py-8 text-center">No appointments yet.</p>;
+    return <p className="text-muted-foreground py-8 text-center">Δεν υπάρχουν ραντεβού ακόμη.</p>;
   }
 
   return (
@@ -55,13 +57,13 @@ export function AppointmentsTable({ rows }: { rows: Row[] }) {
       <table className="w-full text-sm">
         <thead className="sticky top-0 bg-card">
           <tr className="text-left text-muted-foreground">
-            <th className="p-3 font-medium">When</th>
-            <th className="p-3 font-medium">Stage</th>
-            <th className="p-3 font-medium">Guest</th>
-            <th className="p-3 font-medium">Manager</th>
-            <th className="p-3 font-medium">Villa</th>
-            <th className="p-3 font-medium">Title</th>
-            <th className="p-3 font-medium">Status</th>
+            <th className="p-3 font-medium">Πότε</th>
+            <th className="p-3 font-medium">Φάση</th>
+            <th className="p-3 font-medium">Πελάτης</th>
+            <th className="p-3 font-medium">Υπεύθυνος</th>
+            <th className="p-3 font-medium">Βίλα</th>
+            <th className="p-3 font-medium">Τίτλος</th>
+            <th className="p-3 font-medium">Κατάσταση</th>
           </tr>
         </thead>
         <tbody>
@@ -73,7 +75,7 @@ export function AppointmentsTable({ rows }: { rows: Row[] }) {
               </td>
               <td className="p-3 whitespace-nowrap">
                 <span className={`inline-block rounded-full px-2 py-0.5 text-xs font-semibold ${timingBadge[r.timing] ?? 'bg-muted text-muted-foreground'}`}>
-                  {r.timing}
+                  {TIMING_LABELS[r.timing] ?? r.timing}
                 </span>
               </td>
               <td className="p-3 whitespace-nowrap">
@@ -93,7 +95,7 @@ export function AppointmentsTable({ rows }: { rows: Row[] }) {
                 >
                   {STATUSES.map((s) => (
                     <option key={s} value={s} className="bg-background text-foreground">
-                      {s}
+                      {STATUS_LABELS[s] ?? s}
                     </option>
                   ))}
                 </select>

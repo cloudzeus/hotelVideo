@@ -572,18 +572,17 @@ export function CompaniesTable({ companies, isAdmin, pagination, searchParams }:
   // Main component render
   return (
     <div className="space-y-6">
-      {isAdmin && (
-        <div className="flex justify-end">
-          <Button onClick={handleCreate}>
-            <Plus className="h-4 w-4 mr-2" />
-            Add Company
-          </Button>
-        </div>
-      )}
-
       <Card>
         <CardHeader>
-          <CardTitle>Company List</CardTitle>
+          <div className="flex items-center justify-between gap-4">
+            <CardTitle>Λίστα Εταιριών</CardTitle>
+            {isAdmin && (
+              <Button onClick={handleCreate}>
+                <Plus className="h-4 w-4 mr-2" />
+                Προσθήκη Εταιρίας
+              </Button>
+            )}
+          </div>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col sm:flex-row items-center justify-between mb-4 gap-4">
@@ -591,7 +590,7 @@ export function CompaniesTable({ companies, isAdmin, pagination, searchParams }:
               <Search className="h-4 w-4 text-gray-500" />
               <div className="relative">
                 <Input
-                  placeholder="Search by name, AFM, email, phone..."
+                  placeholder="Αναζήτηση με όνομα, ΑΦΜ, email, τηλέφωνο..."
                   value={searchTerm}
                   onChange={(e) => {
                     try {
@@ -680,7 +679,7 @@ export function CompaniesTable({ companies, isAdmin, pagination, searchParams }:
                     )}
                     {!isSearching && total === 0 && searchTerm.length >= 3 && (
                       <span className="ml-2 text-gray-500">
-                        No companies found matching "{searchTerm}"
+                        Δεν βρέθηκαν εταιρίες για "{searchTerm}"
                       </span>
                     )}
                   </>
@@ -713,7 +712,7 @@ export function CompaniesTable({ companies, isAdmin, pagination, searchParams }:
                 }}
                 className="border rounded-md p-2 text-sm"
               >
-                <option value="all">All Types</option>
+                <option value="all">Όλοι οι τύποι</option>
                 <option value="client">Clients</option>
                 <option value="supplier">Suppliers</option>
               </select>
@@ -747,14 +746,14 @@ export function CompaniesTable({ companies, isAdmin, pagination, searchParams }:
                 className="ml-2"
               >
                 <RefreshCw className="h-4 w-4 mr-1" />
-                Refresh
+                Ανανέωση
               </Button>
             </div>
           </div>
           
           {/* Results counter */}
           <div className="mb-4 text-sm text-gray-600">
-            Showing {startIndex + 1}-{Math.min(endIndex, total)} of {total} companies
+            Εμφάνιση {startIndex + 1}-{Math.min(endIndex, total)} από {total} εταιρίες
             {totalPages > 1 && (
               <span className="ml-2">(Page {currentPage} of {totalPages})</span>
             )}
@@ -796,23 +795,23 @@ export function CompaniesTable({ companies, isAdmin, pagination, searchParams }:
                         onClick={() => handleSort('name')}
                       >
                         <div className="flex items-center space-x-1">
-                          <span>Name</span>
+                          <span>Όνομα</span>
                           {getSortIcon('name')}
                         </div>
                       </TableHead>
-                      <TableHead>Type</TableHead>
+                      <TableHead>Τύπος</TableHead>
                       <TableHead>Email</TableHead>
-                      <TableHead>Phone01</TableHead>
+                      <TableHead>Τηλέφωνο</TableHead>
                       <TableHead
                         className="cursor-pointer hover:bg-gray-50"
                         onClick={() => handleSort('address')}
                       >
                         <div className="flex items-center space-x-1">
-                          <span>Location</span>
+                          <span>Τοποθεσία</span>
                           {getSortIcon('address')}
                         </div>
                       </TableHead>
-                      {isAdmin && <TableHead>Actions</TableHead>}
+                      {isAdmin && <TableHead>Ενέργειες</TableHead>}
                     </TableRow>
                   </TableHeader>
                   <TableBody>

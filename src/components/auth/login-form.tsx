@@ -60,7 +60,7 @@ export function LoginForm() {
       {/* Email Field */}
       <div className="space-y-2">
         <Label htmlFor="email" className="text-white font-medium">
-          Email Address
+          Email
         </Label>
         <div className="relative">
           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-white/50" />
@@ -80,7 +80,7 @@ export function LoginForm() {
       {/* Password Field */}
       <div className="space-y-2">
         <Label htmlFor="password" className="text-white font-medium">
-          Password
+          Κωδικός
         </Label>
         <div className="relative">
           <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-white/50" />
@@ -106,11 +106,11 @@ export function LoginForm() {
         {isLoading ? (
           <>
             <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-            Signing in...
+            Σύνδεση...
           </>
         ) : (
           <>
-            Sign in
+            Σύνδεση
             <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
           </>
         )}

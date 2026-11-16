@@ -14,13 +14,13 @@ export function RecentMeetings({ meetings }: RecentMeetingsProps) {
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-foreground">
           <Video className="h-5 w-5" />
-          Recent Meetings
+          Πρόσφατες Συναντήσεις
         </CardTitle>
       </CardHeader>
       <CardContent>
         {meetings.length === 0 ? (
           <p className="text-muted-foreground text-center py-4">
-            No recent meetings
+            Καμία πρόσφατη συνάντηση
           </p>
         ) : (
           <div className="space-y-4">

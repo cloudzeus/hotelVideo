@@ -103,17 +103,17 @@ export function ActiveUsers({ users: initialUsers, currentUser }: ActiveUsersPro
                 <CardTitle className="flex items-center justify-between text-foreground">
                     <div className="flex items-center gap-2">
                         <Circle className="h-3 w-3 fill-green-500 text-green-500" />
-                        Active Users
+                        Ενεργοί Χρήστες
                     </div>
                     <span className="text-sm font-normal text-muted-foreground">
-                        {activeUsers.length} online
+                        {activeUsers.length} συνδεδεμένοι
                     </span>
                 </CardTitle>
             </CardHeader>
             <CardContent>
                 {activeUsers.length === 0 ? (
                     <p className="text-muted-foreground text-center py-4">
-                        No active users right now
+                        Κανένας ενεργός χρήστης τώρα
                     </p>
                 ) : (
                     <div className="space-y-4">

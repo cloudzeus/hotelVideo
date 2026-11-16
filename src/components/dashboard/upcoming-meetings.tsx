@@ -14,13 +14,13 @@ export function UpcomingMeetings({ meetings }: UpcomingMeetingsProps) {
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-foreground">
           <Calendar className="h-5 w-5" />
-          Upcoming Meetings
+          Επερχόμενες Συναντήσεις
         </CardTitle>
       </CardHeader>
       <CardContent>
         {meetings.length === 0 ? (
           <p className="text-muted-foreground text-center py-4">
-            No upcoming meetings
+            Καμία επερχόμενη συνάντηση
           </p>
         ) : (
           <div className="space-y-4">

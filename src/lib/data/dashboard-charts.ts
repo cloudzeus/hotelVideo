@@ -1,13 +1,14 @@
 import { prisma } from '@/lib/prisma';
 
 const CATEGORY_LABELS: Record<string, string> = {
-  HOUSEKEEPING: 'Housekeeping',
-  MAINTENANCE: 'Maintenance',
-  FOOD_BEVERAGE: 'Food & Beverage',
-  TRANSPORT: 'Transport',
+  HOUSEKEEPING: 'Καθαριότητα',
+  MAINTENANCE: 'Συντήρηση',
+  FOOD_BEVERAGE: 'Εστίαση',
+  TRANSPORT: 'Μεταφορά',
   CONCIERGE: 'Concierge',
-  OTHER: 'Other',
+  OTHER: 'Άλλο',
 };
+const STAGE_LABELS: Record<string, string> = { BEFORE: 'Πριν', DURING: 'Κατά', AFTER: 'Μετά' };
 
 export type DashboardCharts = {
   callsPerDay: { date: string; label: string; calls: number }[];
@@ -50,7 +51,7 @@ export async function getDashboardCharts(companyId: string): Promise<DashboardCh
     .sort((a, b) => b.count - a.count);
 
   const appointmentsByStage = ['BEFORE', 'DURING', 'AFTER'].map((stage) => ({
-    stage: stage[0] + stage.slice(1).toLowerCase(),
+    stage: STAGE_LABELS[stage] ?? stage,
     count: appts.find((a) => a.timing === stage)?._count._all ?? 0,
   }));
 

@@ -17,6 +17,8 @@ type Row = {
 };
 
 const STATUSES = ['OPEN', 'IN_PROGRESS', 'RESOLVED', 'CANCELLED'];
+const STATUS_LABELS: Record<string, string> = { OPEN: 'Ανοιχτό', IN_PROGRESS: 'Σε εξέλιξη', RESOLVED: 'Επιλύθηκε', CANCELLED: 'Ακυρώθηκε' };
+const CAT_LABELS: Record<string, string> = { HOUSEKEEPING: 'Καθαριότητα', MAINTENANCE: 'Συντήρηση', FOOD_BEVERAGE: 'Εστίαση', TRANSPORT: 'Μεταφορά', CONCIERGE: 'Concierge', OTHER: 'Άλλο' };
 const statusBadge: Record<string, string> = {
   OPEN: 'bg-amber-500 text-white',
   IN_PROGRESS: 'bg-sky-600 text-white',
@@ -43,7 +45,7 @@ export function ServiceRequestsTable({ rows }: { rows: Row[] }) {
   }
 
   if (rows.length === 0) {
-    return <p className="text-muted-foreground py-8 text-center">No service requests yet.</p>;
+    return <p className="text-muted-foreground py-8 text-center">Δεν υπάρχουν αιτήματα ακόμη.</p>;
   }
 
   return (
@@ -51,13 +53,13 @@ export function ServiceRequestsTable({ rows }: { rows: Row[] }) {
       <table className="w-full text-sm">
         <thead className="sticky top-0 bg-card">
           <tr className="text-left text-muted-foreground">
-            <th className="p-3 font-medium">Created</th>
-            <th className="p-3 font-medium">Guest</th>
-            <th className="p-3 font-medium">Villa</th>
-            <th className="p-3 font-medium">Category</th>
-            <th className="p-3 font-medium">Request</th>
-            <th className="p-3 font-medium">Source</th>
-            <th className="p-3 font-medium">Status</th>
+            <th className="p-3 font-medium">Ημ/νία</th>
+            <th className="p-3 font-medium">Πελάτης</th>
+            <th className="p-3 font-medium">Βίλα</th>
+            <th className="p-3 font-medium">Κατηγορία</th>
+            <th className="p-3 font-medium">Αίτημα</th>
+            <th className="p-3 font-medium">Πηγή</th>
+            <th className="p-3 font-medium">Κατάσταση</th>
           </tr>
         </thead>
         <tbody>
@@ -70,7 +72,7 @@ export function ServiceRequestsTable({ rows }: { rows: Row[] }) {
                 {r.guest ? `${r.guest.firstName} ${r.guest.lastName}` : '—'}
               </td>
               <td className="p-3 whitespace-nowrap">{r.villa?.name ?? '—'}</td>
-              <td className="p-3 whitespace-nowrap">{r.category.replace('_', ' ')}</td>
+              <td className="p-3 whitespace-nowrap">{CAT_LABELS[r.category] ?? r.category}</td>
               <td className="p-3">
                 <div className="font-medium">{r.title}</div>
                 <div className="text-muted-foreground line-clamp-2 max-w-md">{r.body}</div>
@@ -85,7 +87,7 @@ export function ServiceRequestsTable({ rows }: { rows: Row[] }) {
                 >
                   {STATUSES.map((s) => (
                     <option key={s} value={s} className="bg-background text-foreground">
-                      {s.replace('_', ' ')}
+                      {STATUS_LABELS[s] ?? s}
                     </option>
                   ))}
                 </select>

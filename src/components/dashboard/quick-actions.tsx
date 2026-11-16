@@ -19,40 +19,40 @@ export function QuickActions({ user, users, contacts }: QuickActionsProps) {
   const actions = [
     {
       id: 'create-meeting',
-      title: 'Create Meeting',
-      description: 'Schedule a new video conference',
+      title: 'Νέα Συνάντηση',
+      description: 'Προγραμμάτισε νέα βιντεοκλήση',
       icon: Plus,
       href: '#',
       variant: 'default' as const,
     },
     {
       id: 'join-meeting',
-      title: 'Join Meeting',
-      description: 'Join an existing meeting',
+      title: 'Σύνδεση σε Συνάντηση',
+      description: 'Μπες σε υπάρχουσα συνάντηση',
       icon: Video,
       href: '/meetings',
       variant: 'outline' as const,
     },
     {
       id: 'view-stats',
-      title: 'View Statistics',
-      description: 'Check usage and analytics',
+      title: 'Στατιστικά',
+      description: 'Δες χρήση και αναλυτικά',
       icon: BarChart3,
       href: '/statistics',
       variant: 'outline' as const,
     },
     ...(isManager || isAdmin ? [{
       id: 'manage-users',
-      title: 'Manage Users',
-      description: 'Add or edit user accounts',
+      title: 'Διαχείριση Χρηστών',
+      description: 'Πρόσθεσε ή επεξεργάσου χρήστες',
       icon: Users,
       href: '/users',
       variant: 'outline' as const,
     }] : []),
     ...(isAdmin ? [{
       id: 'manage-companies',
-      title: 'Manage Companies',
-      description: 'Company settings and configuration',
+      title: 'Διαχείριση Εταιριών',
+      description: 'Ρυθμίσεις και παραμετροποίηση εταιριών',
       icon: Building2,
       href: '/companies',
       variant: 'outline' as const,
@@ -62,7 +62,7 @@ export function QuickActions({ user, users, contacts }: QuickActionsProps) {
   return (
     <Card className="bg-card border-border">
       <CardHeader>
-        <CardTitle className="text-foreground">Quick Actions</CardTitle>
+        <CardTitle className="text-foreground">Γρήγορες Ενέργειες</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
