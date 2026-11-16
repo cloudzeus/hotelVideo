@@ -3,6 +3,9 @@ import type { NextAuthConfig } from 'next-auth'
 // Auth configuration for edge runtime (middleware)
 // This config should NOT import Prisma or bcrypt as they don't work in edge runtime
 export const authConfig = {
+    // Behind Coolify's reverse proxy the forwarded host isn't auto-trusted → Auth.js
+    // throws UntrustedHost. Trust the proxy host.
+    trustHost: true,
     pages: {
         signIn: '/login',
         error: '/login',
