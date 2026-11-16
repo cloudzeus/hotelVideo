@@ -17,11 +17,11 @@ type Row = {
 };
 
 const STATUSES = ['OPEN', 'IN_PROGRESS', 'RESOLVED', 'CANCELLED'];
-const statusClass: Record<string, string> = {
-  OPEN: 'text-amber-400',
-  IN_PROGRESS: 'text-sky-400',
-  RESOLVED: 'text-emerald-400',
-  CANCELLED: 'text-muted-foreground',
+const statusBadge: Record<string, string> = {
+  OPEN: 'bg-amber-500 text-white',
+  IN_PROGRESS: 'bg-sky-600 text-white',
+  RESOLVED: 'bg-emerald-600 text-white',
+  CANCELLED: 'bg-muted text-muted-foreground',
 };
 
 export function ServiceRequestsTable({ rows }: { rows: Row[] }) {
@@ -63,7 +63,7 @@ export function ServiceRequestsTable({ rows }: { rows: Row[] }) {
         <tbody>
           {rows.map((r) => (
             <tr key={r.id} className="border-t border-border align-top">
-              <td className="p-3 whitespace-nowrap text-muted-foreground">
+              <td className="p-3 whitespace-nowrap text-muted-foreground" suppressHydrationWarning>
                 {new Date(r.createdAt).toLocaleDateString()}
               </td>
               <td className="p-3 whitespace-nowrap">
@@ -81,10 +81,10 @@ export function ServiceRequestsTable({ rows }: { rows: Row[] }) {
                   value={r.status}
                   disabled={busy === r.id}
                   onChange={(e) => setStatus(r.id, e.target.value)}
-                  className={`bg-background border border-input rounded px-2 py-1 ${statusClass[r.status] ?? ''}`}
+                  className={`rounded-full px-2.5 py-1 text-xs font-semibold border-0 cursor-pointer disabled:opacity-60 ${statusBadge[r.status] ?? 'bg-muted text-muted-foreground'}`}
                 >
                   {STATUSES.map((s) => (
-                    <option key={s} value={s} className="text-foreground">
+                    <option key={s} value={s} className="bg-background text-foreground">
                       {s.replace('_', ' ')}
                     </option>
                   ))}

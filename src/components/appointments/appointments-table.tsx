@@ -16,16 +16,16 @@ type Row = {
 };
 
 const STATUSES = ['REQUESTED', 'CONFIRMED', 'COMPLETED', 'CANCELLED'];
-const statusClass: Record<string, string> = {
-  REQUESTED: 'text-amber-400',
-  CONFIRMED: 'text-sky-400',
-  COMPLETED: 'text-emerald-400',
-  CANCELLED: 'text-muted-foreground',
+const statusBadge: Record<string, string> = {
+  REQUESTED: 'bg-amber-500 text-white',
+  CONFIRMED: 'bg-sky-600 text-white',
+  COMPLETED: 'bg-emerald-600 text-white',
+  CANCELLED: 'bg-muted text-muted-foreground',
 };
-const timingClass: Record<string, string> = {
-  BEFORE: 'text-violet-400',
-  DURING: 'text-sky-400',
-  AFTER: 'text-teal-400',
+const timingBadge: Record<string, string> = {
+  BEFORE: 'bg-violet-600 text-white',
+  DURING: 'bg-sky-600 text-white',
+  AFTER: 'bg-teal-600 text-white',
 };
 
 export function AppointmentsTable({ rows }: { rows: Row[] }) {
@@ -67,11 +67,15 @@ export function AppointmentsTable({ rows }: { rows: Row[] }) {
         <tbody>
           {rows.map((r) => (
             <tr key={r.id} className="border-t border-border">
-              <td className="p-3 whitespace-nowrap">
+              <td className="p-3 whitespace-nowrap" suppressHydrationWarning>
                 {new Date(r.scheduledAt).toLocaleString()}
                 <span className="text-muted-foreground"> · {r.durationMin}m</span>
               </td>
-              <td className={`p-3 whitespace-nowrap ${timingClass[r.timing] ?? ''}`}>{r.timing}</td>
+              <td className="p-3 whitespace-nowrap">
+                <span className={`inline-block rounded-full px-2 py-0.5 text-xs font-semibold ${timingBadge[r.timing] ?? 'bg-muted text-muted-foreground'}`}>
+                  {r.timing}
+                </span>
+              </td>
               <td className="p-3 whitespace-nowrap">
                 {r.guest ? `${r.guest.firstName} ${r.guest.lastName}` : '—'}
               </td>
@@ -85,10 +89,10 @@ export function AppointmentsTable({ rows }: { rows: Row[] }) {
                   value={r.status}
                   disabled={busy === r.id}
                   onChange={(e) => setStatus(r.id, e.target.value)}
-                  className={`bg-background border border-input rounded px-2 py-1 ${statusClass[r.status] ?? ''}`}
+                  className={`rounded-full px-2.5 py-1 text-xs font-semibold border-0 cursor-pointer disabled:opacity-60 ${statusBadge[r.status] ?? 'bg-muted text-muted-foreground'}`}
                 >
                   {STATUSES.map((s) => (
-                    <option key={s} value={s} className="text-foreground">
+                    <option key={s} value={s} className="bg-background text-foreground">
                       {s}
                     </option>
                   ))}

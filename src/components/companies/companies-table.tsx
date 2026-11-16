@@ -572,15 +572,14 @@ export function CompaniesTable({ companies, isAdmin, pagination, searchParams }:
   // Main component render
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Companies</h2>
-        {isAdmin && (
+      {isAdmin && (
+        <div className="flex justify-end">
           <Button onClick={handleCreate}>
             <Plus className="h-4 w-4 mr-2" />
             Add Company
           </Button>
-        )}
-      </div>
+        </div>
+      )}
 
       <Card>
         <CardHeader>

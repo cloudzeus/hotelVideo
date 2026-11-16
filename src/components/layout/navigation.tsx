@@ -180,7 +180,7 @@ export function Navigation({ user }: NavigationProps) {
                 href={item.href}
                 title={collapsed ? item.label : undefined}
                 className={cn(
-                  'flex items-center gap-3 rounded-md text-sm font-medium transition-colors px-3 py-2',
+                  'flex items-center gap-3 rounded-md text-[15px] font-medium transition-colors px-3 py-2.5',
                   collapsed && 'md:justify-center md:px-0',
                   isActive
                     ? 'bg-primary/15 text-primary'

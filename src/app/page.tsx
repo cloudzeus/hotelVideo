@@ -106,19 +106,17 @@ export default async function DashboardPage() {
                 {isAdmin && (
                   <div className="bg-card border border-border rounded-lg p-6">
                     <h3 className="text-lg font-semibold mb-4 text-foreground">System Overview</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="flex justify-between p-3 bg-muted/50 rounded border border-border">
-                        <span className="text-muted-foreground">Total Companies</span>
-                        <span className="font-medium text-foreground">{companyStats?.totalCompanies || 0}</span>
-                      </div>
-                      <div className="flex justify-between p-3 bg-muted/50 rounded border border-border">
-                        <span className="text-muted-foreground">Active Users</span>
-                        <span className="font-medium text-foreground">{userStats?.active || 0}</span>
-                      </div>
-                      <div className="flex justify-between p-3 bg-muted/50 rounded border border-border">
-                        <span className="text-muted-foreground">Total Meetings</span>
-                        <span className="font-medium text-foreground">{meetingStats?.totalMeetings || 0}</span>
-                      </div>
+                    <div className="grid grid-cols-3 gap-4">
+                      {[
+                        { label: 'Total Companies', value: companyStats?.totalCompanies || 0 },
+                        { label: 'Active Users', value: userStats?.active || 0 },
+                        { label: 'Total Meetings', value: meetingStats?.totalMeetings || 0 },
+                      ].map((s) => (
+                        <div key={s.label} className="min-w-0 rounded-lg border border-border bg-muted/40 px-4 py-3">
+                          <div className="text-xs text-muted-foreground truncate">{s.label}</div>
+                          <div className="mt-1 text-2xl font-semibold tabular-nums text-foreground">{s.value}</div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 )}
