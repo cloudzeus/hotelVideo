@@ -1,22 +1,17 @@
 import { prisma } from '../src/lib/prisma';
 import * as bcrypt from 'bcryptjs';
 
-// Recovery: restore the default company to a clean state and (re)create the admin
-// user on it, after the users table was emptied. Run: npx tsx prisma/fix-admin.ts
+// Recovery: (re)create the admin user on the default/first company after the
+// users table was emptied. Run: npx tsx prisma/fix-admin.ts
+// NOTE: this NEVER modifies company details — only ensures the admin user exists.
 async function main() {
   const company =
     (await prisma.company.findFirst({ where: { default: true } })) ??
     (await prisma.company.findFirst());
   if (!company) return console.log('No company found.');
-
-  await prisma.company.update({
-    where: { id: company.id },
-    data: {
-      name: 'Default Company', COMPANY: 'DEFAULT', type: 'Technology', default: true,
-      AFM: null, CODE: null, address: null, city: null, country: null, ZIP: null,
-      IRSDATA: null, JOBTYPE: null, PHONE01: null, phone: null,
-    },
-  });
+  if (!company.default) {
+    await prisma.company.update({ where: { id: company.id }, data: { default: true } });
+  }
 
   const password = await bcrypt.hash('1f1femsk', 10);
   const admin = await prisma.user.upsert({
