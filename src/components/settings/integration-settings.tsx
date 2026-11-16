@@ -125,6 +125,14 @@ export function IntegrationSettings() {
           const { title, Icon, color } = META[svc];
           const res = results[svc];
           const configured = view[svc]?.configured;
+          // the badge reflects the real connection state, not just whether fields are filled
+          const status = res
+            ? res.ok
+              ? { text: 'Συνδεδεμένο', cls: 'bg-emerald-600 text-white' }
+              : { text: 'Αποτυχία', cls: 'bg-red-600 text-white' }
+            : configured
+              ? { text: 'Μη ελεγμένο', cls: 'bg-amber-500 text-white' }
+              : { text: 'Μη ρυθμισμένο', cls: 'bg-muted text-muted-foreground' };
           return (
             <div key={svc} className="rounded-lg border border-border p-4 space-y-3 bg-card">
               <div className="flex items-center justify-between">
@@ -134,10 +142,8 @@ export function IntegrationSettings() {
                   </span>
                   <h3 className="font-semibold">{title}</h3>
                 </div>
-                <span
-                  className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${configured ? 'bg-emerald-600 text-white' : 'bg-amber-500 text-white'}`}
-                >
-                  {configured ? 'Ρυθμισμένο' : 'Μη ρυθμισμένο'}
+                <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${status.cls}`}>
+                  {status.text}
                 </span>
               </div>
 
