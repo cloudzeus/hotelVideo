@@ -1,25 +1,30 @@
 import { Buffer } from 'buffer'
+import { getIntegrationConfig } from '@/lib/integration-config'
 
-const BUNNY_STORAGE_URL = process.env.BUNNY_STORAGE_URL!
-const BUNNY_CDN_URL = process.env.BUNNY_CDN_URL!
-const BUNNY_ACCESS_KEY = process.env.BUNNY_ACCESS_KEY!
-const BUNNY_STORAGE_ZONE = process.env.BUNNY_STORAGE_ZONE!
+// Bunny config now comes from the saved integration settings (DB), not env.
+async function bunnyCfg() {
+  const { bunny } = await getIntegrationConfig()
+  return {
+    storageHost: bunny.storageUrl || 'https://storage.bunnycdn.com',
+    cdnUrl: bunny.cdnUrl,
+    accessKey: bunny.accessKey,
+    zone: bunny.storageZone,
+  }
+}
 
 export async function uploadToBunnyCDN(
   fileBuffer: Buffer,
   filePath: string,
   contentType: string
 ): Promise<string> {
+  const { storageHost, cdnUrl, accessKey, zone } = await bunnyCfg()
   try {
-    // Bunny Storage API endpoint
-    const storageApiUrl = `https://storage.bunnycdn.com/${BUNNY_STORAGE_ZONE}/${filePath}`
-
-    console.log('📤 Uploading to Bunny Storage:', storageApiUrl);
+    const storageApiUrl = `${storageHost}/${zone}/${filePath}`
 
     const response = await fetch(storageApiUrl, {
       method: 'PUT',
       headers: {
-        'AccessKey': BUNNY_ACCESS_KEY,
+        'AccessKey': accessKey,
         'Content-Type': contentType,
       },
       body: new Uint8Array(fileBuffer),
@@ -31,13 +36,8 @@ export async function uploadToBunnyCDN(
       throw new Error(`Bunny CDN upload failed: ${response.status} ${response.statusText}`)
     }
 
-    console.log('✅ Upload successful');
-
-    // Return the CDN URL (using your b-cdn.net domain)
-    const cdnUrl = `${BUNNY_STORAGE_URL}/${filePath}`;
-    console.log('🔗 CDN URL:', cdnUrl);
-
-    return cdnUrl;
+    // Public CDN URL (b-cdn.net domain)
+    return `${cdnUrl}/${filePath}`;
   } catch (error) {
     console.error('Bunny CDN upload error:', error)
     throw new Error('Failed to upload file to Bunny CDN')
@@ -46,15 +46,11 @@ export async function uploadToBunnyCDN(
 
 export async function deleteFromBunnyCDN(filePath: string): Promise<boolean> {
   try {
-    const url = `https://storage.bunnycdn.com/${BUNNY_STORAGE_ZONE}/${filePath}`
-
-    const response = await fetch(url, {
+    const { storageHost, accessKey, zone } = await bunnyCfg()
+    const response = await fetch(`${storageHost}/${zone}/${filePath}`, {
       method: 'DELETE',
-      headers: {
-        'AccessKey': BUNNY_ACCESS_KEY,
-      },
+      headers: { 'AccessKey': accessKey },
     })
-
     return response.ok
   } catch (error) {
     console.error('Bunny CDN delete error:', error)
@@ -63,7 +59,7 @@ export async function deleteFromBunnyCDN(filePath: string): Promise<boolean> {
 }
 
 export function generateBunnyCDNUrl(filePath: string): string {
-  return `${BUNNY_CDN_URL}/${BUNNY_STORAGE_ZONE}/${filePath}`
+  return `${process.env.BUNNY_CDN_URL ?? ''}/${process.env.BUNNY_STORAGE_ZONE ?? ''}/${filePath}`
 }
 
 export function generateSignedUrl(
@@ -73,7 +69,7 @@ export function generateSignedUrl(
   const timestamp = Math.floor(Date.now() / 1000) + expiresIn
   const token = generateToken(filePath, timestamp)
 
-  return `${BUNNY_CDN_URL}/${BUNNY_STORAGE_ZONE}/${filePath}?token=${token}&expires=${timestamp}`
+  return `${process.env.BUNNY_CDN_URL ?? ''}/${process.env.BUNNY_STORAGE_ZONE ?? ''}/${filePath}?token=${token}&expires=${timestamp}`
 }
 
 function generateToken(path: string, expires: number): string {
@@ -144,13 +140,10 @@ export async function uploadMeetingAttachment(
 // Utility function to check if a file exists
 export async function fileExists(filePath: string): Promise<boolean> {
   try {
-    const url = `${BUNNY_STORAGE_URL}/${BUNNY_STORAGE_ZONE}/${filePath}`
-
-    const response = await fetch(url, {
+    const { storageHost, accessKey, zone } = await bunnyCfg()
+    const response = await fetch(`${storageHost}/${zone}/${filePath}`, {
       method: 'HEAD',
-      headers: {
-        'AccessKey': BUNNY_ACCESS_KEY,
-      },
+      headers: { 'AccessKey': accessKey },
     })
 
     return response.ok
@@ -162,13 +155,10 @@ export async function fileExists(filePath: string): Promise<boolean> {
 // Utility function to get file metadata
 export async function getFileMetadata(filePath: string) {
   try {
-    const url = `${BUNNY_STORAGE_URL}/${BUNNY_STORAGE_ZONE}/${filePath}`
-
-    const response = await fetch(url, {
+    const { storageHost, accessKey, zone } = await bunnyCfg()
+    const response = await fetch(`${storageHost}/${zone}/${filePath}`, {
       method: 'HEAD',
-      headers: {
-        'AccessKey': BUNNY_ACCESS_KEY,
-      },
+      headers: { 'AccessKey': accessKey },
     })
 
     if (!response.ok) {

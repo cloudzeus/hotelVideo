@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { getIntegrationConfig } from '@/lib/integration-config';
+import { generateStreamUserToken } from '@/lib/stream-token';
 
 type Result = { ok: boolean; status: number; detail: string };
 
@@ -16,9 +17,12 @@ export async function POST(request: NextRequest) {
   try {
     switch (service) {
       case 'stream': {
-        r = cfg.stream.apiKey && cfg.stream.secret
-          ? { ok: true, status: 200, detail: 'API key + secret present' }
-          : { ok: false, status: 0, detail: 'API key / secret missing' };
+        if (cfg.stream.apiKey && cfg.stream.secret) {
+          generateStreamUserToken('healthcheck', cfg.stream.apiKey, cfg.stream.secret); // throws if misconfigured
+          r = { ok: true, status: 200, detail: 'API key + secret present' };
+        } else {
+          r = { ok: false, status: 0, detail: 'API key / secret missing' };
+        }
         break;
       }
       case 'bunny': {
