@@ -50,13 +50,13 @@ export default async function StatisticsPage({
         <div className="space-y-6">
           {/* Header */}
           <div className="flex flex-col gap-2">
-            <h1 className="text-3xl font-bold tracking-tight">Statistics</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Στατιστικά</h1>
             <p className="text-muted-foreground">
               {isAdmin
-                ? 'System-wide analytics and insights'
+                ? 'Αναλυτικά στοιχεία για όλο το σύστημα'
                 : isManager
-                  ? 'Department and team analytics'
-                  : 'Your meeting and participation statistics'
+                  ? 'Αναλυτικά τμήματος και ομάδας'
+                  : 'Τα στατιστικά συναντήσεων και συμμετοχής σου'
               }
             </p>
           </div>

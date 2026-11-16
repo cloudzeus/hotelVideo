@@ -43,14 +43,14 @@ export function RecordingsContent() {
       const response = await fetch('/api/recordings');
 
       if (!response.ok) {
-        throw new Error('Failed to fetch recordings');
+        throw new Error('Αποτυχία φόρτωσης εγγραφών');
       }
 
       const data = await response.json();
       if (data.success) {
         setRecordings(data.recordings);
       } else {
-        throw new Error(data.error || 'Failed to fetch recordings');
+        throw new Error(data.error || 'Αποτυχία φόρτωσης εγγραφών');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
@@ -157,7 +157,7 @@ export function RecordingsContent() {
           <div className="text-center">
             <p className="text-red-600 mb-4">{error}</p>
             <Button onClick={fetchRecordings} variant="outline">
-              Try Again
+              Δοκίμασε ξανά
             </Button>
           </div>
         </CardContent>
@@ -171,9 +171,9 @@ export function RecordingsContent() {
         <CardContent className="p-6">
           <div className="text-center">
             <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-medium mb-2">No recordings found</h3>
+            <h3 className="text-lg font-medium mb-2">Δεν βρέθηκαν εγγραφές</h3>
             <p className="text-muted-foreground">
-              Recordings will appear here once meetings are recorded.
+              Οι εγγραφές θα εμφανιστούν εδώ μόλις καταγραφούν συναντήσεις.
             </p>
           </div>
         </CardContent>

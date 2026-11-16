@@ -82,9 +82,9 @@ export default async function UsersPage({
         <div className="space-y-6">
           {/* Header */}
           <div className="flex flex-col gap-2">
-            <h1 className="text-3xl font-bold tracking-tight">User & Department Management</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Χρήστες & Τμήματα</h1>
             <p className="text-muted-foreground">
-              Manage users, departments, and organizational structure
+              Διαχείριση χρηστών, τμημάτων και οργανωτικής δομής
             </p>
           </div>
 

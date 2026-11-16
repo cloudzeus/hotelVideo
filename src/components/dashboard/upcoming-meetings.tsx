@@ -12,7 +12,7 @@ export function UpcomingMeetings({ meetings }: UpcomingMeetingsProps) {
   return (
     <Card className="bg-card border-border">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-foreground">
+        <CardTitle className="flex items-center gap-2 text-foreground text-lg">
           <Calendar className="h-5 w-5" />
           Επερχόμενες Συναντήσεις
         </CardTitle>

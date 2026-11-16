@@ -72,7 +72,7 @@ export default async function LicensePage() {
 			<Navigation user={user} />
 			<main className="container-responsive py-6 pt-16 md:pt-8">
 				<div className="max-w-3xl mx-auto space-y-6">
-					<h1 className="text-3xl font-bold tracking-tight">Software License Agreement</h1>
+					<h1 className="text-3xl font-bold tracking-tight">Άδεια Χρήσης Λογισμικού</h1>
 					<div className="bg-card rounded-lg border p-6 space-y-4 text-sm leading-6">
 						<p><strong>SOFTWARE LICENSE AGREEMENT</strong></p>
 						<p>This Software License Agreement ("Agreement") is made and entered into on [Date Issued]: <strong>{dateIssued}</strong> by and between:</p>

@@ -100,7 +100,7 @@ export function ActiveUsers({ users: initialUsers, currentUser }: ActiveUsersPro
     return (
         <Card className="bg-card border-border">
             <CardHeader>
-                <CardTitle className="flex items-center justify-between text-foreground">
+                <CardTitle className="flex items-center justify-between text-foreground text-lg">
                     <div className="flex items-center gap-2">
                         <Circle className="h-3 w-3 fill-green-500 text-green-500" />
                         Ενεργοί Χρήστες

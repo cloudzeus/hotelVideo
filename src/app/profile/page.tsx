@@ -108,9 +108,9 @@ export default async function ProfilePage() {
             <div className="flex items-center gap-3">
               <User className="h-8 w-8" />
               <div>
-                <h1 className="text-3xl font-bold tracking-tight">Profile</h1>
+                <h1 className="text-3xl font-bold tracking-tight">Προφίλ</h1>
                 <p className="text-muted-foreground">
-                  View and edit your user profile information
+                  Προβολή και επεξεργασία των στοιχείων του προφίλ σου
                 </p>
               </div>
             </div>

@@ -23,9 +23,9 @@ export default async function RecordingsPage() {
       <main className="container mx-auto py-6 pt-16 md:pt-8 space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Recordings</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Εγγραφές</h1>
             <p className="text-muted-foreground">
-              View and manage all meeting recordings
+              Προβολή και διαχείριση όλων των εγγραφών συναντήσεων
             </p>
           </div>
         </div>

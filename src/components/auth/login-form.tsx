@@ -128,7 +128,7 @@ export function LoginForm() {
             })
           }}
         >
-          Forgot your password?
+          Ξέχασες τον κωδικό σου;
         </button>
       </div>
     </form>
