@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Building2, Network, Mail, Loader2 } from 'lucide-react';
+import { Building2, Network, Mail, Loader2, Plug } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { CompanySettings } from './company-settings';
 import { DepartmentHierarchy } from './department-hierarchy';
 import { SmtpSettings } from './smtp-settings';
+import { IntegrationSettings } from './integration-settings';
 
 export function SettingsContent() {
   const [isPageLoading, setIsPageLoading] = useState(true);
@@ -17,7 +18,7 @@ export function SettingsContent() {
   useEffect(() => {
     // Check if there's a tab query parameter
     const tabParam = searchParams.get('tab');
-    if (tabParam && ['company', 'departments', 'smtp'].includes(tabParam)) {
+    if (tabParam && ['company', 'departments', 'smtp', 'integrations'].includes(tabParam)) {
       setActiveTab(tabParam);
     }
     
@@ -43,7 +44,7 @@ export function SettingsContent() {
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-      <TabsList className="grid w-full grid-cols-3">
+      <TabsList className="grid w-full grid-cols-4">
         <TabsTrigger value="company" className="flex items-center space-x-2">
           <Building2 className="h-4 w-4" />
           <span>Company</span>
@@ -55,6 +56,10 @@ export function SettingsContent() {
         <TabsTrigger value="smtp" className="flex items-center space-x-2">
           <Mail className="h-4 w-4" />
           <span>SMTP</span>
+        </TabsTrigger>
+        <TabsTrigger value="integrations" className="flex items-center space-x-2">
+          <Plug className="h-4 w-4" />
+          <span>Integrations</span>
         </TabsTrigger>
       </TabsList>
 
@@ -96,6 +101,20 @@ export function SettingsContent() {
           </CardHeader>
           <CardContent>
             <SmtpSettings />
+          </CardContent>
+        </Card>
+      </TabsContent>
+
+      <TabsContent value="integrations" className="space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Integrations</CardTitle>
+            <CardDescription>
+              Video conference (Stream.io), Bunny CDN, OpenRouter and Mailgun — status and connection tests.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <IntegrationSettings />
           </CardContent>
         </Card>
       </TabsContent>

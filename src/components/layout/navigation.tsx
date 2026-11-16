@@ -15,6 +15,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import {
+  ClipboardList,
+  CalendarClock,
   Home,
   Video,
   Building2,
@@ -77,6 +79,8 @@ export function Navigation({ user }: NavigationProps) {
     { href: '/recordings', label: 'Recordings', icon: FileText },
     { href: '/companies', label: 'Companies', icon: Building2 },
     { href: '/contacts', label: 'Contacts', icon: UserPlus },
+    { href: '/service-requests', label: 'Service Requests', icon: ClipboardList },
+    { href: '/appointments', label: 'Appointments', icon: CalendarClock },
     { href: '/users', label: 'Users', icon: Users },
     { href: '/statistics', label: 'Statistics', icon: BarChart3 },
     { href: '/settings', label: 'Settings', icon: Settings },
