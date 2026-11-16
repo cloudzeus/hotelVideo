@@ -18,9 +18,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { MoreHorizontal, Edit, Trash2, Building2, User } from 'lucide-react'
+import { MoreHorizontal, Edit, Trash2, Building2, User, Video, Loader2 } from 'lucide-react'
 import { EditContactModal } from './edit-contact-modal'
 import { DeleteContactDialog } from './delete-contact-dialog'
+import { toast } from 'sonner'
 import type { Contact, Company, ContactWithCompanies } from '@/types/prisma'
 
 interface ContactsTableProps {
@@ -30,6 +31,26 @@ interface ContactsTableProps {
 export function ContactsTable({ contacts = [] }: ContactsTableProps) {
   const [editingContact, setEditingContact] = useState<ContactWithCompanies | null>(null)
   const [deletingContact, setDeletingContact] = useState<ContactWithCompanies | null>(null)
+  const [invitingId, setInvitingId] = useState<string | null>(null)
+
+  const handleVideoInvite = async (contact: ContactWithCompanies) => {
+    if (!contact.email) {
+      toast.error('Λείπει email', { description: 'Η επαφή δεν έχει διεύθυνση email.' })
+      return
+    }
+    setInvitingId(contact.id)
+    try {
+      const res = await fetch(`/api/contacts/${contact.id}/video-invite`, { method: 'POST' })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Αποτυχία')
+      toast.success('Η πρόσκληση στάλθηκε', { description: `Email προς ${contact.email}. Ανοίγει η αίθουσα…` })
+      if (data.link) window.open(data.link, '_blank')
+    } catch (e) {
+      toast.error('Σφάλμα', { description: e instanceof Error ? e.message : 'Αποτυχία αποστολής' })
+    } finally {
+      setInvitingId(null)
+    }
+  }
 
   const getInitials = (firstName: string, lastName: string) => {
     return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase()
@@ -161,6 +182,17 @@ export function ContactsTable({ contacts = [] }: ContactsTableProps) {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
+                        <DropdownMenuItem
+                          onClick={() => handleVideoInvite(contact)}
+                          disabled={invitingId === contact.id}
+                        >
+                          {invitingId === contact.id ? (
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          ) : (
+                            <Video className="mr-2 h-4 w-4" />
+                          )}
+                          Πρόσκληση σε βιντεοκλήση
+                        </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => setEditingContact(contact)}>
                           <Edit className="mr-2 h-4 w-4" />
                           Edit

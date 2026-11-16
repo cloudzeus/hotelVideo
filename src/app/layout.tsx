@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/providers/theme-provider';
 import { AuthProvider } from '@/providers/auth-provider';
 
 import { Toaster } from '@/components/ui/toaster';
+import { Toaster as SonnerToaster } from '@/components/ui/sonner';
 import { PerformanceMonitor } from '@/components/ui/performance-monitor';
 import { OnlineStatusTracker } from '@/components/online-status-tracker';
 import { IncomingCallListener } from '@/components/video/incoming-call-listener';
@@ -60,6 +61,7 @@ export default function RootLayout({
           >
             {children}
             <Toaster />
+            <SonnerToaster />
             <PerformanceMonitor />
             <OnlineStatusTracker />
             <IncomingCallListener />
