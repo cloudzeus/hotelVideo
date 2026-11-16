@@ -11,7 +11,7 @@ import { SettingsDataProvider } from '@/components/settings/settings-data-provid
 
 export const metadata: Metadata = {
   title: 'Settings - Video Conference Manager',
-  description: 'Manage system settings, company defaults, department hierarchy, and SMTP configuration',
+  description: 'Manage system settings, company defaults, department hierarchy, and integrations',
 }
 
 export default async function SettingsPage() {
@@ -36,7 +36,7 @@ export default async function SettingsPage() {
               <div>
                 <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
                 <p className="text-muted-foreground">
-                  Manage system settings, company defaults, department hierarchy, and SMTP configuration
+                  Manage system settings, company defaults, department hierarchy, and integrations
                 </p>
               </div>
             </div>

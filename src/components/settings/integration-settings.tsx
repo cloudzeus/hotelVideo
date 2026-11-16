@@ -1,31 +1,99 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Loader2, CheckCircle2, XCircle, Video, HardDrive, Sparkles, Mail } from 'lucide-react';
+import { FiVideo, FiHardDrive, FiZap, FiMail, FiCheckCircle, FiXCircle, FiSave } from 'react-icons/fi';
+import { Loader2 } from 'lucide-react';
 
 type Svc = 'stream' | 'bunny' | 'openrouter' | 'mailgun';
 type TestResult = { ok: boolean; status: number; detail: string };
 
-function Field({ label, value }: { label: string; value?: string | null }) {
-  return (
-    <div className="flex justify-between gap-4 py-1 text-sm">
-      <span className="text-muted-foreground">{label}</span>
-      <span className="font-mono truncate max-w-[60%] text-right">{value || '—'}</span>
-    </div>
-  );
-}
+const META: Record<Svc, { title: string; Icon: typeof FiVideo; color: string }> = {
+  stream: { title: 'Video Conference (Stream.io)', Icon: FiVideo, color: '#0078D4' },
+  bunny: { title: 'Bunny CDN', Icon: FiHardDrive, color: '#F59E0B' },
+  openrouter: { title: 'OpenRouter (AI)', Icon: FiZap, color: '#8B5CF6' },
+  mailgun: { title: 'Mailgun (Email)', Icon: FiMail, color: '#E31E2A' },
+};
+
+// field key, label, secret?
+const FIELDS: Record<Svc, [string, string, boolean][]> = {
+  stream: [
+    ['apiKey', 'API key', false],
+    ['publicKey', 'Public key', false],
+    ['secret', 'Secret', true],
+    ['webhookSecret', 'Webhook secret', true],
+  ],
+  bunny: [
+    ['storageZone', 'Storage zone', false],
+    ['cdnUrl', 'CDN URL', false],
+    ['storageUrl', 'Storage URL', false],
+    ['accessKey', 'Access key', true],
+  ],
+  openrouter: [
+    ['model', 'Model', false],
+    ['apiKey', 'API key', true],
+  ],
+  mailgun: [
+    ['domain', 'Domain', false],
+    ['from', 'From', false],
+    ['region', 'Region (us/eu)', false],
+    ['apiKey', 'API key', true],
+  ],
+};
 
 export function IntegrationSettings() {
-  const [status, setStatus] = useState<Record<Svc, any> | null>(null);
+  const [view, setView] = useState<Record<Svc, any> | null>(null);
+  const [form, setForm] = useState<Record<string, string>>({}); // `${svc}.${field}` -> value
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
   const [testing, setTesting] = useState<Svc | null>(null);
   const [results, setResults] = useState<Partial<Record<Svc, TestResult>>>({});
 
+  async function load() {
+    const v = await fetch('/api/settings/integrations').then((r) => r.json());
+    setView(v);
+    // seed non-secret fields into the form; secrets stay blank
+    const f: Record<string, string> = {};
+    (Object.keys(FIELDS) as Svc[]).forEach((svc) =>
+      FIELDS[svc].forEach(([key, , secret]) => {
+        if (!secret) f[`${svc}.${key}`] = v[svc]?.[key] ?? '';
+      }),
+    );
+    setForm(f);
+  }
   useEffect(() => {
-    fetch('/api/settings/integrations')
-      .then((r) => r.json())
-      .then(setStatus)
-      .catch(() => setStatus(null));
+    load();
   }, []);
+
+  async function save() {
+    setSaving(true);
+    setSaved(false);
+    try {
+      const payload: Record<string, Record<string, string>> = {};
+      (Object.keys(FIELDS) as Svc[]).forEach((svc) => {
+        const obj: Record<string, string> = {};
+        FIELDS[svc].forEach(([key]) => {
+          obj[key] = form[`${svc}.${key}`] ?? '';
+        });
+        payload[svc] = obj;
+      });
+      await fetch('/api/settings/integrations', {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      setSaved(true);
+      await load(); // refresh masks, clear typed secrets
+      setForm((prev) => {
+        const next = { ...prev };
+        (Object.keys(FIELDS) as Svc[]).forEach((svc) =>
+          FIELDS[svc].forEach(([key, , secret]) => secret && delete next[`${svc}.${key}`]),
+        );
+        return next;
+      });
+    } finally {
+      setSaving(false);
+    }
+  }
 
   async function test(svc: Svc) {
     setTesting(svc);
@@ -37,14 +105,12 @@ export function IntegrationSettings() {
       });
       const json = (await res.json()) as TestResult;
       setResults((p) => ({ ...p, [svc]: json }));
-    } catch {
-      setResults((p) => ({ ...p, [svc]: { ok: false, status: 0, detail: 'Request failed' } }));
     } finally {
       setTesting(null);
     }
   }
 
-  if (!status) {
+  if (!view) {
     return (
       <div className="flex items-center gap-2 text-muted-foreground py-6">
         <Loader2 className="h-4 w-4 animate-spin" /> Loading integrations…
@@ -52,76 +118,81 @@ export function IntegrationSettings() {
     );
   }
 
-  const section = (
-    svc: Svc,
-    title: string,
-    Icon: typeof Video,
-    configured: boolean,
-    fields: [string, string | null | undefined][],
-  ) => {
-    const res = results[svc];
-    return (
-      <div key={svc} className="rounded-lg border border-border p-4 space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Icon className="h-5 w-5 text-primary" />
-            <h3 className="font-semibold">{title}</h3>
-          </div>
-          <span
-            className={`text-xs px-2 py-0.5 rounded-full ${configured ? 'bg-emerald-500/15 text-emerald-400' : 'bg-amber-500/15 text-amber-400'}`}
-          >
-            {configured ? 'Configured' : 'Not configured'}
-          </span>
-        </div>
-        <div className="divide-y divide-border/60">
-          {fields.map(([l, v]) => (
-            <Field key={l} label={l} value={v} />
-          ))}
-        </div>
-        <div className="flex items-center gap-3 pt-1">
-          <button
-            onClick={() => test(svc)}
-            disabled={testing === svc}
-            className="text-sm px-3 py-1.5 rounded bg-primary text-primary-foreground disabled:opacity-60"
-          >
-            {testing === svc ? 'Testing…' : 'Test connection'}
-          </button>
-          {res ? (
-            <span className={`flex items-center gap-1 text-sm ${res.ok ? 'text-emerald-400' : 'text-red-400'}`}>
-              {res.ok ? <CheckCircle2 className="h-4 w-4" /> : <XCircle className="h-4 w-4" />}
-              {res.detail} {res.status ? `(${res.status})` : ''}
-            </span>
-          ) : null}
-        </div>
-        <p className="text-xs text-muted-foreground">Keys are edited in <code>.env.local</code> and loaded on restart.</p>
-      </div>
-    );
-  };
-
   return (
-    <div className="grid gap-4 md:grid-cols-2">
-      {section('stream', 'Video Conference (Stream.io)', Video, status.stream.configured, [
-        ['API key', status.stream.apiKey],
-        ['Public key', status.stream.publicKey],
-        ['Secret', status.stream.secret],
-        ['Webhook secret', status.stream.webhookSecret],
-      ])}
-      {section('bunny', 'Bunny CDN', HardDrive, status.bunny.configured, [
-        ['Storage zone', status.bunny.storageZone],
-        ['CDN URL', status.bunny.cdnUrl],
-        ['Storage URL', status.bunny.storageUrl],
-        ['Access key', status.bunny.accessKey],
-      ])}
-      {section('openrouter', 'OpenRouter (AI)', Sparkles, status.openrouter.configured, [
-        ['Model', status.openrouter.model],
-        ['API key', status.openrouter.apiKey],
-      ])}
-      {section('mailgun', 'Mailgun (Email)', Mail, status.mailgun.configured, [
-        ['Domain', status.mailgun.domain],
-        ['From', status.mailgun.from],
-        ['Region', status.mailgun.region],
-        ['API key', status.mailgun.apiKey],
-      ])}
+    <div className="space-y-4">
+      <div className="grid gap-4 lg:grid-cols-2">
+        {(Object.keys(META) as Svc[]).map((svc) => {
+          const { title, Icon, color } = META[svc];
+          const res = results[svc];
+          const configured = view[svc]?.configured;
+          return (
+            <div key={svc} className="rounded-lg border border-border p-4 space-y-3 bg-card">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="rounded-md p-1.5" style={{ backgroundColor: `${color}1A`, color }}>
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <h3 className="font-semibold">{title}</h3>
+                </div>
+                <span
+                  className={`text-xs px-2 py-0.5 rounded-full ${configured ? 'bg-emerald-500/15 text-emerald-600' : 'bg-amber-500/15 text-amber-600'}`}
+                >
+                  {configured ? 'Configured' : 'Not set'}
+                </span>
+              </div>
+
+              <div className="space-y-2">
+                {FIELDS[svc].map(([key, label, secret]) => {
+                  const id = `${svc}.${key}`;
+                  const hint = secret ? view[svc]?.[key] : '';
+                  return (
+                    <div key={id} className="grid grid-cols-3 items-center gap-2">
+                      <label htmlFor={id} className="text-sm text-muted-foreground col-span-1">{label}</label>
+                      <input
+                        id={id}
+                        type={secret ? 'password' : 'text'}
+                        value={form[id] ?? ''}
+                        placeholder={secret ? (hint || 'not set') : ''}
+                        onChange={(e) => setForm((p) => ({ ...p, [id]: e.target.value }))}
+                        className="col-span-2 rounded border border-input bg-background px-2 py-1 text-sm focus:ring-2 focus:ring-primary focus:outline-none"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="flex items-center gap-3 pt-1">
+                <button
+                  onClick={() => test(svc)}
+                  disabled={testing === svc}
+                  className="text-sm px-3 py-1.5 rounded border border-border hover:bg-muted disabled:opacity-60"
+                >
+                  {testing === svc ? 'Testing…' : 'Test connection'}
+                </button>
+                {res && (
+                  <span className={`flex items-center gap-1 text-sm ${res.ok ? 'text-emerald-600' : 'text-destructive'}`}>
+                    {res.ok ? <FiCheckCircle className="h-4 w-4" /> : <FiXCircle className="h-4 w-4" />}
+                    {res.detail} {res.status ? `(${res.status})` : ''}
+                  </span>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="flex items-center gap-3">
+        <button
+          onClick={save}
+          disabled={saving}
+          className="inline-flex items-center gap-2 rounded-md bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:bg-primary/90 disabled:opacity-60"
+        >
+          {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <FiSave className="h-4 w-4" />}
+          Save changes
+        </button>
+        {saved && <span className="text-sm text-emerald-600">Saved</span>}
+        <span className="text-xs text-muted-foreground">Leave a secret blank to keep the current value. Values override <code>.env.local</code>.</span>
+      </div>
     </div>
   );
 }

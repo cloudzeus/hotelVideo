@@ -13,6 +13,8 @@ import { RecentMeetings } from '@/components/dashboard/recent-meetings';
 import { UpcomingMeetings } from '@/components/dashboard/upcoming-meetings';
 import { QuickActions } from '@/components/dashboard/quick-actions';
 import { ActiveUsers } from '@/components/dashboard/active-users';
+import { ChartsSection } from '@/components/dashboard/charts-section';
+import { getDashboardCharts } from '@/lib/data/dashboard-charts';
 
 export default async function DashboardPage() {
   try {
@@ -34,7 +36,8 @@ export default async function DashboardPage() {
       companyStats,
       userStats,
       usersData,
-      contacts
+      contacts,
+      charts
     ] = await Promise.all([
       getRecentMeetings(user.id, user.companyId, isAdmin),
       getUpcomingMeetings(user.id, user.companyId, isAdmin),
@@ -43,6 +46,7 @@ export default async function DashboardPage() {
       isAdmin ? getUserStats() : null,
       getUsersByCompany(user.companyId, true, { limit: 100 }), // Fetch up to 100 users for the modal/list
       getContactsByCompany(user.companyId),
+      getDashboardCharts(user.companyId),
     ]);
 
     const users = usersData.data;
@@ -86,6 +90,9 @@ export default async function DashboardPage() {
               userStats={userStats}
               isAdmin={isAdmin}
             />
+
+            {/* Analytics */}
+            <ChartsSection data={charts} />
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Main Content Column */}

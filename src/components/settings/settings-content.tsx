@@ -2,12 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Building2, Network, Mail, Loader2, Plug } from 'lucide-react';
+import { Building2, Network, Loader2, Plug } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { CompanySettings } from './company-settings';
 import { DepartmentHierarchy } from './department-hierarchy';
-import { SmtpSettings } from './smtp-settings';
 import { IntegrationSettings } from './integration-settings';
 
 export function SettingsContent() {
@@ -18,7 +17,7 @@ export function SettingsContent() {
   useEffect(() => {
     // Check if there's a tab query parameter
     const tabParam = searchParams.get('tab');
-    if (tabParam && ['company', 'departments', 'smtp', 'integrations'].includes(tabParam)) {
+    if (tabParam && ['company', 'departments', 'integrations'].includes(tabParam)) {
       setActiveTab(tabParam);
     }
     
@@ -44,7 +43,7 @@ export function SettingsContent() {
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-      <TabsList className="grid w-full grid-cols-4">
+      <TabsList className="grid w-full grid-cols-3">
         <TabsTrigger value="company" className="flex items-center space-x-2">
           <Building2 className="h-4 w-4" />
           <span>Company</span>
@@ -52,10 +51,6 @@ export function SettingsContent() {
         <TabsTrigger value="departments" className="flex items-center space-x-2">
           <Network className="h-4 w-4" />
           <span>Departments</span>
-        </TabsTrigger>
-        <TabsTrigger value="smtp" className="flex items-center space-x-2">
-          <Mail className="h-4 w-4" />
-          <span>SMTP</span>
         </TabsTrigger>
         <TabsTrigger value="integrations" className="flex items-center space-x-2">
           <Plug className="h-4 w-4" />
@@ -87,20 +82,6 @@ export function SettingsContent() {
           </CardHeader>
           <CardContent>
             <DepartmentHierarchy />
-          </CardContent>
-        </Card>
-      </TabsContent>
-
-      <TabsContent value="smtp" className="space-y-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>SMTP Configuration</CardTitle>
-            <CardDescription>
-              Configure email server settings for notifications and communications
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <SmtpSettings />
           </CardContent>
         </Card>
       </TabsContent>

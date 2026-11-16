@@ -1,6 +1,7 @@
 import { Resend } from 'resend'
 import { format } from 'date-fns'
 import { sendMailgunEmail } from '@/lib/mailgun'
+import { getIntegrationConfig } from '@/lib/integration-config'
 
 // Initialize Resend client lazily to avoid build-time errors
 let resendClient: Resend | null = null
@@ -294,14 +295,15 @@ If you have any questions, please contact your system administrator.
 
 // Email sending functions
 export async function sendEmail(to: string, subject: string, html: string, text: string) {
-  // Prefer Mailgun when configured; fall back to Resend.
-  if (process.env.MAILGUN_API_KEY && process.env.MAILGUN_DOMAIN) {
+  // Prefer Mailgun when configured (saved settings or env); fall back to Resend.
+  const { mailgun } = await getIntegrationConfig()
+  if (mailgun.apiKey && mailgun.domain) {
     const res = await sendMailgunEmail({
       to,
       subject,
       html,
       text,
-      from: `${FROM_NAME} <${process.env.MAILGUN_FROM ?? FROM_EMAIL}>`,
+      from: `${FROM_NAME} <${mailgun.from || FROM_EMAIL}>`,
     })
     if (!res.ok) throw new Error(`Mailgun send failed (status ${res.status})`)
     console.log('Email sent via Mailgun:', res.id)

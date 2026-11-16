@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
-import { generateStreamUserToken } from '@/lib/stream-token';
-import { verifyMailgun } from '@/lib/mailgun';
+import { getIntegrationConfig } from '@/lib/integration-config';
 
 type Result = { ok: boolean; status: number; detail: string };
 
@@ -11,44 +10,46 @@ export async function POST(request: NextRequest) {
   if (session.user.role !== 'Administrator') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
   const { service } = await request.json().catch(() => ({ service: '' }));
+  const cfg = await getIntegrationConfig();
   let r: Result;
 
   try {
     switch (service) {
       case 'stream': {
-        if (!process.env.STREAM_API_KEY || !process.env.STREAM_SECRET) {
-          r = { ok: false, status: 0, detail: 'STREAM_API_KEY/STREAM_SECRET missing' };
-        } else {
-          generateStreamUserToken('healthcheck'); // throws if misconfigured
-          r = { ok: true, status: 200, detail: 'Keys present, token minting works' };
-        }
+        r = cfg.stream.apiKey && cfg.stream.secret
+          ? { ok: true, status: 200, detail: 'API key + secret present' }
+          : { ok: false, status: 0, detail: 'API key / secret missing' };
         break;
       }
       case 'bunny': {
-        const zone = process.env.BUNNY_STORAGE_ZONE;
-        const key = process.env.BUNNY_ACCESS_KEY;
-        const url = `${process.env.BUNNY_STORAGE_URL ?? 'https://storage.bunnycdn.com'}/${zone}/`;
-        if (!zone || !key) {
-          r = { ok: false, status: 0, detail: 'BUNNY_STORAGE_ZONE/BUNNY_ACCESS_KEY missing' };
+        const { storageZone, accessKey, storageUrl } = cfg.bunny;
+        if (!storageZone || !accessKey) {
+          r = { ok: false, status: 0, detail: 'Storage zone / access key missing' };
         } else {
-          const res = await fetch(url, { headers: { AccessKey: key } });
-          const ok = res.status === 200 || res.status === 404; // 404 = empty zone, auth still valid
-          r = { ok, status: res.status, detail: ok ? 'Storage zone reachable' : 'Auth failed (check AccessKey)' };
+          const res = await fetch(`${storageUrl || 'https://storage.bunnycdn.com'}/${storageZone}/`, { headers: { AccessKey: accessKey } });
+          const ok = res.status === 200 || res.status === 404;
+          r = { ok, status: res.status, detail: ok ? 'Storage zone reachable' : 'Auth failed (check access key)' };
         }
         break;
       }
       case 'openrouter': {
-        const key = process.env.OPENROUTER_API_KEY;
-        if (!key) {
-          r = { ok: false, status: 0, detail: 'OPENROUTER_API_KEY missing' };
+        if (!cfg.openrouter.apiKey) {
+          r = { ok: false, status: 0, detail: 'API key missing' };
         } else {
-          const res = await fetch('https://openrouter.ai/api/v1/key', { headers: { Authorization: `Bearer ${key}` } });
+          const res = await fetch('https://openrouter.ai/api/v1/key', { headers: { Authorization: `Bearer ${cfg.openrouter.apiKey}` } });
           r = { ok: res.ok, status: res.status, detail: res.ok ? 'Key valid' : 'Key rejected' };
         }
         break;
       }
       case 'mailgun': {
-        r = await verifyMailgun();
+        const { apiKey, domain, region } = cfg.mailgun;
+        if (!apiKey || !domain) {
+          r = { ok: false, status: 0, detail: 'API key / domain missing' };
+        } else {
+          const base = region === 'eu' ? 'https://api.eu.mailgun.net' : 'https://api.mailgun.net';
+          const res = await fetch(`${base}/v3/domains/${domain}`, { headers: { Authorization: 'Basic ' + Buffer.from(`api:${apiKey}`).toString('base64') } });
+          r = { ok: res.ok, status: res.status, detail: res.ok ? 'Domain reachable' : 'Auth or domain failed' };
+        }
         break;
       }
       default:
@@ -57,6 +58,5 @@ export async function POST(request: NextRequest) {
   } catch (e) {
     r = { ok: false, status: 0, detail: e instanceof Error ? e.message : 'Test failed' };
   }
-
   return NextResponse.json(r);
 }

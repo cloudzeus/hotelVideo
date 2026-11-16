@@ -1,11 +1,8 @@
 import OpenAI from 'openai';
+import { getIntegrationConfig } from '@/lib/integration-config';
 
 // OpenRouter does ONLY the LLM step (summary + intent extraction) on a transcript
 // that Stream.io already produced. It has no ASR — never send it audio/video.
-const openrouter = new OpenAI({
-  apiKey: process.env.OPENROUTER_API_KEY ?? 'dummy-key',
-  baseURL: 'https://openrouter.ai/api/v1',
-});
 
 export type SRCategory =
   | 'HOUSEKEEPING' | 'MAINTENANCE' | 'FOOD_BEVERAGE' | 'TRANSPORT' | 'CONCIERGE' | 'OTHER';
@@ -34,12 +31,14 @@ export async function analyzeConciergeTranscript(
   transcript: string,
   language = 'en',
 ): Promise<ConciergeAnalysis> {
-  if (!process.env.OPENROUTER_API_KEY) {
-    console.warn('OPENROUTER_API_KEY not set — skipping concierge analysis.');
+  const { openrouter: or } = await getIntegrationConfig();
+  if (!or.apiKey) {
+    console.warn('OpenRouter API key not set — skipping concierge analysis.');
     return { summary: '', intent: 'none' };
   }
-  const res = await openrouter.chat.completions.create({
-    model: process.env.OPENROUTER_MODEL ?? 'anthropic/claude-3.5-sonnet',
+  const client = new OpenAI({ apiKey: or.apiKey, baseURL: 'https://openrouter.ai/api/v1' });
+  const res = await client.chat.completions.create({
+    model: or.model || 'anthropic/claude-3.5-sonnet',
     messages: [
       { role: 'system', content: `${SYSTEM}\nWrite "summary" in language: ${language}.` },
       { role: 'user', content: transcript },

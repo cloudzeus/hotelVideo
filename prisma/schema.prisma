@@ -42,6 +42,7 @@ model Company {
   bookings        Booking[]
   appointments    Appointment[]
   serviceRequests ServiceRequest[]
+  appConfig       AppConfig?
 
   @@index([name])
   @@index([type])
@@ -413,4 +414,14 @@ enum SRStatus {
   IN_PROGRESS
   RESOLVED
   CANCELLED
+}
+
+model AppConfig {
+  id        String   @id @default(cuid())
+  companyId String   @unique
+  config    Json     // { stream, bunny, openrouter, mailgun } — overrides env at runtime
+  updatedAt DateTime @updatedAt
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@map("app_config")
 }
