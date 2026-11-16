@@ -13,6 +13,7 @@ type Row = {
   manager?: { firstName: string; lastName: string } | null;
   guest?: { firstName: string; lastName: string; email: string | null } | null;
   villa?: { name: string; slug: string } | null;
+  call?: { streamCallId: string | null } | null;
 };
 
 const STATUSES = ['REQUESTED', 'CONFIRMED', 'COMPLETED', 'CANCELLED'];
@@ -87,18 +88,30 @@ export function AppointmentsTable({ rows }: { rows: Row[] }) {
               <td className="p-3 whitespace-nowrap">{r.villa?.name ?? '—'}</td>
               <td className="p-3">{r.title}</td>
               <td className="p-3">
-                <select
-                  value={r.status}
-                  disabled={busy === r.id}
-                  onChange={(e) => setStatus(r.id, e.target.value)}
-                  className={`rounded-full px-2.5 py-1 text-xs font-semibold border-0 cursor-pointer disabled:opacity-60 ${statusBadge[r.status] ?? 'bg-muted text-muted-foreground'}`}
-                >
-                  {STATUSES.map((s) => (
-                    <option key={s} value={s} className="bg-background text-foreground">
-                      {STATUS_LABELS[s] ?? s}
-                    </option>
-                  ))}
-                </select>
+                <div className="flex items-center gap-2">
+                  <select
+                    value={r.status}
+                    disabled={busy === r.id}
+                    onChange={(e) => setStatus(r.id, e.target.value)}
+                    className={`rounded-full px-2.5 py-1 text-xs font-semibold border-0 cursor-pointer disabled:opacity-60 ${statusBadge[r.status] ?? 'bg-muted text-muted-foreground'}`}
+                  >
+                    {STATUSES.map((s) => (
+                      <option key={s} value={s} className="bg-background text-foreground">
+                        {STATUS_LABELS[s] ?? s}
+                      </option>
+                    ))}
+                  </select>
+                  {r.call?.streamCallId ? (
+                    <a
+                      href={`/room/${r.call.streamCallId}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block rounded-full bg-emerald-600 px-2.5 py-1 text-xs font-semibold text-white hover:bg-emerald-700"
+                    >
+                      Σύνδεση βίντεο
+                    </a>
+                  ) : null}
+                </div>
               </td>
             </tr>
           ))}

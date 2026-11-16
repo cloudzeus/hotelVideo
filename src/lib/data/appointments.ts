@@ -7,6 +7,7 @@ export async function getAppointments(companyId: string) {
       manager: { select: { firstName: true, lastName: true } },
       guest: { select: { firstName: true, lastName: true, email: true } },
       villa: { select: { name: true, slug: true } },
+      call: { select: { streamCallId: true } },
     },
     orderBy: { scheduledAt: 'asc' },
     take: 200,

@@ -316,7 +316,7 @@ model Booking {
 model Appointment {
   id          String         @id @default(cuid())
   companyId   String
-  managerId   String         // User (hotel manager / operator)
+  managerId   String?        // User (hotel manager / operator); null until staff assign on confirm
   guestId     String?        // Contact
   villaId     String?
   bookingId   String?
@@ -330,7 +330,7 @@ model Appointment {
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
   company     Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  manager     User           @relation("ApptManager", fields: [managerId], references: [id])
+  manager     User?          @relation("ApptManager", fields: [managerId], references: [id])
   guest       Contact?       @relation(fields: [guestId], references: [id])
   villa       Villa?         @relation(fields: [villaId], references: [id])
   booking     Booking?       @relation(fields: [bookingId], references: [id])

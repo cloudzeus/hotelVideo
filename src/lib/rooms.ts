@@ -3,7 +3,9 @@ import type { Call } from '@prisma/client';
 
 // Villa 1 and Villa 2 are permanent, always-on concierge rooms with stable ids.
 // Every other room is created on demand with a generated id.
-export const PERMANENT_ROOM_SLUGS = ['villa-1', 'villa-2'] as const;
+// `reception` is the always-on walk-up concierge room the hotel website links to
+// for "video call now". villa-1/villa-2 are the permanent per-villa rooms.
+export const PERMANENT_ROOM_SLUGS = ['villa-1', 'villa-2', 'reception'] as const;
 export type PermanentRoomSlug = (typeof PERMANENT_ROOM_SLUGS)[number];
 
 export function isPermanentRoom(slug: string): slug is PermanentRoomSlug {

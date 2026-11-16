@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { ensureAppointmentRoom } from '@/lib/appointment-room';
 
 const STATUSES = ['REQUESTED', 'CONFIRMED', 'COMPLETED', 'CANCELLED'] as const;
 
@@ -26,7 +27,19 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       ...(b.status ? { status: b.status } : {}),
       ...(b.scheduledAt ? { scheduledAt: new Date(b.scheduledAt) } : {}),
       ...(b.notes !== undefined ? { notes: b.notes } : {}),
+      ...(b.managerId !== undefined ? { managerId: b.managerId || null } : {}),
     },
   });
-  return NextResponse.json({ success: true, appointment: updated });
+
+  // Accepting a request mints + links the video room and emails the guest the
+  // join link. Idempotent and best-effort — never fail the status change on it.
+  let roomSlug: string | null = null;
+  if (b.status === 'CONFIRMED') {
+    try {
+      ({ slug: roomSlug } = await ensureAppointmentRoom(id, session.user.id));
+    } catch (e) {
+      console.error('appointments PATCH: ensureAppointmentRoom failed', e);
+    }
+  }
+  return NextResponse.json({ success: true, appointment: updated, roomSlug });
 }
