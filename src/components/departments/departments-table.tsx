@@ -206,7 +206,7 @@ export function DepartmentsTable({
   const columns = [
     {
       accessorKey: 'name',
-      header: 'Department',
+      header: 'Τμήμα',
       cell: ({ row }: { row: any }) => {
         const department = row.original;
         const level = getHierarchyLevel(department);
@@ -239,16 +239,16 @@ export function DepartmentsTable({
     },
     {
       accessorKey: 'parent',
-      header: 'Parent Department',
+      header: 'Γονικό Τμήμα',
       cell: ({ row }: { row: any }) => (
         <div className="text-sm text-muted-foreground">
-          {row.original.parent?.name || 'Top Level'}
+          {row.original.parent?.name || 'Ανώτατο'}
         </div>
       ),
     },
     {
       accessorKey: 'manager',
-      header: 'Manager',
+      header: 'Υπεύθυνος',
       cell: ({ row }: { row: any }) => {
         const manager = row.original.manager;
         return manager ? (
@@ -265,13 +265,13 @@ export function DepartmentsTable({
             </div>
           </div>
         ) : (
-          <div className="text-sm text-muted-foreground">No manager assigned</div>
+          <div className="text-sm text-muted-foreground">Χωρίς υπεύθυνο</div>
         );
       },
     },
     {
       accessorKey: 'users',
-      header: 'Users',
+      header: 'Χρήστες',
       cell: ({ row }: { row: any }) => (
         <div className="flex items-center gap-1">
           <Users className="h-3 w-3" />
@@ -281,7 +281,7 @@ export function DepartmentsTable({
     },
     {
       accessorKey: 'children',
-      header: 'Sub-departments',
+      header: 'Υποτμήματα',
       cell: ({ row }: { row: any }) => (
         <div className="flex items-center gap-1">
           <Building className="h-3 w-3" />
@@ -291,7 +291,7 @@ export function DepartmentsTable({
     },
     {
       accessorKey: 'createdAt',
-      header: 'Created',
+      header: 'Δημιουργία',
       cell: ({ row }: { row: any }) => (
         <div className="flex items-center gap-1 text-sm text-muted-foreground">
           <Calendar className="h-3 w-3" />
@@ -301,7 +301,7 @@ export function DepartmentsTable({
     },
     {
       id: 'actions',
-      header: 'Actions',
+      header: 'Ενέργειες',
       cell: ({ row }: { row: any }) => {
         const department = row.original;
         return (
@@ -342,7 +342,7 @@ export function DepartmentsTable({
               {!canDeleteDepartment(department) && (
                 <DropdownMenuItem disabled className="text-muted-foreground">
                   <Trash2 className="mr-2 h-4 w-4" />
-                  Cannot delete (has users or sub-departments)
+                  Δεν διαγράφεται (έχει χρήστες ή υποτμήματα)
                 </DropdownMenuItem>
               )}
             </DropdownMenuContent>
@@ -373,7 +373,7 @@ export function DepartmentsTable({
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <Input
-            placeholder="Search departments..."
+            placeholder="Αναζήτηση τμημάτων..."
             value={safeFilters.search}
             onChange={(e) => updateFilters({ search: e.target.value })}
             className="h-8 w-[200px] lg:w-[300px]"
@@ -434,7 +434,7 @@ export function DepartmentsTable({
             {!departments || departments.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No departments found.
+                  Δεν βρέθηκαν τμήματα.
                 </TableCell>
               </TableRow>
             ) : (

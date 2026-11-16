@@ -88,9 +88,9 @@ export function DepartmentForm({ department, departments, users, onSubmit, isLoa
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Department Name</FormLabel>
+                <FormLabel>Όνομα Τμήματος</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter department name" {...field} />
+                  <Input placeholder="Όνομα τμήματος" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -103,10 +103,10 @@ export function DepartmentForm({ department, departments, users, onSubmit, isLoa
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>Περιγραφή</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Enter department description"
+                  placeholder="Περιγραφή τμήματος"
                   className="resize-none"
                   {...field}
                   value={field.value || ''}
@@ -123,11 +123,11 @@ export function DepartmentForm({ department, departments, users, onSubmit, isLoa
             name="parentId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Parent Department (Optional)</FormLabel>
+                <FormLabel>Γονικό Τμήμα (προαιρετικό)</FormLabel>
                 <FormControl>
                   <Combobox
                     options={[
-                      { value: "", label: "No Parent Department" },
+                      { value: "", label: "Χωρίς γονικό τμήμα" },
                       ...departments.map(dept => ({ value: dept.id, label: dept.name }))
                     ]}
                     value={field.value || ""}
@@ -147,11 +147,11 @@ export function DepartmentForm({ department, departments, users, onSubmit, isLoa
             name="managerId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Department Manager (Optional)</FormLabel>
+                <FormLabel>Υπεύθυνος (προαιρετικό)</FormLabel>
                 <FormControl>
                   <Combobox
                     options={[
-                      { value: "", label: "No Manager" },
+                      { value: "", label: "Χωρίς υπεύθυνο" },
                       ...users.map(user => ({ 
                         value: user.id, 
                         label: `${user.firstName} ${user.lastName} (${user.email})` 
@@ -172,7 +172,7 @@ export function DepartmentForm({ department, departments, users, onSubmit, isLoa
 
         <div className="flex justify-end space-x-2">
           <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Saving...' : (department ? 'Update Department' : 'Create Department')}
+            {isSubmitting ? 'Αποθήκευση...' : (department ? 'Ενημέρωση' : 'Δημιουργία')}
           </Button>
         </div>
       </form>
