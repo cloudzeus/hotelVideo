@@ -11,7 +11,9 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 # Copy prisma schema for postinstall script
 COPY prisma ./prisma
-RUN npm ci
+# --include=dev: build tooling (tailwind/postcss/autoprefixer/typescript) are
+# devDependencies; Coolify sets NODE_ENV=production at build, which would skip them.
+RUN npm ci --include=dev
 
 # Rebuild the source code only when needed
 FROM base AS builder
