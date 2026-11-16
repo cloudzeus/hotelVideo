@@ -36,8 +36,8 @@ export default async function LoginPage() {
           <div className="text-center space-y-6 mb-8">
             {/* Video Manager Logo */}
             <div className="flex justify-center">
-              <div className="bg-gradient-to-br from-purple-600 to-pink-500 rounded-2xl p-4 shadow-2xl">
-                <svg className="w-16 h-16 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <div className="bg-brand rounded-xl p-4 shadow-[0_2px_4px_rgba(0,0,0,.4),0_8px_24px_rgba(227,30,42,.3)]">
+                <svg className="w-16 h-16 text-brand-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                   <rect x="2" y="6" width="20" height="12" rx="2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   <polygon points="10,9 10,15 15,12" fill="currentColor" stroke="none" />
                 </svg>
@@ -47,10 +47,10 @@ export default async function LoginPage() {
             {/* Title */}
             <div>
               <h1 className="text-5xl font-bold text-white mb-2 tracking-tight">
-                Video Manager
+                Ephyria Concierge
               </h1>
               <p className="text-xl text-white/90 font-light">
-                Welcome Back
+                Welcome back
               </p>
             </div>
           </div>

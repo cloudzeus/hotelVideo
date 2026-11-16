@@ -79,7 +79,7 @@ export function SpeakingIndicator({ stream }: SpeakingIndicatorProps) {
         ? 'bg-green-500 animate-pulse'
         : 'bg-gray-500'
       }`}>
-      <Volume2 className="h-3 w-3 text-white" />
+      <Volume2 className="h-3 w-3 text-foreground" />
     </div>
   )
 }

@@ -25,10 +25,10 @@ export default async function SettingsPage() {
     const user = session.user
 
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background app-shell">
         <Navigation user={user} />
         
-        <main className="container-responsive py-6 pt-24">
+        <main className="container-responsive py-6 pt-16 md:pt-8">
           <div className="space-y-6">
             {/* Header */}
             <div className="flex items-center gap-3">

@@ -56,14 +56,18 @@ export default async function DashboardPage() {
     );
 
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen bg-background app-shell">
         <NavigationWrapper user={user} />
 
-        {/* Gradient Header */}
-        <div className="w-full h-20 bg-gradient-to-r from-purple-600 via-pink-500 via-orange-400 via-yellow-400 to-green-400 flex items-center px-8 mt-16">
-          <h1 className="text-2xl font-bold text-white">
-            Welcome back, {user.firstName}!
-          </h1>
+        {/* Welcome header */}
+        <div className="w-full bg-card border-b border-border px-8 py-5 mt-14 md:mt-0 flex items-center gap-3">
+          <span className="h-6 w-1 rounded-full bg-primary" />
+          <div>
+            <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+              Welcome back, {user.firstName}
+            </h1>
+            <p className="text-sm text-muted-foreground">Here's what's happening across your villas today.</p>
+          </div>
         </div>
 
         <main className="container-responsive py-6">
@@ -93,20 +97,20 @@ export default async function DashboardPage() {
 
                 {/* Additional sections based on role */}
                 {isAdmin && (
-                  <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-                    <h3 className="text-lg font-semibold mb-4 text-white">System Overview</h3>
+                  <div className="bg-card border border-border rounded-lg p-6">
+                    <h3 className="text-lg font-semibold mb-4 text-foreground">System Overview</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="flex justify-between p-3 bg-slate-900/50 rounded border border-slate-700">
-                        <span className="text-slate-400">Total Companies</span>
-                        <span className="font-medium text-white">{companyStats?.totalCompanies || 0}</span>
+                      <div className="flex justify-between p-3 bg-muted/50 rounded border border-border">
+                        <span className="text-muted-foreground">Total Companies</span>
+                        <span className="font-medium text-foreground">{companyStats?.totalCompanies || 0}</span>
                       </div>
-                      <div className="flex justify-between p-3 bg-slate-900/50 rounded border border-slate-700">
-                        <span className="text-slate-400">Active Users</span>
-                        <span className="font-medium text-white">{userStats?.active || 0}</span>
+                      <div className="flex justify-between p-3 bg-muted/50 rounded border border-border">
+                        <span className="text-muted-foreground">Active Users</span>
+                        <span className="font-medium text-foreground">{userStats?.active || 0}</span>
                       </div>
-                      <div className="flex justify-between p-3 bg-slate-900/50 rounded border border-slate-700">
-                        <span className="text-slate-400">Total Meetings</span>
-                        <span className="font-medium text-white">{meetingStats?.totalMeetings || 0}</span>
+                      <div className="flex justify-between p-3 bg-muted/50 rounded border border-border">
+                        <span className="text-muted-foreground">Total Meetings</span>
+                        <span className="font-medium text-foreground">{meetingStats?.totalMeetings || 0}</span>
                       </div>
                     </div>
                   </div>
@@ -118,9 +122,9 @@ export default async function DashboardPage() {
                 <ActiveUsers users={activeUsers} currentUser={user} />
 
                 {isManager && (
-                  <div className="bg-slate-800 border border-slate-700 rounded-lg p-6">
-                    <h3 className="text-lg font-semibold mb-4 text-white">Department</h3>
-                    <p className="text-slate-400 text-sm">
+                  <div className="bg-card border border-border rounded-lg p-6">
+                    <h3 className="text-lg font-semibold mb-4 text-foreground">Department</h3>
+                    <p className="text-muted-foreground text-sm">
                       Manage your department's meetings and team members.
                     </p>
                   </div>

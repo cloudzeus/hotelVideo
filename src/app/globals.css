@@ -7,40 +7,40 @@
 
 @layer base {
   :root {
-    /* Force dark theme colors */
-    --background: 0 0% 0%; /* Pure black */
-    --foreground: 0 0% 100%; /* White text */
-    --card: 215 25% 15%; /* Slate-800 */
-    --card-foreground: 0 0% 100%;
-    --popover: 215 25% 15%;
-    --popover-foreground: 0 0% 100%;
-    --primary: 206 100% 42%;  /* DG Sisyphus Blue */ /* Slate-500 */
+    /* DG light theme — warm neutrals + Sisyphus Blue */
+    --background: 40 20% 98%;      /* warm off-white */
+    --foreground: 20 14% 12%;      /* warm near-black */
+    --card: 0 0% 100%;
+    --card-foreground: 20 14% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 14% 12%;
+    --primary: 206 100% 42%;       /* DG Sisyphus Blue */
     --primary-foreground: 0 0% 100%;
-    --secondary: 215 25% 20%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 215 25% 20%;
-    --muted-foreground: 215 15% 60%; /* Slate-400 */
-    --accent: 215 25% 20%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84.2% 60.2%;
+    --secondary: 40 12% 94%;
+    --secondary-foreground: 20 14% 20%;
+    --muted: 40 12% 95%;
+    --muted-foreground: 25 8% 42%;
+    --accent: 40 14% 93%;
+    --accent-foreground: 20 14% 20%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
-    --border: 215 25% 25%; /* Slate-700 */
-    --input: 215 25% 25%;
+    --border: 30 10% 89%;
+    --input: 30 10% 89%;
     --ring: 206 100% 42%;
     --radius: 0.5rem;
-    --brand: 356 78% 50%;      /* DG Red */
+    --brand: 356 78% 50%;          /* DG Red */
     --brand-foreground: 0 0% 100%;
-    --success: 142.1 76.2% 36.3%;
+    --success: 142 71% 40%;
     --success-foreground: 0 0% 100%;
     --warning: 38 92% 50%;
-    --warning-foreground: 0 0% 0%;
-    --sidebar-background: 0 0% 0%;
-    --sidebar-foreground: 0 0% 100%;
+    --warning-foreground: 20 14% 12%;
+    --sidebar-background: 40 16% 96%;   /* Mica-like warm panel */
+    --sidebar-foreground: 20 14% 15%;
     --sidebar-primary: 206 100% 42%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 215 25% 20%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 215 25% 25%;
+    --sidebar-accent: 40 14% 92%;
+    --sidebar-accent-foreground: 20 14% 15%;
+    --sidebar-border: 30 10% 88%;
     --sidebar-ring: 206 100% 42%;
   }
 
@@ -84,18 +84,25 @@
   }
 
   html {
-    font-size: 10px;
+    /* Adaptive rem base: ~10.5px on a 360px phone → 11px on ≥1280px desktop */
+    font-size: clamp(10.5px, calc(10.3125px + 0.0543vw), 11px);
     scroll-behavior: smooth;
-    @apply dark; /* Force dark mode */
   }
 
   body {
-    @apply bg-black text-white; /* Force black background and white text */
+    @apply bg-background text-foreground;
     font-family: 'Segoe UI Variable', 'Segoe UI', Inter, system-ui, sans-serif;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* iOS: never zoom on input focus */
+  @media (max-width: 767px) {
+    input:not([type='checkbox']):not([type='radio']), select, textarea {
+      font-size: max(16px, 1em);
+    }
   }
 
   /* Custom scrollbar */
@@ -105,15 +112,15 @@
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-slate-900;
+    @apply bg-muted;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-slate-700 rounded-full;
+    @apply bg-border rounded-full;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-slate-600;
+    @apply bg-muted-foreground/40;
   }
 }
 
@@ -260,3 +267,8 @@
     display: none;
   }
 } 
+/* App shell: content offsets for the left sidebar (width via --sb-w, set by Navigation) */
+:root { --sb-w: 18rem; }
+@media (min-width: 768px) {
+  .app-shell { padding-left: var(--sb-w); transition: padding-left .2s ease; }
+}

@@ -155,7 +155,6 @@ temp/
 /public/uploads
 
 # Prisma
-/prisma/migrations/
 
 # Stream recordings (if stored locally)
 /recordings 

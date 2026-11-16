@@ -35,7 +35,7 @@ const ParticipantList = () => {
 
   return (
     <div className="h-full bg-gray-800 p-4 border-l border-gray-700 overflow-y-auto w-80">
-      <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+      <h3 className="text-foreground font-semibold mb-4 flex items-center gap-2">
         <Users className="h-4 w-4" />
         Participants ({participants.length})
       </h3>
@@ -46,13 +46,13 @@ const ParticipantList = () => {
               {p.image ? (
                 <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
               ) : (
-                <span className="text-white text-sm font-medium">
+                <span className="text-foreground text-sm font-medium">
                   {p.name?.[0] || '?'}
                 </span>
               )}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-white text-sm font-medium truncate">
+              <p className="text-foreground text-sm font-medium truncate">
                 {p.name} {p.isLocalParticipant && '(You)'}
               </p>
               <div className="flex items-center gap-2">
@@ -308,7 +308,7 @@ export function StreamMeetingRoomSimple({ meeting, user, isHost, isAdmin }: Stre
   // Show loading while checking authentication
   if (status === 'loading') {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-900 text-white">
+      <div className="flex items-center justify-center h-screen bg-gray-900 text-foreground">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
           <p>Checking authentication...</p>
@@ -356,7 +356,7 @@ export function StreamMeetingRoomSimple({ meeting, user, isHost, isAdmin }: Stre
 
   if (!client || !call || isJoining) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-900 text-white">
+      <div className="flex items-center justify-center h-screen bg-gray-900 text-foreground">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
           <p>{isJoining ? 'Connecting to meeting...' : 'Initializing video call...'}</p>
@@ -371,7 +371,7 @@ export function StreamMeetingRoomSimple({ meeting, user, isHost, isAdmin }: Stre
       <div className="bg-gray-800 p-4 flex items-center justify-between border-b border-gray-700">
         <div className="flex items-center space-x-4">
           <div>
-            <h1 className="text-white font-semibold">{meeting.title}</h1>
+            <h1 className="text-foreground font-semibold">{meeting.title}</h1>
             <p className="text-gray-400 text-sm">
               {isHost ? 'Host' : 'Participant'} • Meeting ID: {meeting.id}
             </p>

@@ -15,9 +15,9 @@ export default async function ServiceRequestsPage() {
   const rows = await getServiceRequests(session.user.companyId);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background app-shell">
       <Navigation user={session.user} />
-      <main className="container-responsive py-6 pt-24">
+      <main className="container-responsive py-6 pt-16 md:pt-8">
         <div className="space-y-6">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Service Requests</h1>

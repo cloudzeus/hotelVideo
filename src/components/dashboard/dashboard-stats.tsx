@@ -41,16 +41,16 @@ export function DashboardStats({ meetingStats, companyStats, userStats, isAdmin 
       {stats.map((stat) => {
         const Icon = stat.icon
         return (
-          <Card key={stat.title} className="bg-slate-800 border-slate-700">
+          <Card key={stat.title} className="bg-card border-border">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-white">
+              <CardTitle className="text-sm font-medium text-foreground">
                 {stat.title}
               </CardTitle>
-              <Icon className="h-4 w-4 text-slate-400" />
+              <Icon className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">{stat.value}</div>
-              <p className="text-xs text-slate-400">
+              <div className="text-2xl font-bold text-foreground">{stat.value}</div>
+              <p className="text-xs text-muted-foreground">
                 {stat.description}
               </p>
             </CardContent>

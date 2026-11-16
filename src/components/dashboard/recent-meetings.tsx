@@ -10,16 +10,16 @@ interface RecentMeetingsProps {
 
 export function RecentMeetings({ meetings }: RecentMeetingsProps) {
   return (
-    <Card className="bg-slate-800 border-slate-700">
+    <Card className="bg-card border-border">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-white">
+        <CardTitle className="flex items-center gap-2 text-foreground">
           <Video className="h-5 w-5" />
           Recent Meetings
         </CardTitle>
       </CardHeader>
       <CardContent>
         {meetings.length === 0 ? (
-          <p className="text-slate-400 text-center py-4">
+          <p className="text-muted-foreground text-center py-4">
             No recent meetings
           </p>
         ) : (
@@ -28,11 +28,11 @@ export function RecentMeetings({ meetings }: RecentMeetingsProps) {
               <Link
                 key={meeting.id}
                 href={`/meetings/${meeting.id}`}
-                className="flex items-center justify-between p-3 rounded-lg border border-slate-700 hover:bg-slate-700/50 transition-colors cursor-pointer"
+                className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-muted transition-colors cursor-pointer"
               >
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-medium truncate text-white">{meeting.title}</h4>
-                  <div className="flex items-center gap-4 text-sm text-slate-400 mt-1">
+                  <h4 className="font-medium truncate text-foreground">{meeting.title}</h4>
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground mt-1">
                     <div className="flex items-center gap-1">
                       <Calendar className="h-3 w-3" />
                       {formatDate(meeting.startTime)}
@@ -49,8 +49,8 @@ export function RecentMeetings({ meetings }: RecentMeetingsProps) {
         )}
 
         {meetings.length > 5 && (
-          <div className="mt-4 pt-4 border-t border-slate-700">
-            <Button asChild variant="outline" className="w-full border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white">
+          <div className="mt-4 pt-4 border-t border-border">
+            <Button asChild variant="outline" className="w-full border-border text-muted-foreground hover:bg-muted hover:text-foreground">
               <Link href="/meetings">
                 View All Meetings
               </Link>

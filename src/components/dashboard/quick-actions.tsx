@@ -60,9 +60,9 @@ export function QuickActions({ user, users, contacts }: QuickActionsProps) {
   ]
 
   return (
-    <Card className="bg-slate-800 border-slate-700">
+    <Card className="bg-card border-border">
       <CardHeader>
-        <CardTitle className="text-white">Quick Actions</CardTitle>
+        <CardTitle className="text-foreground">Quick Actions</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -79,12 +79,12 @@ export function QuickActions({ user, users, contacts }: QuickActionsProps) {
                   customTrigger={
                     <Button
                       variant={action.variant}
-                      className="h-auto p-4 flex flex-col items-start gap-2 border-slate-600 hover:bg-slate-700 w-full"
+                      className="h-auto p-4 flex flex-col items-start gap-2 w-full bg-primary text-primary-foreground hover:bg-primary/90 border-transparent shadow-[0_1px_2px_rgba(0,0,0,.2),0_4px_12px_rgba(0,120,212,.25)]"
                     >
                       <Icon className="h-5 w-5" />
                       <div className="text-left">
                         <div className="font-medium">{action.title}</div>
-                        <div className="text-sm text-slate-400">
+                        <div className="text-sm text-primary-foreground/80">
                           {action.description}
                         </div>
                       </div>
@@ -99,13 +99,13 @@ export function QuickActions({ user, users, contacts }: QuickActionsProps) {
                 key={action.title}
                 asChild
                 variant={action.variant}
-                className="h-auto p-4 flex flex-col items-start gap-2 border-slate-600 hover:bg-slate-700"
+                className="h-auto p-4 flex flex-col items-start gap-2 border-border hover:bg-muted"
               >
                 <Link href={action.href}>
                   <Icon className="h-5 w-5" />
                   <div className="text-left">
                     <div className="font-medium">{action.title}</div>
-                    <div className="text-sm text-slate-400">
+                    <div className="text-sm text-muted-foreground">
                       {action.description}
                     </div>
                   </div>

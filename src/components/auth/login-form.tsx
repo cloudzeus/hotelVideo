@@ -100,7 +100,7 @@ export function LoginForm() {
       {/* Submit Button */}
       <Button
         type="submit"
-        className="w-full h-12 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white font-semibold text-base shadow-lg hover:shadow-xl transition-all duration-200 group"
+        className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base rounded-md shadow-[0_1px_2px_rgba(0,0,0,.3),0_4px_12px_rgba(0,120,212,.3)] hover:shadow-[0_2px_4px_rgba(0,0,0,.3),0_8px_20px_rgba(0,120,212,.4)] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-black transition-all duration-200 group"
         disabled={isLoading}
       >
         {isLoading ? (

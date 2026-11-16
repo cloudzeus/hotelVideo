@@ -68,9 +68,9 @@ export default async function LicensePage() {
 		: `VIDM-${(defaultCompany?.id || 'COMP').slice(0, 6).toUpperCase()}-${dateIssued.replace(/-/g, '')}`
 
 	return (
-		<div className="min-h-screen bg-background">
+		<div className="min-h-screen bg-background app-shell">
 			<Navigation user={user} />
-			<main className="container-responsive py-6 pt-24">
+			<main className="container-responsive py-6 pt-16 md:pt-8">
 				<div className="max-w-3xl mx-auto space-y-6">
 					<h1 className="text-3xl font-bold tracking-tight">Software License Agreement</h1>
 					<div className="bg-card rounded-lg border p-6 space-y-4 text-sm leading-6">

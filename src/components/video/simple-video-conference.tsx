@@ -240,7 +240,7 @@ export function SimpleVideoConference({ meeting, user, isHost, isAdmin }: Simple
         {/* Main Video Area */}
         <div className="lg:col-span-2 space-y-4">
           {/* Local Video */}
-          <Card className="aspect-video bg-black">
+          <Card className="aspect-video bg-background">
             <CardContent className="p-0 h-full flex items-center justify-center">
               {isInCall ? (
                 <video
@@ -251,7 +251,7 @@ export function SimpleVideoConference({ meeting, user, isHost, isAdmin }: Simple
                   className="w-full h-full object-cover rounded-lg"
                 />
               ) : (
-                <div className="text-white text-center">
+                <div className="text-foreground text-center">
                   <Video className="mx-auto h-16 w-16 mb-4 opacity-50" />
                   <p>Initializing camera...</p>
                 </div>

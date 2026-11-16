@@ -88,9 +88,9 @@ export function AudioLevelIndicator({ stream }: AudioLevelIndicatorProps) {
       {/* Microphone icon */}
       <div className={`p-1 rounded-full ${isSpeaking ? 'bg-green-500' : 'bg-gray-500'}`}>
         {isSpeaking ? (
-          <Mic className="h-3 w-3 text-white" />
+          <Mic className="h-3 w-3 text-foreground" />
         ) : (
-          <MicOff className="h-3 w-3 text-white" />
+          <MicOff className="h-3 w-3 text-foreground" />
         )}
       </div>
 
@@ -103,7 +103,7 @@ export function AudioLevelIndicator({ stream }: AudioLevelIndicatorProps) {
       </div>
 
       {/* Audio level number */}
-      <span className="text-xs text-white bg-black bg-opacity-50 px-1 rounded">
+      <span className="text-xs text-foreground bg-background bg-opacity-50 px-1 rounded">
         {audioLevel.toFixed(0)}
       </span>
     </div>

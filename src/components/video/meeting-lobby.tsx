@@ -181,8 +181,8 @@ export function MeetingLobby({ meeting, user, onJoinMeeting, onLeaveLobby }: Mee
                   
                   {/* Video status overlay */}
                   {!isVideoEnabled && (
-                    <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                      <VideoOff className="w-16 h-16 text-white" />
+                    <div className="absolute inset-0 bg-background bg-opacity-50 flex items-center justify-center">
+                      <VideoOff className="w-16 h-16 text-foreground" />
                     </div>
                   )}
                 </div>

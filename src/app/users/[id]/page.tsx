@@ -52,7 +52,7 @@ export default async function UserProfilePage({ params }: UserProfilePageProps) 
   });
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background app-shell">
       <Navigation user={currentUser} />
       
       <main className="container-responsive py-6">

@@ -19,10 +19,10 @@ interface DueDiligenceDashboardProps {
 
 export function DueDiligenceDashboard({ user }: DueDiligenceDashboardProps) {
     return (
-        <div className="min-h-screen bg-black">
+        <div className="min-h-screen bg-background">
             {/* Gradient Header */}
             <div className="w-full h-20 bg-gradient-to-r from-purple-600 via-pink-500 via-orange-400 via-yellow-400 to-green-400 flex items-center px-8">
-                <h1 className="text-2xl font-bold text-white">Due Diligence Dashboard</h1>
+                <h1 className="text-2xl font-bold text-foreground">Due Diligence Dashboard</h1>
             </div>
 
             {/* Main Content */}
@@ -30,10 +30,10 @@ export function DueDiligenceDashboard({ user }: DueDiligenceDashboardProps) {
                 {/* Top Row - 3 Cards */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* Transaction Overview */}
-                    <Card className="bg-slate-800 border-slate-700 p-6">
+                    <Card className="bg-card border-border p-6">
                         <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-white font-semibold">Transaction Overview</h2>
-                            <ExternalLink className="w-4 h-4 text-slate-400" />
+                            <h2 className="text-foreground font-semibold">Transaction Overview</h2>
+                            <ExternalLink className="w-4 h-4 text-muted-foreground" />
                         </div>
 
                         {/* Donut Chart */}
@@ -87,8 +87,8 @@ export function DueDiligenceDashboard({ user }: DueDiligenceDashboardProps) {
                                     />
                                 </svg>
                                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                    <div className="text-4xl font-bold text-white">190</div>
-                                    <div className="text-sm text-slate-400">Total</div>
+                                    <div className="text-4xl font-bold text-foreground">190</div>
+                                    <div className="text-sm text-muted-foreground">Total</div>
                                 </div>
                             </div>
                         </div>
@@ -98,100 +98,100 @@ export function DueDiligenceDashboard({ user }: DueDiligenceDashboardProps) {
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
                                     <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                                    <span className="text-sm text-slate-300">Low Level Alerts</span>
+                                    <span className="text-sm text-muted-foreground">Low Level Alerts</span>
                                 </div>
-                                <span className="text-white font-semibold">80</span>
+                                <span className="text-foreground font-semibold">80</span>
                             </div>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
                                     <div className="w-3 h-3 rounded-full bg-orange-500"></div>
-                                    <span className="text-sm text-slate-300">Medium Level Alerts</span>
+                                    <span className="text-sm text-muted-foreground">Medium Level Alerts</span>
                                 </div>
-                                <span className="text-white font-semibold">65</span>
+                                <span className="text-foreground font-semibold">65</span>
                             </div>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
                                     <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                                    <span className="text-sm text-slate-300">High Level Alerts</span>
+                                    <span className="text-sm text-muted-foreground">High Level Alerts</span>
                                 </div>
-                                <span className="text-white font-semibold">45</span>
+                                <span className="text-foreground font-semibold">45</span>
                             </div>
                         </div>
                     </Card>
 
                     {/* Related Parties */}
-                    <Card className="bg-slate-800 border-slate-700 p-6">
+                    <Card className="bg-card border-border p-6">
                         <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-white font-semibold">Related Parties</h2>
-                            <ExternalLink className="w-4 h-4 text-slate-400" />
+                            <h2 className="text-foreground font-semibold">Related Parties</h2>
+                            <ExternalLink className="w-4 h-4 text-muted-foreground" />
                         </div>
 
                         {/* Tabs */}
                         <div className="flex gap-2 mb-6">
-                            <Badge className="bg-purple-600 hover:bg-purple-700 text-white border-0">
+                            <Badge className="bg-purple-600 hover:bg-purple-700 text-foreground border-0">
                                 Beneficial Owners
                             </Badge>
-                            <Badge variant="outline" className="border-slate-600 text-slate-300 hover:bg-slate-700">
+                            <Badge variant="outline" className="border-border text-muted-foreground hover:bg-muted">
                                 Directors
                             </Badge>
-                            <Badge variant="outline" className="border-slate-600 text-slate-300 hover:bg-slate-700">
+                            <Badge variant="outline" className="border-border text-muted-foreground hover:bg-muted">
                                 Key Controllers
                             </Badge>
                         </div>
 
                         {/* Person Card */}
-                        <div className="bg-slate-900 rounded-lg p-4 mb-4">
-                            <h3 className="text-xl font-bold text-white mb-4">Stephanie Georg</h3>
+                        <div className="bg-muted rounded-lg p-4 mb-4">
+                            <h3 className="text-xl font-bold text-foreground mb-4">Stephanie Georg</h3>
 
                             <div className="grid grid-cols-2 gap-3 mb-4">
-                                <div className="bg-slate-800 rounded px-3 py-2">
-                                    <div className="text-xs text-slate-400 mb-1">Primary Owner</div>
-                                    <div className="text-sm text-white font-medium">80% Ownership</div>
+                                <div className="bg-card rounded px-3 py-2">
+                                    <div className="text-xs text-muted-foreground mb-1">Primary Owner</div>
+                                    <div className="text-sm text-foreground font-medium">80% Ownership</div>
                                 </div>
                             </div>
 
                             <div className="space-y-2 text-sm">
-                                <div className="flex items-center gap-2 text-slate-300">
-                                    <span className="text-slate-500">📞</span>
+                                <div className="flex items-center gap-2 text-muted-foreground">
+                                    <span className="text-muted-foreground">📞</span>
                                     <span>(+44) 1122334455</span>
                                 </div>
-                                <div className="flex items-center gap-2 text-slate-300">
-                                    <span className="text-slate-500">✉️</span>
+                                <div className="flex items-center gap-2 text-muted-foreground">
+                                    <span className="text-muted-foreground">✉️</span>
                                     <span>sgeorg@bclf.com</span>
                                 </div>
                             </div>
 
                             <div className="mt-4 space-y-2 text-sm">
                                 <div className="flex justify-between">
-                                    <span className="text-slate-400">Name</span>
-                                    <span className="text-white">Defi LTD</span>
+                                    <span className="text-muted-foreground">Name</span>
+                                    <span className="text-foreground">Defi LTD</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-slate-400">Country of Incorporation</span>
-                                    <span className="text-white">UK</span>
+                                    <span className="text-muted-foreground">Country of Incorporation</span>
+                                    <span className="text-foreground">UK</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-slate-400">Entity Type</span>
-                                    <span className="text-white">Corporation</span>
+                                    <span className="text-muted-foreground">Entity Type</span>
+                                    <span className="text-foreground">Corporation</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-slate-400">Account Opening Date</span>
-                                    <span className="text-white">01-Jan-2020</span>
+                                    <span className="text-muted-foreground">Account Opening Date</span>
+                                    <span className="text-foreground">01-Jan-2020</span>
                                 </div>
                             </div>
                         </div>
                     </Card>
 
                     {/* Transaction Monitoring */}
-                    <Card className="bg-slate-800 border-slate-700 p-6">
+                    <Card className="bg-card border-border p-6">
                         <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-white font-semibold">Transaction Monitoring</h2>
-                            <ExternalLink className="w-4 h-4 text-slate-400" />
+                            <h2 className="text-foreground font-semibold">Transaction Monitoring</h2>
+                            <ExternalLink className="w-4 h-4 text-muted-foreground" />
                         </div>
 
                         {/* Table */}
                         <div className="space-y-3 mb-6">
-                            <div className="grid grid-cols-6 gap-2 text-xs text-slate-400 pb-2 border-b border-slate-700">
+                            <div className="grid grid-cols-6 gap-2 text-xs text-muted-foreground pb-2 border-b border-border">
                                 <span>Date</span>
                                 <span>Type</span>
                                 <span>Amount</span>
@@ -204,15 +204,15 @@ export function DueDiligenceDashboard({ user }: DueDiligenceDashboardProps) {
                                 { date: 'Jul 31, 2024', type: 'Debit', amount: '$8,000', alert: 'green', ref: 'PAY987654321' },
                                 { date: 'Aug 01, 2024', type: 'Credit', amount: '$24,000', alert: 'red', ref: 'DEP1122334455' },
                             ].map((tx, i) => (
-                                <div key={i} className="grid grid-cols-6 gap-2 text-xs text-slate-300 py-2">
+                                <div key={i} className="grid grid-cols-6 gap-2 text-xs text-muted-foreground py-2">
                                     <span>{tx.date}</span>
                                     <span>{tx.type}</span>
-                                    <span className="font-semibold text-white">{tx.amount}</span>
+                                    <span className="font-semibold text-foreground">{tx.amount}</span>
                                     <span>
                                         <div className={`w-3 h-3 rounded-full ${tx.alert === 'green' ? 'bg-green-500' : 'bg-red-500'
                                             }`}></div>
                                     </span>
-                                    <span className="col-span-2 text-slate-400">{tx.ref}</span>
+                                    <span className="col-span-2 text-muted-foreground">{tx.ref}</span>
                                 </div>
                             ))}
                         </div>
@@ -221,11 +221,11 @@ export function DueDiligenceDashboard({ user }: DueDiligenceDashboardProps) {
                         <div className="flex gap-4 text-xs mb-4">
                             <div className="flex items-center gap-2">
                                 <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                                <span className="text-slate-300">Credit</span>
+                                <span className="text-muted-foreground">Credit</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                                <span className="text-slate-300">Debit</span>
+                                <span className="text-muted-foreground">Debit</span>
                             </div>
                         </div>
 
@@ -263,7 +263,7 @@ export function DueDiligenceDashboard({ user }: DueDiligenceDashboardProps) {
                             </svg>
 
                             {/* X-axis labels */}
-                            <div className="flex justify-between text-xs text-slate-400 mt-2">
+                            <div className="flex justify-between text-xs text-muted-foreground mt-2">
                                 <span>Jan</span>
                                 <span>Feb</span>
                                 <span>Mar</span>
@@ -280,32 +280,32 @@ export function DueDiligenceDashboard({ user }: DueDiligenceDashboardProps) {
                 {/* Bottom Row - 2 Cards */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* Ongoing Due Diligence */}
-                    <Card className="bg-slate-800 border-slate-700 p-6">
+                    <Card className="bg-card border-border p-6">
                         <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-white font-semibold">Ongoing Due Diligence</h2>
+                            <h2 className="text-foreground font-semibold">Ongoing Due Diligence</h2>
                             <Button variant="link" className="text-blue-400 text-sm">View Details</Button>
                         </div>
 
                         {/* Stats */}
                         <div className="flex gap-8 mb-6">
                             <div className="text-center">
-                                <div className="text-4xl font-bold text-white mb-1">14</div>
-                                <div className="text-xs text-slate-400">Screened</div>
+                                <div className="text-4xl font-bold text-foreground mb-1">14</div>
+                                <div className="text-xs text-muted-foreground">Screened</div>
                             </div>
                             <div className="text-center">
-                                <div className="text-4xl font-bold text-white mb-1">05</div>
-                                <div className="text-xs text-slate-400">Alerts</div>
+                                <div className="text-4xl font-bold text-foreground mb-1">05</div>
+                                <div className="text-xs text-muted-foreground">Alerts</div>
                             </div>
                             <div className="text-center">
-                                <div className="text-4xl font-bold text-white mb-1">8s</div>
-                                <div className="text-xs text-slate-400">ART</div>
+                                <div className="text-4xl font-bold text-foreground mb-1">8s</div>
+                                <div className="text-xs text-muted-foreground">ART</div>
                             </div>
                         </div>
 
-                        <Badge className="bg-slate-900 text-white border-0 mb-4">Name Screening</Badge>
+                        <Badge className="bg-muted text-foreground border-0 mb-4">Name Screening</Badge>
 
                         {/* World Map */}
-                        <div className="bg-slate-900 rounded-lg p-6 h-64 relative overflow-hidden">
+                        <div className="bg-muted rounded-lg p-6 h-64 relative overflow-hidden">
                             <svg className="w-full h-full" viewBox="0 0 800 400">
                                 {/* Simplified world map dots */}
                                 {/* North America */}
@@ -349,49 +349,49 @@ export function DueDiligenceDashboard({ user }: DueDiligenceDashboardProps) {
                             </svg>
 
                             {/* Countries Legend */}
-                            <div className="absolute bottom-4 right-4 bg-slate-800 rounded-lg p-3 space-y-1">
-                                <div className="text-xs text-slate-300">Top Countries</div>
+                            <div className="absolute bottom-4 right-4 bg-card rounded-lg p-3 space-y-1">
+                                <div className="text-xs text-muted-foreground">Top Countries</div>
                                 <div className="flex items-center gap-2 text-xs">
                                     <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                                    <span className="text-slate-300">India</span>
+                                    <span className="text-muted-foreground">India</span>
                                 </div>
                                 <div className="flex items-center gap-2 text-xs">
                                     <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                                    <span className="text-slate-300">UK</span>
+                                    <span className="text-muted-foreground">UK</span>
                                 </div>
                                 <div className="flex items-center gap-2 text-xs">
                                     <div className="w-2 h-2 rounded-full bg-blue-500"></div>
-                                    <span className="text-slate-300">United States</span>
+                                    <span className="text-muted-foreground">United States</span>
                                 </div>
                                 <div className="flex items-center gap-2 text-xs">
                                     <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
-                                    <span className="text-slate-300">Australia</span>
+                                    <span className="text-muted-foreground">Australia</span>
                                 </div>
                             </div>
                         </div>
                     </Card>
 
                     {/* Transaction History */}
-                    <Card className="bg-slate-800 border-slate-700 p-6">
+                    <Card className="bg-card border-border p-6">
                         <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-white font-semibold">Transaction History</h2>
+                            <h2 className="text-foreground font-semibold">Transaction History</h2>
                             <Button variant="link" className="text-blue-400 text-sm">View Details</Button>
                         </div>
 
                         {/* Stats */}
                         <div className="flex gap-12 mb-6">
                             <div>
-                                <div className="text-5xl font-bold text-white mb-2">12</div>
+                                <div className="text-5xl font-bold text-foreground mb-2">12</div>
                                 <div className="flex items-center gap-2">
                                     <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                                    <span className="text-sm text-slate-300">Suspended</span>
+                                    <span className="text-sm text-muted-foreground">Suspended</span>
                                 </div>
                             </div>
                             <div>
-                                <div className="text-5xl font-bold text-white mb-2">15</div>
+                                <div className="text-5xl font-bold text-foreground mb-2">15</div>
                                 <div className="flex items-center gap-2">
                                     <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                                    <span className="text-sm text-slate-300">Cleared</span>
+                                    <span className="text-sm text-muted-foreground">Cleared</span>
                                 </div>
                             </div>
                         </div>
@@ -454,7 +454,7 @@ export function DueDiligenceDashboard({ user }: DueDiligenceDashboardProps) {
                             </svg>
 
                             {/* X-axis labels */}
-                            <div className="flex justify-between text-xs text-slate-400 mt-2 px-12">
+                            <div className="flex justify-between text-xs text-muted-foreground mt-2 px-12">
                                 <span>July 1</span>
                                 <span>July 5</span>
                                 <span>July 10</span>
@@ -466,8 +466,8 @@ export function DueDiligenceDashboard({ user }: DueDiligenceDashboardProps) {
 
                             {/* Value labels */}
                             <div className="absolute top-2 right-4 space-y-1">
-                                <div className="bg-red-500 text-white text-xs px-2 py-1 rounded">$38,000</div>
-                                <div className="bg-green-500 text-white text-xs px-2 py-1 rounded mt-20">$30,000</div>
+                                <div className="bg-red-500 text-foreground text-xs px-2 py-1 rounded">$38,000</div>
+                                <div className="bg-green-500 text-foreground text-xs px-2 py-1 rounded mt-20">$30,000</div>
                             </div>
                         </div>
                     </Card>

@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 export default function CompaniesLoading() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background app-shell">
       <div className="container-responsive py-6">
         <div className="space-y-6">
           {/* Header */}

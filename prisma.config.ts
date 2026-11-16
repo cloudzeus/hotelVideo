@@ -1,5 +1,10 @@
-import 'dotenv/config'
+import { config } from 'dotenv'
 import { defineConfig } from 'prisma/config'
+
+// Prisma CLI only loads .env by default; load .env.local too (it wins), so
+// migrate/studio/seed see the same vars as Next.js.
+config({ path: '.env' })
+config({ path: '.env.local', override: true })
 
 export default defineConfig({
     datasource: {

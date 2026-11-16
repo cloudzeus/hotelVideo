@@ -132,24 +132,24 @@ export function IncomingCallListener() {
 
     return (
         <Dialog open={!!incomingCall} onOpenChange={(open) => !open && handleDecline()}>
-            <DialogContent className="sm:max-w-md bg-slate-900 border-slate-800 text-white">
+            <DialogContent className="sm:max-w-md bg-muted border-border text-foreground">
                 <DialogHeader>
                     <DialogTitle className="text-center text-xl">Incoming Video Call</DialogTitle>
-                    <DialogDescription className="text-center text-slate-400">
+                    <DialogDescription className="text-center text-muted-foreground">
                         {incomingCall.createdBy.firstName} is calling you...
                     </DialogDescription>
                 </DialogHeader>
 
                 <div className="flex flex-col items-center justify-center py-6 space-y-4">
                     <div className="relative">
-                        <Avatar className="h-24 w-24 border-4 border-slate-800 shadow-xl">
+                        <Avatar className="h-24 w-24 border-4 border-border shadow-xl">
                             <AvatarImage src={incomingCall.createdBy.avatar || undefined} />
-                            <AvatarFallback className="text-2xl bg-slate-700 text-white">
+                            <AvatarFallback className="text-2xl bg-slate-700 text-foreground">
                                 {incomingCall.createdBy.firstName[0]}{incomingCall.createdBy.lastName[0]}
                             </AvatarFallback>
                         </Avatar>
                         <div className="absolute -bottom-2 -right-2 bg-green-500 p-2 rounded-full animate-pulse">
-                            <Video className="h-5 w-5 text-white" />
+                            <Video className="h-5 w-5 text-foreground" />
                         </div>
                     </div>
 
@@ -157,7 +157,7 @@ export function IncomingCallListener() {
                         <h3 className="text-lg font-semibold">
                             {incomingCall.createdBy.firstName} {incomingCall.createdBy.lastName}
                         </h3>
-                        <p className="text-sm text-slate-400">
+                        <p className="text-sm text-muted-foreground">
                             Incoming video call...
                         </p>
                     </div>

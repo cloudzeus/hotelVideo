@@ -337,8 +337,8 @@ export function MeetingsTable({
               </Avatar>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-medium truncate text-white">{meeting.title || ''}</p>
-              <p className="text-sm text-slate-400 truncate">
+              <p className="font-medium truncate text-foreground">{meeting.title || ''}</p>
+              <p className="text-sm text-muted-foreground truncate">
                 by {meeting.createdBy?.firstName || ''} {meeting.createdBy?.lastName || ''}
               </p>
             </div>
@@ -353,11 +353,11 @@ export function MeetingsTable({
         const meeting = row.original;
         return (
           <div className="space-y-1">
-            <div className="flex items-center gap-1 text-sm text-slate-300">
+            <div className="flex items-center gap-1 text-sm text-muted-foreground">
               <Calendar className="h-3 w-3" />
               {formatDate(meeting.startTime)}
             </div>
-            <div className="flex items-center gap-1 text-sm text-slate-400">
+            <div className="flex items-center gap-1 text-sm text-muted-foreground">
               <Clock className="h-3 w-3" />
               {formatTime(meeting.startTime)}
             </div>
@@ -381,7 +381,7 @@ export function MeetingsTable({
       cell: ({ row }: { row: any }) => {
         const meeting = row.original;
         return (
-          <div className="flex items-center gap-1 text-slate-300">
+          <div className="flex items-center gap-1 text-muted-foreground">
             <Users className="h-3 w-3" />
             <span className="text-sm">{meeting.participants.length}</span>
           </div>
@@ -394,7 +394,7 @@ export function MeetingsTable({
       cell: ({ row }: { row: any }) => {
         const meeting = row.original;
         return (
-          <div className="text-sm text-slate-400">
+          <div className="text-sm text-muted-foreground">
             {formatDuration(meeting.startTime, meeting.endTime)}
           </div>
         );
@@ -407,13 +407,13 @@ export function MeetingsTable({
         const meeting = row.original;
         const recording = meeting.recordings?.[0];
 
-        if (!recording && !meeting.summary) return <span className="text-slate-500">-</span>;
+        if (!recording && !meeting.summary) return <span className="text-muted-foreground">-</span>;
 
         return (
           <div className="flex items-center gap-2">
             {recording?.bunnyCdnUrl && (
               <a href={recording.bunnyCdnUrl} target="_blank" rel="noopener noreferrer" title="Watch Recording">
-                <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-blue-400 hover:text-blue-300 hover:bg-slate-700">
+                <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-blue-400 hover:text-blue-300 hover:bg-muted">
                   <Play className="h-4 w-4" />
                 </Button>
               </a>
@@ -422,7 +422,7 @@ export function MeetingsTable({
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-8 w-8 p-0 text-green-400 hover:text-green-300 hover:bg-slate-700"
+                className="h-8 w-8 p-0 text-green-400 hover:text-green-300 hover:bg-muted"
                 title="View Summary"
                 onClick={() => {
                   alert(meeting.summary);
@@ -447,7 +447,7 @@ export function MeetingsTable({
               <Button
                 onClick={() => handleJoinMeeting(meeting.id)}
                 size="sm"
-                className="bg-green-600 hover:bg-green-700 text-white"
+                className="bg-green-600 hover:bg-green-700 text-foreground"
               >
                 <Play className="mr-2 h-3 w-3" />
                 Join
@@ -462,21 +462,21 @@ export function MeetingsTable({
                   <MoreHorizontal className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-slate-800 border-slate-700">
-                <DropdownMenuLabel className="text-white">Actions</DropdownMenuLabel>
+              <DropdownMenuContent align="end" className="bg-card border-border">
+                <DropdownMenuLabel className="text-foreground">Actions</DropdownMenuLabel>
 
-                <DropdownMenuItem onClick={() => handleCopyLink(meeting)} className="text-slate-300 hover:bg-slate-700 hover:text-white">
+                <DropdownMenuItem onClick={() => handleCopyLink(meeting)} className="text-muted-foreground hover:bg-muted hover:text-foreground">
                   <Copy className="mr-2 h-4 w-4" />
                   Copy Link
                 </DropdownMenuItem>
 
-                <DropdownMenuItem onClick={() => handleSendInvitation(meeting)} className="text-slate-300 hover:bg-slate-700 hover:text-white">
+                <DropdownMenuItem onClick={() => handleSendInvitation(meeting)} className="text-muted-foreground hover:bg-muted hover:text-foreground">
                   <Mail className="mr-2 h-4 w-4" />
                   Send Invitations
                 </DropdownMenuItem>
 
                 {canEditMeeting(meeting) && (
-                  <DropdownMenuItem onClick={() => handleEditMeeting(meeting)} className="text-slate-300 hover:bg-slate-700 hover:text-white">
+                  <DropdownMenuItem onClick={() => handleEditMeeting(meeting)} className="text-muted-foreground hover:bg-muted hover:text-foreground">
                     <Edit className="mr-2 h-4 w-4" />
                     Edit Meeting
                   </DropdownMenuItem>
@@ -487,7 +487,7 @@ export function MeetingsTable({
                 {canDeleteMeeting(meeting) && (
                   <DropdownMenuItem
                     onClick={() => handleDeleteMeeting(meeting.id)}
-                    className="text-red-400 hover:bg-slate-700"
+                    className="text-red-400 hover:bg-muted"
                   >
                     <Trash2 className="mr-2 h-4 w-4" />
                     Delete Meeting
@@ -615,12 +615,12 @@ export function MeetingsTable({
         </DataTableToolbar>
 
         {/* Table */}
-        <div className="rounded-md border border-slate-700 bg-slate-800">
+        <div className="rounded-md border border-border bg-card">
           <Table>
             <TableHeader>
-              <TableRow className="border-slate-700 hover:bg-slate-700/50">
+              <TableRow className="border-border hover:bg-muted">
                 {columns.map((column) => (
-                  <TableHead key={column.accessorKey || column.id} className="text-slate-300">
+                  <TableHead key={column.accessorKey || column.id} className="text-muted-foreground">
                     {column.header}
                   </TableHead>
                 ))}
@@ -628,16 +628,16 @@ export function MeetingsTable({
             </TableHeader>
             <TableBody>
               {!meetings || meetings.length === 0 ? (
-                <TableRow className="border-slate-700">
-                  <TableCell colSpan={columns.length} className="h-24 text-center text-slate-400">
+                <TableRow className="border-border">
+                  <TableCell colSpan={columns.length} className="h-24 text-center text-muted-foreground">
                     No meetings found.
                   </TableCell>
                 </TableRow>
               ) : (
                 meetings.map((meeting) => (
-                  <TableRow key={meeting.id} className="border-slate-700 hover:bg-slate-700/50">
+                  <TableRow key={meeting.id} className="border-border hover:bg-muted">
                     {columns.map((column) => (
-                      <TableCell key={column.accessorKey || column.id} className="text-white">
+                      <TableCell key={column.accessorKey || column.id} className="text-foreground">
                         {column.cell({ row: { original: meeting } })}
                       </TableCell>
                     ))}

@@ -98,21 +98,21 @@ export function ActiveUsers({ users: initialUsers, currentUser }: ActiveUsersPro
     };
 
     return (
-        <Card className="bg-slate-800 border-slate-700">
+        <Card className="bg-card border-border">
             <CardHeader>
-                <CardTitle className="flex items-center justify-between text-white">
+                <CardTitle className="flex items-center justify-between text-foreground">
                     <div className="flex items-center gap-2">
                         <Circle className="h-3 w-3 fill-green-500 text-green-500" />
                         Active Users
                     </div>
-                    <span className="text-sm font-normal text-slate-400">
+                    <span className="text-sm font-normal text-muted-foreground">
                         {activeUsers.length} online
                     </span>
                 </CardTitle>
             </CardHeader>
             <CardContent>
                 {activeUsers.length === 0 ? (
-                    <p className="text-slate-400 text-center py-4">
+                    <p className="text-muted-foreground text-center py-4">
                         No active users right now
                     </p>
                 ) : (
@@ -120,7 +120,7 @@ export function ActiveUsers({ users: initialUsers, currentUser }: ActiveUsersPro
                         {activeUsers.map((user) => (
                             <div
                                 key={user.id}
-                                className="flex items-center justify-between p-3 rounded-lg border border-slate-700 hover:bg-slate-700/50 transition-colors"
+                                className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-muted transition-colors"
                             >
                                 <div className="flex items-center gap-3">
                                     <div className="relative">
@@ -133,10 +133,10 @@ export function ActiveUsers({ users: initialUsers, currentUser }: ActiveUsersPro
                                         <span className="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-slate-800 bg-green-500 animate-pulse" />
                                     </div>
                                     <div>
-                                        <p className="font-medium text-white text-sm">
+                                        <p className="font-medium text-foreground text-sm">
                                             {user.firstName} {user.lastName}
                                         </p>
-                                        <p className="text-xs text-slate-400">
+                                        <p className="text-xs text-muted-foreground">
                                             Online
                                         </p>
                                     </div>
@@ -144,7 +144,7 @@ export function ActiveUsers({ users: initialUsers, currentUser }: ActiveUsersPro
                                 <Button
                                     size="sm"
                                     variant="ghost"
-                                    className="text-slate-300 hover:text-white hover:bg-slate-600"
+                                    className="text-muted-foreground hover:text-foreground hover:bg-muted"
                                     onClick={() => handleCallUser(user)}
                                     disabled={isLoading === user.id}
                                 >

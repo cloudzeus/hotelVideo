@@ -101,16 +101,16 @@ export default async function MeetingsPage({
   console.log('🔍 Debug: Transformed contacts:', contacts.length);
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-background app-shell">
       <Navigation user={user} />
 
-      <main className="container-responsive py-6 pt-24">
+      <main className="container-responsive py-6 pt-16 md:pt-8">
         <div className="space-y-6">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight text-white">Video Conferences</h1>
-              <p className="text-slate-400">
+              <h1 className="text-3xl font-bold tracking-tight text-foreground">Video Conferences</h1>
+              <p className="text-muted-foreground">
                 Manage and join your video conferences powered by WebRTC
               </p>
             </div>
@@ -118,7 +118,7 @@ export default async function MeetingsPage({
           </div>
 
           {/* Meetings Table */}
-          <div className="bg-slate-800 rounded-lg border border-slate-700">
+          <div className="bg-card rounded-lg border border-border">
             <MeetingsTable
               currentFilters={{
                 limit,

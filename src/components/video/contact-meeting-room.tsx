@@ -271,7 +271,7 @@ export function ContactMeetingRoom({ meeting, token }: ContactMeetingRoomProps) 
             {/* Current User */}
             <div className="flex items-center gap-3 p-2 rounded-lg bg-blue-50 border border-blue-200">
               <Avatar className="w-8 h-8">
-                <AvatarFallback className="bg-blue-600 text-white">
+                <AvatarFallback className="bg-blue-600 text-foreground">
                   {participantName[0]}
                 </AvatarFallback>
               </Avatar>

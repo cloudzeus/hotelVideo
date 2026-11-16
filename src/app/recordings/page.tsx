@@ -17,10 +17,10 @@ export default async function RecordingsPage() {
   const user = session.user;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background app-shell">
       <Navigation user={user} />
       
-      <main className="container mx-auto py-6 pt-24 space-y-6">
+      <main className="container mx-auto py-6 pt-16 md:pt-8 space-y-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Recordings</h1>

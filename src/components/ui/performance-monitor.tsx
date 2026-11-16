@@ -9,7 +9,7 @@ export function PerformanceMonitor() {
 
   return (
     <div className="fixed bottom-4 right-4 w-64 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-4 z-50">
-      <div className="text-sm font-semibold mb-2 text-gray-900 dark:text-white">Performance Monitor</div>
+      <div className="text-sm font-semibold mb-2 text-gray-900 dark:text-foreground">Performance Monitor</div>
       <div className="space-y-2 text-xs text-gray-700 dark:text-gray-300">
         <div className="flex justify-between">
           <span>Status:</span>

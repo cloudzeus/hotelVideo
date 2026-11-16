@@ -1133,7 +1133,7 @@ export function MeetingRoom({ meeting, user, isHost, isAdmin }: MeetingRoomProps
         )}
 
         {/* Participant info overlay */}
-        <div className="absolute bottom-2 left-2 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded flex items-center gap-2">
+        <div className="absolute bottom-2 left-2 bg-background bg-opacity-50 text-foreground text-xs px-2 py-1 rounded flex items-center gap-2">
           {participant.isHost && <Crown className="h-3 w-3 text-yellow-400" />}
           <span>{participant.firstName} {participant.lastName}</span>
           {participant.isLocal && <span className="text-blue-400">(You)</span>}
@@ -1141,8 +1141,8 @@ export function MeetingRoom({ meeting, user, isHost, isAdmin }: MeetingRoomProps
 
         {/* Status indicators */}
         <div className="absolute top-2 right-2 flex gap-1">
-          {participant.isMuted && <MicOff className="h-4 w-4 text-red-400 bg-black bg-opacity-50 rounded p-0.5" />}
-          {participant.isVideoOn === false && <VideoOff className="h-4 w-4 text-red-400 bg-black bg-opacity-50 rounded p-0.5" />}
+          {participant.isMuted && <MicOff className="h-4 w-4 text-red-400 bg-background bg-opacity-50 rounded p-0.5" />}
+          {participant.isVideoOn === false && <VideoOff className="h-4 w-4 text-red-400 bg-background bg-opacity-50 rounded p-0.5" />}
         </div>
 
         {/* Audio level indicator */}
@@ -1161,7 +1161,7 @@ export function MeetingRoom({ meeting, user, isHost, isAdmin }: MeetingRoomProps
 
         {/* Host controls overlay */}
         {(isHost || isAdmin) && !participant.isLocal && (
-          <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 transition-all duration-200 flex items-center justify-center opacity-0 hover:opacity-100">
+          <div className="absolute inset-0 bg-background bg-opacity-0 hover:bg-opacity-20 transition-all duration-200 flex items-center justify-center opacity-0 hover:opacity-100">
             <div className="flex gap-2">
               <Button
                 size="sm"
@@ -1212,7 +1212,7 @@ export function MeetingRoom({ meeting, user, isHost, isAdmin }: MeetingRoomProps
       <div className="bg-gray-800 p-4 flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <div>
-            <h1 className="text-white font-semibold">{meeting.title}</h1>
+            <h1 className="text-foreground font-semibold">{meeting.title}</h1>
             <p className="text-gray-400 text-sm">
               {isHost ? 'Host' : 'Participant'} • {participants.length + 1} participants
             </p>
@@ -1251,7 +1251,7 @@ export function MeetingRoom({ meeting, user, isHost, isAdmin }: MeetingRoomProps
 
       {/* Waiting room overlay for non-hosts */}
       {waitingApproval && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/60">
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/60">
           <Card className="w-96">
             <CardHeader>
               <CardTitle className="text-center">Waiting for Host Approval</CardTitle>
@@ -1278,15 +1278,15 @@ export function MeetingRoom({ meeting, user, isHost, isAdmin }: MeetingRoomProps
                   muted
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute bottom-2 left-2 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded flex items-center gap-2">
+                <div className="absolute bottom-2 left-2 bg-background bg-opacity-50 text-foreground text-xs px-2 py-1 rounded flex items-center gap-2">
                   {isHost && <Crown className="h-3 w-3 text-yellow-400" />}
                   <span>You ({user.firstName} {user.lastName})</span>
                 </div>
 
                 {/* Local status indicators */}
                 <div className="absolute top-2 right-2 flex gap-1">
-                  {isMuted && <MicOff className="h-4 w-4 text-red-400 bg-black bg-opacity-50 rounded p-0.5" />}
-                  {!isVideoOn && <VideoOff className="h-4 w-4 text-red-400 bg-black bg-opacity-50 rounded p-0.5" />}
+                  {isMuted && <MicOff className="h-4 w-4 text-red-400 bg-background bg-opacity-50 rounded p-0.5" />}
+                  {!isVideoOn && <VideoOff className="h-4 w-4 text-red-400 bg-background bg-opacity-50 rounded p-0.5" />}
                 </div>
               </div>
 
@@ -1314,7 +1314,7 @@ export function MeetingRoom({ meeting, user, isHost, isAdmin }: MeetingRoomProps
 
           {/* Participants sidebar */}
           <div className="bg-gray-800 rounded-lg p-4">
-            <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+            <h3 className="text-foreground font-semibold mb-4 flex items-center gap-2">
               <Users className="h-4 w-4" />
               Participants ({participants.filter(p => !p.isLocal).length + 1})
             </h3>
@@ -1325,7 +1325,7 @@ export function MeetingRoom({ meeting, user, isHost, isAdmin }: MeetingRoomProps
                   <div className="space-y-2">
                     {pendingApprovals.map(p => (
                       <div key={p.id} className="flex items-center justify-between text-sm">
-                        <div className="text-white">
+                        <div className="text-foreground">
                           {p.firstName || 'User'} {p.lastName || ''}
                           <span className="text-xs text-gray-400 ml-2">{p.email}</span>
                         </div>
@@ -1347,7 +1347,7 @@ export function MeetingRoom({ meeting, user, isHost, isAdmin }: MeetingRoomProps
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
-                  <p className="text-white text-sm font-medium flex items-center gap-2">
+                  <p className="text-foreground text-sm font-medium flex items-center gap-2">
                     {user.firstName} {user.lastName} (You)
                     {isHost && <Crown className="h-3 w-3 text-yellow-400" />}
                   </p>
@@ -1368,7 +1368,7 @@ export function MeetingRoom({ meeting, user, isHost, isAdmin }: MeetingRoomProps
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
-                    <p className="text-white text-sm flex items-center gap-2">
+                    <p className="text-foreground text-sm flex items-center gap-2">
                       {participant.firstName} {participant.lastName}
                       {participant.isHost && <Crown className="h-3 w-3 text-yellow-400" />}
                       <span className="text-xs text-gray-400">[{userIdToRoomId[participant.id] || 'main'}]</span>

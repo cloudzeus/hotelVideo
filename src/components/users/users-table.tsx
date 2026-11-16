@@ -387,10 +387,10 @@ export function UsersTable({
               )}
             </Avatar>
             <div className="flex-1 min-w-0">
-              <p className="font-medium truncate text-white">
+              <p className="font-medium truncate text-foreground">
                 {userData.firstName || ''} {userData.lastName || ''}
               </p>
-              <p className="text-sm text-slate-400 truncate">
+              <p className="text-sm text-muted-foreground truncate">
                 {userData.email || ''}
               </p>
             </div>
@@ -417,7 +417,7 @@ export function UsersTable({
       accessorKey: 'department',
       header: 'Department',
       cell: ({ row }: { row: any }) => (
-        <div className="text-sm text-slate-400">
+        <div className="text-sm text-muted-foreground">
           {row.original.department?.name || 'No department'}
         </div>
       ),
@@ -426,14 +426,14 @@ export function UsersTable({
       accessorKey: 'phone',
       header: 'Contact',
       cell: ({ row }: { row: any }) => (
-        <div className="flex items-center gap-1 text-sm text-slate-400">
+        <div className="flex items-center gap-1 text-sm text-muted-foreground">
           {row.original.phone ? (
             <>
               <Phone className="h-3 w-3" />
               <span>{row.original.phone}</span>
             </>
           ) : (
-            <span className="text-slate-500">No phone</span>
+            <span className="text-muted-foreground">No phone</span>
           )}
         </div>
       ),
@@ -447,7 +447,7 @@ export function UsersTable({
       accessorKey: 'createdAt',
       header: 'Joined',
       cell: ({ row }: { row: any }) => (
-        <div className="flex items-center gap-1 text-sm text-slate-400">
+        <div className="flex items-center gap-1 text-sm text-muted-foreground">
           <Calendar className="h-3 w-3" />
           {row.original.createdAt ? formatDate(row.original.createdAt) : 'Unknown'}
         </div>
@@ -466,22 +466,22 @@ export function UsersTable({
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="bg-slate-800 border-slate-700">
-              <DropdownMenuLabel className="text-white">Actions</DropdownMenuLabel>
+            <DropdownMenuContent align="end" className="bg-card border-border">
+              <DropdownMenuLabel className="text-foreground">Actions</DropdownMenuLabel>
 
               {canEditUser(userData) && (
-                <DropdownMenuItem onClick={() => handleEditUser(userData)} className="text-slate-300 hover:bg-slate-700 hover:text-white">
+                <DropdownMenuItem onClick={() => handleEditUser(userData)} className="text-muted-foreground hover:bg-muted hover:text-foreground">
                   <Edit className="mr-2 h-4 w-4" />
                   Edit User
                 </DropdownMenuItem>
               )}
 
-              <DropdownMenuItem onClick={() => handleCallUser(userData)} className="text-slate-300 hover:bg-slate-700 hover:text-white">
+              <DropdownMenuItem onClick={() => handleCallUser(userData)} className="text-muted-foreground hover:bg-muted hover:text-foreground">
                 <Video className="mr-2 h-4 w-4" />
                 Call User
               </DropdownMenuItem>
 
-              <DropdownMenuItem onClick={() => window.open(`mailto:${userData.email || ''}`)} className="text-slate-300 hover:bg-slate-700 hover:text-white">
+              <DropdownMenuItem onClick={() => window.open(`mailto:${userData.email || ''}`)} className="text-muted-foreground hover:bg-muted hover:text-foreground">
                 <Mail className="mr-2 h-4 w-4" />
                 Send Email
               </DropdownMenuItem>
@@ -491,7 +491,7 @@ export function UsersTable({
               {canToggleUserStatus(userData) && (
                 <DropdownMenuItem
                   onClick={() => handleToggleUserStatus(userData.id, userData.isActive)}
-                  className={userData.isActive ? 'text-red-400 hover:bg-slate-700' : 'text-green-400 hover:bg-slate-700'}
+                  className={userData.isActive ? 'text-red-400 hover:bg-muted' : 'text-green-400 hover:bg-muted'}
                 >
                   {userData.isActive ? (
                     <>
@@ -510,7 +510,7 @@ export function UsersTable({
               {canDeleteUser(userData) && (
                 <DropdownMenuItem
                   onClick={() => handleDeleteUser(userData.id)}
-                  className="text-red-400 hover:bg-slate-700"
+                  className="text-red-400 hover:bg-muted"
                 >
                   <Trash2 className="mr-2 h-4 w-4" />
                   Delete User
@@ -626,12 +626,12 @@ export function UsersTable({
         </div>
 
         {/* Table */}
-        <div className="rounded-md border border-slate-700 bg-slate-800">
+        <div className="rounded-md border border-border bg-card">
           <Table>
             <TableHeader>
-              <TableRow className="border-slate-700 hover:bg-slate-700/50">
+              <TableRow className="border-border hover:bg-muted">
                 {columns.map((column) => (
-                  <TableHead key={column.accessorKey || column.id} className="text-slate-300">
+                  <TableHead key={column.accessorKey || column.id} className="text-muted-foreground">
                     {column.header}
                   </TableHead>
                 ))}
@@ -639,16 +639,16 @@ export function UsersTable({
             </TableHeader>
             <TableBody>
               {!users || users.length === 0 ? (
-                <TableRow className="border-slate-700">
-                  <TableCell colSpan={columns.length} className="h-24 text-center text-slate-400">
+                <TableRow className="border-border">
+                  <TableCell colSpan={columns.length} className="h-24 text-center text-muted-foreground">
                     No users found.
                   </TableCell>
                 </TableRow>
               ) : (
                 users.map((userData) => (
-                  <TableRow key={userData.id} className="border-slate-700 hover:bg-slate-700/50">
+                  <TableRow key={userData.id} className="border-border hover:bg-muted">
                     {columns.map((column) => (
-                      <TableCell key={column.accessorKey || column.id} className="text-white">
+                      <TableCell key={column.accessorKey || column.id} className="text-foreground">
                         {column.cell({ row: { original: userData } })}
                       </TableCell>
                     ))}
