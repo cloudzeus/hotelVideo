@@ -23,6 +23,7 @@ COPY . .
 RUN npx prisma generate
 
 # Build Next.js with optimizations
+ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV SKIP_ENV_VALIDATION=1
 # Skip type checking during build (already done in development)
