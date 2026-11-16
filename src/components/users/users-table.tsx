@@ -164,11 +164,11 @@ export function UsersTable({
   const getRoleBadge = (role: string) => {
     switch (role) {
       case 'Administrator':
-        return <Badge variant="destructive">Administrator</Badge>;
+        return <Badge variant="destructive">Διαχειριστής</Badge>;
       case 'Manager':
-        return <Badge variant="default">Manager</Badge>;
+        return <Badge variant="default">Υπεύθυνος</Badge>;
       case 'Employee':
-        return <Badge variant="secondary">Employee</Badge>;
+        return <Badge variant="secondary">Υπάλληλος</Badge>;
       case 'Contact':
         return <Badge variant="outline">Contact</Badge>;
       default:
@@ -180,12 +180,12 @@ export function UsersTable({
     return isActive ? (
       <Badge variant="default" className="flex items-center gap-1">
         <UserCheck className="h-3 w-3" />
-        Active
+        Ενεργός
       </Badge>
     ) : (
       <Badge variant="destructive" className="flex items-center gap-1">
         <UserX className="h-3 w-3" />
-        Inactive
+        Ανενεργός
       </Badge>
     );
   };
@@ -372,7 +372,7 @@ export function UsersTable({
   const columns = [
     {
       accessorKey: 'name',
-      header: 'User',
+      header: 'Χρήστης',
       cell: ({ row }: { row: any }) => {
         const userData = row.original;
         return (
@@ -400,12 +400,12 @@ export function UsersTable({
     },
     {
       accessorKey: 'role',
-      header: 'Role',
+      header: 'Ρόλος',
       cell: ({ row }: { row: any }) => getRoleBadge(row.original.role),
     },
     {
       accessorKey: 'company',
-      header: 'Company',
+      header: 'Εταιρία',
       cell: ({ row }: { row: any }) => (
         <div className="flex items-center gap-1">
           <Building className="h-3 w-3" />
@@ -415,16 +415,16 @@ export function UsersTable({
     },
     {
       accessorKey: 'department',
-      header: 'Department',
+      header: 'Τμήμα',
       cell: ({ row }: { row: any }) => (
         <div className="text-sm text-muted-foreground">
-          {row.original.department?.name || 'No department'}
+          {row.original.department?.name || 'Χωρίς τμήμα'}
         </div>
       ),
     },
     {
       accessorKey: 'phone',
-      header: 'Contact',
+      header: 'Επικοινωνία',
       cell: ({ row }: { row: any }) => (
         <div className="flex items-center gap-1 text-sm text-muted-foreground">
           {row.original.phone ? (
@@ -433,19 +433,19 @@ export function UsersTable({
               <span>{row.original.phone}</span>
             </>
           ) : (
-            <span className="text-muted-foreground">No phone</span>
+            <span className="text-muted-foreground">Χωρίς τηλέφωνο</span>
           )}
         </div>
       ),
     },
     {
       accessorKey: 'status',
-      header: 'Status',
+      header: 'Κατάσταση',
       cell: ({ row }: { row: any }) => getStatusBadge(row.original.isActive),
     },
     {
       accessorKey: 'createdAt',
-      header: 'Joined',
+      header: 'Εγγραφή',
       cell: ({ row }: { row: any }) => (
         <div className="flex items-center gap-1 text-sm text-muted-foreground">
           <Calendar className="h-3 w-3" />
@@ -455,7 +455,7 @@ export function UsersTable({
     },
     {
       id: 'actions',
-      header: 'Actions',
+      header: 'Ενέργειες',
       cell: ({ row }: { row: any }) => {
         const userData = row.original;
         return (
@@ -467,7 +467,7 @@ export function UsersTable({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="bg-card border-border">
-              <DropdownMenuLabel className="text-foreground">Actions</DropdownMenuLabel>
+              <DropdownMenuLabel className="text-foreground">Ενέργειες</DropdownMenuLabel>
 
               {canEditUser(userData) && (
                 <DropdownMenuItem onClick={() => handleEditUser(userData)} className="text-muted-foreground hover:bg-muted hover:text-foreground">
@@ -544,7 +544,7 @@ export function UsersTable({
         <div className="flex items-center justify-between">
           <div className="flex flex-1 items-center space-x-2">
             <Input
-              placeholder="Search users..."
+              placeholder="Αναζήτηση χρηστών..."
               value={safeFilters.search}
               onChange={(e) => updateFilters({ search: e.target.value })}
               className="h-8 w-[150px] lg:w-[250px]"
@@ -605,7 +605,7 @@ export function UsersTable({
                   onClick={() => updateFilters({ status: 'active' })}
                   className="h-8 text-xs"
                 >
-                  Active
+                  Ενεργός
                 </Button>
                 <Button
                   variant={safeFilters.status === 'inactive' ? 'default' : 'outline'}
@@ -613,7 +613,7 @@ export function UsersTable({
                   onClick={() => updateFilters({ status: 'inactive' })}
                   className="h-8 text-xs"
                 >
-                  Inactive
+                  Ανενεργός
                 </Button>
               </div>
             </div>
@@ -641,7 +641,7 @@ export function UsersTable({
               {!users || users.length === 0 ? (
                 <TableRow className="border-border">
                   <TableCell colSpan={columns.length} className="h-24 text-center text-muted-foreground">
-                    No users found.
+                    Δεν βρέθηκαν χρήστες.
                   </TableCell>
                 </TableRow>
               ) : (

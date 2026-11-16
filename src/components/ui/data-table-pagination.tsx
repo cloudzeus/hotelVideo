@@ -27,11 +27,11 @@ export function DataTablePagination({
   return (
     <div className="flex items-center justify-between px-2">
       <div className="flex-1 text-sm text-muted-foreground">
-        Showing {startItem} to {endItem} of {total} results
+        Εμφάνιση {startItem}-{endItem} από {total}
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium">Rows per page</p>
+          <p className="text-sm font-medium">Ανά σελίδα</p>
           <Combobox
             options={[10, 20, 30, 40, 50].map(size => ({ value: size.toString(), label: size.toString() }))}
             value={limit.toString()}
@@ -43,7 +43,7 @@ export function DataTablePagination({
           />
         </div>
         <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-          Page {page} of {totalPages}
+          Σελίδα {page} από {totalPages}
         </div>
         <div className="flex items-center space-x-2">
           <Button

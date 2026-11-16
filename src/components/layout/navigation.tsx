@@ -179,15 +179,19 @@ export function Navigation({ user }: NavigationProps) {
                 key={item.href}
                 href={item.href}
                 title={collapsed ? item.label : undefined}
+                aria-current={isActive ? 'page' : undefined}
                 className={cn(
-                  'flex items-center gap-3 rounded-md text-[15px] font-medium transition-colors px-3 py-2.5',
+                  'relative flex items-center gap-3 rounded-md text-sm font-medium transition-colors px-3 py-2.5',
                   collapsed && 'md:justify-center md:px-0',
                   isActive
-                    ? 'bg-primary/15 text-primary'
-                    : 'text-muted-foreground hover:text-sidebar-foreground hover:bg-sidebar-accent',
+                    ? 'bg-primary/10 text-primary'
+                    : 'text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent',
                 )}
               >
-                <Icon className="h-4 w-4 shrink-0" />
+                {isActive && !collapsed && (
+                  <span className="absolute left-0 top-1.5 bottom-1.5 w-1 rounded-full bg-primary" />
+                )}
+                <Icon className={cn('h-[18px] w-[18px] shrink-0', isActive ? 'text-primary' : 'text-muted-foreground')} />
                 <span className={cn('truncate', collapsed && 'md:hidden')}>{item.label}</span>
               </Link>
             )

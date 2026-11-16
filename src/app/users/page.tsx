@@ -93,11 +93,11 @@ export default async function UsersPage({
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="users" className="flex items-center gap-2">
                 <Users className="h-4 w-4" />
-                Users
+                Χρήστες
               </TabsTrigger>
               <TabsTrigger value="departments" className="flex items-center gap-2">
                 <Building className="h-4 w-4" />
-                Departments
+                Τμήματα
               </TabsTrigger>
             </TabsList>
 
@@ -105,9 +105,9 @@ export default async function UsersPage({
             <TabsContent value="users" className="space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-                  <h2 className="text-xl font-semibold">Users</h2>
+                  <h2 className="text-xl font-semibold">Χρήστες</h2>
                   <p className="text-muted-foreground">
-                    Manage users and their permissions
+                    Διαχείριση χρηστών και δικαιωμάτων
                   </p>
                 </div>
                 <CreateUserButton user={user} departments={departments.data} />
@@ -135,9 +135,9 @@ export default async function UsersPage({
             <TabsContent value="departments" className="space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-                  <h2 className="text-xl font-semibold">Departments</h2>
+                  <h2 className="text-xl font-semibold">Τμήματα</h2>
                   <p className="text-muted-foreground">
-                    Manage organizational structure and hierarchy
+                    Διαχείριση οργανωτικής δομής και ιεραρχίας
                   </p>
                 </div>
                 <CreateDepartmentButton
