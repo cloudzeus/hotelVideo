@@ -9,6 +9,7 @@ import { Toaster as SonnerToaster } from '@/components/ui/sonner';
 import { PerformanceMonitor } from '@/components/ui/performance-monitor';
 import { OnlineStatusTracker } from '@/components/online-status-tracker';
 import { IncomingCallListener } from '@/components/video/incoming-call-listener';
+import { ConciergeAlerts } from '@/components/concierge-alerts';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -65,6 +66,7 @@ export default function RootLayout({
             <PerformanceMonitor />
             <OnlineStatusTracker />
             <IncomingCallListener />
+            <ConciergeAlerts />
           </ThemeProvider>
         </AuthProvider>
       </body>
