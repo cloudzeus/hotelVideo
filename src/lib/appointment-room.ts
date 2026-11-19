@@ -9,8 +9,13 @@ import { renderBrandedEmail } from '@/lib/email-template';
 export const appointmentRoomSlug = (appointmentId: string) => `appt-${appointmentId}`;
 
 export function appointmentJoinLink(appointmentId: string, hotel: string, companyId: string): string {
+  const slug = appointmentRoomSlug(appointmentId);
+  // GUEST_ROOM_URL (optional), e.g. "https://ephyria.gr/concierge?room={slug}": the hotel
+  // website opens the room in its own modal. Unset → link straight to this app's room page.
+  const template = process.env.GUEST_ROOM_URL;
+  if (template?.includes('{slug}')) return template.replace('{slug}', slug);
   const base = process.env.NEXTAUTH_URL || process.env.NEXT_PUBLIC_APP_URL || '';
-  return `${base}/room/${appointmentRoomSlug(appointmentId)}?name=${encodeURIComponent(hotel)}&companyId=${companyId}`;
+  return `${base}/room/${slug}?name=${encodeURIComponent(hotel)}&companyId=${companyId}`;
 }
 
 /**
