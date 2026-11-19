@@ -41,10 +41,34 @@ function InCallChrome({ theme, onLeave }: { theme: RoomTheme; onLeave: () => voi
   }, []);
   const primary = theme.primary || '#2563EB';
 
+  // Stream's own theming ("template system"): override the SDK CSS variables so
+  // the video tiles, controls and participant bar match the hotel accent and the
+  // cinematic dark palette instead of Stream's default blue/grey.
+  const streamVars: Record<string, string> = {
+    '--str-video__primary-color': primary,
+    '--str-video__button-primary-base': primary,
+    '--str-video__button-primary-hover': primary,
+    '--str-video__button-primary-active': primary,
+    '--str-video__background-color1': '#15161d',
+    '--str-video__background-color2': '#1e1f29',
+    '--str-video__background-color4': '#0a0b12',
+    '--str-video__base-color1': '#e8e8ee',
+    '--str-video__text-color1': '#ffffff',
+    '--str-video__border-radius-md': '14px',
+    '--str-video__border-radius-lg': '18px',
+  };
+
   return (
     <div
       className="str-video"
-      style={{ height: '100dvh', display: 'flex', flexDirection: 'column', background: '#0b0f1a', color: '#fff' }}
+      style={{
+        height: '100dvh',
+        display: 'flex',
+        flexDirection: 'column',
+        color: '#fff',
+        background: `radial-gradient(900px 420px at 50% -8%, ${primary}22, transparent 65%), linear-gradient(180deg, #0b0c13 0%, #07080d 100%)`,
+        ...streamVars,
+      }}
     >
       <header
         style={{
@@ -98,21 +122,31 @@ function InCallChrome({ theme, onLeave }: { theme: RoomTheme; onLeave: () => voi
       </header>
 
       <main style={{ flex: 1, minHeight: 0, padding: 16 }}>
-        <div style={{ height: '100%', borderRadius: 14, overflow: 'hidden', border: '1px solid rgba(255,255,255,.08)', background: '#05070d' }}>
+        <div
+          style={{
+            height: '100%',
+            borderRadius: 18,
+            overflow: 'hidden',
+            border: '1px solid rgba(255,255,255,.07)',
+            background: '#0a0b12',
+            boxShadow: 'inset 0 1px 0 rgba(255,255,255,.04), 0 24px 60px rgba(0,0,0,.5)',
+          }}
+        >
           <SpeakerLayout participantsBarPosition="bottom" />
         </div>
       </main>
 
-      <footer style={{ display: 'flex', justifyContent: 'center', paddingBottom: 18 }}>
+      <footer style={{ display: 'flex', justifyContent: 'center', paddingBottom: 20 }}>
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             padding: '8px 14px',
-            borderRadius: 16,
-            background: 'rgba(17,22,36,.92)',
+            borderRadius: 18,
+            background: 'rgba(14,15,22,.92)',
             border: '1px solid rgba(255,255,255,.08)',
-            boxShadow: '0 8px 30px rgba(0,0,0,.45)',
+            boxShadow: `0 10px 34px rgba(0,0,0,.5), 0 0 0 1px ${primary}14`,
+            backdropFilter: 'blur(10px)',
           }}
         >
           <CallControls onLeave={onLeave} />
