@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { Switch } from '@/components/ui/switch';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -13,6 +12,10 @@ type Days = Record<number, Day>;
 // 0=Sunday … 6=Saturday (JS getDay()); display Monday-first.
 const LABELS: Record<number, string> = { 1: 'Δευτέρα', 2: 'Τρίτη', 3: 'Τετάρτη', 4: 'Πέμπτη', 5: 'Παρασκευή', 6: 'Σάββατο', 0: 'Κυριακή' };
 const ORDER = [1, 2, 3, 4, 5, 6, 0];
+// 24-hour options every 30 min (native <input type=time> shows AM/PM per the
+// browser locale; a select guarantees 24h and matches the fixed slot length).
+const TIMES = Array.from({ length: 48 }, (_, i) => `${String(Math.floor(i / 2)).padStart(2, '0')}:${i % 2 ? '30' : '00'}`);
+const timeClass = 'h-9 w-28 rounded-md border border-input bg-background px-2 text-sm disabled:cursor-not-allowed disabled:opacity-50';
 
 export function AvailabilitySettings() {
   const [days, setDays] = useState<Days | null>(null);
@@ -66,23 +69,25 @@ export function AvailabilitySettings() {
             <div key={d} className="flex items-center gap-3 rounded-md border border-border p-3">
               <Switch checked={day.enabled} onCheckedChange={(v) => set(d, { enabled: v })} />
               <span className="w-24 text-sm font-medium">{LABELS[d]}</span>
-              <Input
-                type="time"
+              <select
                 value={day.start}
-                step={1800}
                 disabled={!day.enabled}
                 onChange={(e) => set(d, { start: e.target.value })}
-                className="w-32"
-              />
+                className={timeClass}
+                aria-label={`Έναρξη ${LABELS[d]}`}
+              >
+                {TIMES.map((t) => <option key={t} value={t}>{t}</option>)}
+              </select>
               <span className="text-muted-foreground">—</span>
-              <Input
-                type="time"
+              <select
                 value={day.end}
-                step={1800}
                 disabled={!day.enabled}
                 onChange={(e) => set(d, { end: e.target.value })}
-                className="w-32"
-              />
+                className={timeClass}
+                aria-label={`Λήξη ${LABELS[d]}`}
+              >
+                {TIMES.map((t) => <option key={t} value={t}>{t}</option>)}
+              </select>
             </div>
           );
         })}
