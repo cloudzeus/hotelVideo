@@ -8,6 +8,8 @@ const publicRoutes = [
   '/login',
   '/api/auth',
   '/api/webhooks',
+  '/api/public', // CORS-open endpoints the hotel website calls (concierge-call, appointments, operator-status, room-token)
+  '/room',       // embeddable guest video rooms — opened without an account
 ]
 
 // Guest join links pattern
