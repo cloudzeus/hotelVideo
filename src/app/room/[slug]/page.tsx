@@ -1,3 +1,4 @@
+import { prisma } from '@/lib/prisma';
 import { EmbeddableRoom, type RoomTheme } from '@/components/room/embeddable-room';
 
 // Embeddable concierge room: /room/villa-1?primary=%23b8860b&name=Ephyria&logo=...&companyId=...
@@ -19,6 +20,15 @@ export default async function RoomPage({
     logo: str(sp.logo),
     companyId: str(sp.companyId),
   };
+
+  // "Back to the website" target after a call: the company's own website from the
+  // database, never a URL from the query string (that would be an open redirect).
+  if (theme.companyId) {
+    const company = await prisma.company
+      .findUnique({ where: { id: theme.companyId }, select: { website: true } })
+      .catch(() => null);
+    if (company?.website && /^https?:\/\//i.test(company.website)) theme.siteUrl = company.website;
+  }
 
   return <EmbeddableRoom slug={slug} theme={theme} />;
 }

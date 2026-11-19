@@ -18,9 +18,10 @@ export type RoomTheme = {
   hotelName: string;
   logo?: string;
   companyId?: string;
+  siteUrl?: string; // hotel website, offered as the way back after a call
 };
 
-type Phase = 'prejoin' | 'joining' | 'incall' | 'error';
+type Phase = 'prejoin' | 'joining' | 'incall' | 'ended' | 'error';
 
 function formatDuration(totalSeconds: number): string {
   const m = Math.floor(totalSeconds / 60);
@@ -227,7 +228,7 @@ export function EmbeddableRoom({ slug, theme }: { slug: string; theme: RoomTheme
     cleanup.current = () => {};
     setCall(null);
     setClient(null);
-    setPhase('prejoin');
+    setPhase('ended');
   }, []);
 
   if (phase === 'incall' && client && call) {
@@ -261,6 +262,28 @@ export function EmbeddableRoom({ slug, theme }: { slug: string; theme: RoomTheme
           // eslint-disable-next-line @next/next/no-img-element
           <img src={theme.logo} alt={theme.hotelName} style={{ height: 40, marginBottom: 12 }} />
         ) : null}
+        {phase === 'ended' ? (
+          <>
+            <h1 style={{ fontSize: 22, fontWeight: 600, margin: 0 }}>The call has ended</h1>
+            <p style={{ margin: '6px 0 16px', opacity: 0.7, fontSize: 14 }}>Thank you for talking with {theme.hotelName}.</p>
+            {theme.siteUrl ? (
+              <a
+                href={theme.siteUrl}
+                target="_top"
+                style={{ display: 'block', padding: '12px 16px', borderRadius: 4, background: primary, color: '#fff', fontSize: 15, fontWeight: 600, textAlign: 'center', textDecoration: 'none' }}
+              >
+                Back to the {theme.hotelName} website
+              </a>
+            ) : null}
+            <button
+              onClick={() => setPhase('prejoin')}
+              style={{ width: '100%', marginTop: 12, padding: '12px 16px', borderRadius: 4, border: '1px solid #33333d', background: 'transparent', color: '#fff', fontSize: 15, cursor: 'pointer' }}
+            >
+              Rejoin the call
+            </button>
+          </>
+        ) : (
+          <>
         <h1 style={{ fontSize: 22, fontWeight: 600, margin: 0 }}>{theme.hotelName} — Concierge</h1>
         <p style={{ margin: '6px 0 16px', opacity: 0.7, fontSize: 14 }}>
           Connect by video with our concierge team.
@@ -320,6 +343,8 @@ export function EmbeddableRoom({ slug, theme }: { slug: string; theme: RoomTheme
         >
           {phase === 'joining' ? 'Connecting…' : 'Join video call'}
         </button>
+          </>
+        )}
       </div>
     </div>
   );
