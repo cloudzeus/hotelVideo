@@ -210,7 +210,8 @@ export function EmbeddableRoom({ slug, theme, onExit, defaultName }: { slug: str
           <>
             <h1 className="text-xl font-semibold">Η κλήση ολοκληρώθηκε</h1>
             <p className="mb-4 mt-1.5 text-sm text-muted-foreground">Ευχαριστούμε που μιλήσατε με {theme.hotelName}.</p>
-            {theme.siteUrl ? (
+            {/* Inside the website's own modal the guest is already on the site: no link back. */}
+            {theme.siteUrl && window.self === window.top ? (
               <a
                 href={theme.siteUrl}
                 target="_top"
