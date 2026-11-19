@@ -1,7 +1,17 @@
 import { prisma } from '@/lib/prisma';
-import { ensureRoom, newOnDemandRoomId } from '@/lib/rooms';
+import { ensureRoom } from '@/lib/rooms';
 import { sendEmail } from '@/lib/email';
 import { renderBrandedEmail } from '@/lib/email-template';
+
+/** Room id of an appointment. Derived from the appointment id, so the guest can be
+ * sent the join link as soon as they request the meeting; the room itself only
+ * opens (room-token finds its Call row) once staff confirm. */
+export const appointmentRoomSlug = (appointmentId: string) => `appt-${appointmentId}`;
+
+export function appointmentJoinLink(appointmentId: string, hotel: string, companyId: string): string {
+  const base = process.env.NEXTAUTH_URL || process.env.NEXT_PUBLIC_APP_URL || '';
+  return `${base}/room/${appointmentRoomSlug(appointmentId)}?name=${encodeURIComponent(hotel)}&companyId=${companyId}`;
+}
 
 /**
  * Ensures a (confirmed) appointment has a linked video room and returns its slug.
@@ -24,7 +34,7 @@ export async function ensureAppointmentRoom(
   if (!appt) return { slug: null };
   if (appt.call?.streamCallId) return { slug: appt.call.streamCallId }; // already minted
 
-  const slug = newOnDemandRoomId('appt');
+  const slug = appointmentRoomSlug(appointmentId);
   const room = await ensureRoom({
     streamCallId: slug,
     companyId: appt.companyId,
@@ -39,9 +49,8 @@ export async function ensureAppointmentRoom(
   // Email the guest the branded join link (best-effort: never block the confirm).
   const email = appt.guest?.email;
   if (email) {
-    const base = process.env.NEXTAUTH_URL || process.env.NEXT_PUBLIC_APP_URL || '';
     const hotel = appt.company?.name || 'Ephyria';
-    const link = `${base}/room/${slug}?name=${encodeURIComponent(hotel)}&companyId=${appt.companyId}`;
+    const link = appointmentJoinLink(appointmentId, hotel, appt.companyId);
     const name = (appt.guest?.firstName || '').trim();
     const when = new Date(appt.scheduledAt).toLocaleString('el-GR');
     const greeting = name ? `Αγαπητέ/ή ${name},` : 'Γεια σας,';

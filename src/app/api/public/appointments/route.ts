@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { sendEmail } from '@/lib/email';
 import { renderBrandedEmail } from '@/lib/email-template';
+import { appointmentJoinLink } from '@/lib/appointment-room';
 
 // Public (CORS-open): a guest on the hotel website requests a concierge video
 // meeting (before / during / after their stay) at a preferred date/time. Creates
@@ -61,6 +62,7 @@ export async function POST(request: NextRequest) {
   // Best-effort transactional email (never fail the request on a mail error).
   try {
     await sendRequestEmails({
+      appointmentId: appointment.id,
       companyId: b.companyId,
       locale: b.locale === 'en' ? 'en' : 'el',
       guestName: `${b.guest.firstName} ${b.guest.lastName}`.trim(),
@@ -77,6 +79,7 @@ export async function POST(request: NextRequest) {
 }
 
 async function sendRequestEmails(opts: {
+  appointmentId: string;
   companyId: string;
   locale: 'el' | 'en';
   guestName: string;
@@ -101,9 +104,11 @@ async function sendRequestEmails(opts: {
       heading: el ? 'Λάβαμε το αίτημά σας' : 'We received your request',
       bodyHtml: el
         ? `<p style="margin:0 0 12px">${greeting}</p>
-           <p style="margin:0">Λάβαμε το αίτημά σας για βιντεοκλήση με το concierge στις <strong>${when}</strong>. Η ομάδα μας θα το επιβεβαιώσει σύντομα και θα σας στείλει τον σύνδεσμο σύνδεσης με email.</p>`
+           <p style="margin:0">Λάβαμε το αίτημά σας για βιντεοκλήση με το concierge στις <strong>${when}</strong>. Κρατήστε τον παρακάτω σύνδεσμο: με αυτόν θα συνδεθείτε την ώρα του ραντεβού. Ενεργοποιείται μόλις η ομάδα μας επιβεβαιώσει το ραντεβού, και θα σας ενημερώσουμε με νέο email.</p>`
         : `<p style="margin:0 0 12px">${greeting}</p>
-           <p style="margin:0">We received your concierge video-meeting request for <strong>${when}</strong>. Our team will confirm shortly and email you the join link.</p>`,
+           <p style="margin:0">We received your concierge video-meeting request for <strong>${when}</strong>. Keep the link below: you will use it to join at the time of the meeting. It becomes active once our team confirms, and we will email you again then.</p>`,
+      ctaLabel: el ? 'Σύνδεση στη βιντεοκλήση' : 'Join the video call',
+      ctaUrl: appointmentJoinLink(opts.appointmentId, hotel, opts.companyId),
       footerNote: el
         ? 'Λάβατε αυτό το email επειδή ζητήσατε βιντεοκλήση με το concierge.'
         : 'You received this email because you requested a concierge video meeting.',
