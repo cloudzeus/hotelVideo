@@ -25,6 +25,7 @@ import {
   Menu,
   UserPlus,
   Settings,
+  HelpCircle,
   FileText,
   PanelLeftClose,
   PanelLeftOpen,
@@ -104,6 +105,7 @@ export function Navigation({ user }: NavigationProps) {
     { href: '/users', label: 'Χρήστες', icon: Users },
     { href: '/statistics', label: 'Στατιστικά', icon: BarChart3 },
     { href: '/settings', label: 'Ρυθμίσεις', icon: Settings },
+    { href: '/help', label: 'Βοήθεια', icon: HelpCircle },
   ]
 
   const initials = `${user.firstName?.charAt(0) ?? ''}${user.lastName?.charAt(0) ?? ''}`
