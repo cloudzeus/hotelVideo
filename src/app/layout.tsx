@@ -10,6 +10,7 @@ import { PerformanceMonitor } from '@/components/ui/performance-monitor';
 import { OnlineStatusTracker } from '@/components/online-status-tracker';
 import { IncomingCallListener } from '@/components/video/incoming-call-listener';
 import { ConciergeAlerts } from '@/components/concierge-alerts';
+import { CallModalProvider } from '@/components/call/call-modal-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -60,13 +61,15 @@ export default function RootLayout({
             enableSystem={false}
             disableTransitionOnChange
           >
-            {children}
-            <Toaster />
-            <SonnerToaster />
-            <PerformanceMonitor />
-            <OnlineStatusTracker />
-            <IncomingCallListener />
-            <ConciergeAlerts />
+            <CallModalProvider>
+              {children}
+              <Toaster />
+              <SonnerToaster />
+              <PerformanceMonitor />
+              <OnlineStatusTracker />
+              <IncomingCallListener />
+              <ConciergeAlerts />
+            </CallModalProvider>
           </ThemeProvider>
         </AuthProvider>
       </body>

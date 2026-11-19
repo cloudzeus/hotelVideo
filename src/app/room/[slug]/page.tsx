@@ -30,5 +30,9 @@ export default async function RoomPage({
     if (company?.website && /^https?:\/\//i.test(company.website)) theme.siteUrl = company.website;
   }
 
-  return <EmbeddableRoom slug={slug} theme={theme} />;
+  return (
+    <div className="h-dvh">
+      <EmbeddableRoom slug={slug} theme={theme} />
+    </div>
+  );
 }

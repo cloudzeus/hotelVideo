@@ -42,114 +42,57 @@ function InCallChrome({ theme, onLeave }: { theme: RoomTheme; onLeave: () => voi
   }, []);
   const primary = theme.primary || '#2563EB';
 
-  // Stream's own theming ("template system"): override the SDK CSS variables so
-  // the video tiles, controls and participant bar match the hotel accent and the
-  // cinematic dark palette instead of Stream's default blue/grey.
+  // Match the rest of the app: theme Stream's own CSS variables onto the DG light
+  // design tokens so the tiles, controls and participant bar look like the app,
+  // not Stream's default dark blue/grey.
   const streamVars: Record<string, string> = {
-    '--str-video__primary-color': primary,
-    '--str-video__button-primary-base': primary,
-    '--str-video__button-primary-hover': primary,
-    '--str-video__button-primary-active': primary,
-    '--str-video__background-color1': '#15161d',
-    '--str-video__background-color2': '#1e1f29',
-    '--str-video__background-color4': '#0a0b12',
-    '--str-video__base-color1': '#e8e8ee',
-    '--str-video__text-color1': '#ffffff',
-    '--str-video__border-radius-md': '14px',
-    '--str-video__border-radius-lg': '18px',
+    '--str-video__primary-color': 'hsl(var(--primary))',
+    '--str-video__button-primary-base': 'hsl(var(--primary))',
+    '--str-video__button-primary-hover': 'hsl(var(--primary))',
+    '--str-video__button-primary-active': 'hsl(var(--primary))',
+    '--str-video__background-color1': 'hsl(var(--card))',
+    '--str-video__background-color2': 'hsl(var(--muted))',
+    '--str-video__background-color4': 'hsl(var(--secondary))',
+    '--str-video__base-color1': 'hsl(var(--foreground))',
+    '--str-video__text-color1': 'hsl(var(--foreground))',
+    '--str-video__border-radius-md': '12px',
+    '--str-video__border-radius-lg': '16px',
   };
 
   return (
-    <div
-      className="str-video"
-      style={{
-        height: '100dvh',
-        display: 'flex',
-        flexDirection: 'column',
-        color: '#fff',
-        background: `radial-gradient(900px 420px at 50% -8%, ${primary}22, transparent 65%), linear-gradient(180deg, #0b0c13 0%, #07080d 100%)`,
-        ...streamVars,
-      }}
-    >
-      <header
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 12,
-          padding: '10px 16px',
-          borderBottom: '1px solid rgba(255,255,255,.08)',
-          background: 'rgba(17,22,36,.72)',
-          backdropFilter: 'blur(8px)',
-        }}
-      >
+    <div className="str-video flex h-full flex-col bg-background text-foreground" style={streamVars}>
+      <header className="flex items-center gap-3 border-b bg-card px-4 py-2.5">
         {theme.logo ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={theme.logo} alt={theme.hotelName} style={{ height: 28 }} />
+          <img src={theme.logo} alt={theme.hotelName} className="h-7" />
         ) : (
-          <div style={{ width: 28, height: 28, borderRadius: 7, display: 'grid', placeItems: 'center', background: primary, fontWeight: 700, fontSize: 13 }}>
+          <div className="grid h-7 w-7 place-items-center rounded-md text-[13px] font-bold text-white" style={{ background: primary }}>
             {theme.hotelName.charAt(0)}
           </div>
         )}
-        <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.15, minWidth: 0 }}>
-          <span style={{ fontWeight: 600, fontSize: 14, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '38vw' }}>
-            {theme.hotelName}
-          </span>
-          <span style={{ fontSize: 11, opacity: 0.55 }}>Concierge</span>
+        <div className="flex min-w-0 flex-col leading-tight">
+          <span className="truncate text-sm font-semibold">{theme.hotelName}</span>
+          <span className="text-[11px] text-muted-foreground">Concierge</span>
         </div>
-        <div
-          style={{
-            marginLeft: 8,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 6,
-            fontSize: 12,
-            padding: '4px 10px',
-            borderRadius: 99,
-            background: 'rgba(43,191,106,.12)',
-            border: '1px solid rgba(43,191,106,.3)',
-          }}
-        >
-          <span style={{ width: 7, height: 7, borderRadius: 99, background: '#2bbf6a', boxShadow: '0 0 0 3px rgba(43,191,106,.2)' }} />
-          <span>Σε σύνδεση</span>
-        </div>
-        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 16, fontSize: 13 }}>
-          <span style={{ display: 'flex', alignItems: 'center', gap: 6, opacity: 0.85 }} title="Συμμετέχοντες">
+        <span className="ml-2 inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> Σε σύνδεση
+        </span>
+        <div className="ml-auto flex items-center gap-4 text-sm text-muted-foreground">
+          <span className="flex items-center gap-1.5" title="Συμμετέχοντες">
             <Users size={15} /> {participants.length}
           </span>
-          <span style={{ fontVariantNumeric: 'tabular-nums', opacity: 0.85, minWidth: 48, textAlign: 'right' }}>
-            {formatDuration(seconds)}
-          </span>
+          <span className="tabular-nums">{formatDuration(seconds)}</span>
         </div>
       </header>
 
-      <main style={{ flex: 1, minHeight: 0, padding: 16 }}>
-        <div
-          style={{
-            height: '100%',
-            borderRadius: 18,
-            overflow: 'hidden',
-            border: '1px solid rgba(255,255,255,.07)',
-            background: '#0a0b12',
-            boxShadow: 'inset 0 1px 0 rgba(255,255,255,.04), 0 24px 60px rgba(0,0,0,.5)',
-          }}
-        >
+      <main className="min-h-0 flex-1 p-4">
+        <div className="h-full overflow-hidden rounded-xl border bg-muted">
           <SpeakerLayout participantsBarPosition="bottom" />
         </div>
       </main>
 
-      <footer style={{ display: 'flex', justifyContent: 'center', paddingBottom: 20 }}>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            padding: '8px 14px',
-            borderRadius: 18,
-            background: 'rgba(14,15,22,.92)',
-            border: '1px solid rgba(255,255,255,.08)',
-            boxShadow: `0 10px 34px rgba(0,0,0,.5), 0 0 0 1px ${primary}14`,
-            backdropFilter: 'blur(10px)',
-          }}
-        >
+      <footer className="flex justify-center pb-5">
+        <div className="rounded-full border bg-card px-3 py-2 shadow-lg">
           <CallControls onLeave={onLeave} />
         </div>
       </footer>
@@ -157,14 +100,15 @@ function InCallChrome({ theme, onLeave }: { theme: RoomTheme; onLeave: () => voi
   );
 }
 
-export function EmbeddableRoom({ slug, theme }: { slug: string; theme: RoomTheme }) {
+export function EmbeddableRoom({ slug, theme, onExit, defaultName }: { slug: string; theme: RoomTheme; onExit?: () => void; defaultName?: string }) {
   const [phase, setPhase] = useState<Phase>('prejoin');
-  const [name, setName] = useState('');
+  const [name, setName] = useState(defaultName ?? '');
   const [error, setError] = useState('');
   const [operatorOnline, setOperatorOnline] = useState<boolean | null>(null);
   const [client, setClient] = useState<StreamVideoClient | null>(null);
   const [call, setCall] = useState<Call | null>(null);
   const cleanup = useRef<() => void>(() => {});
+  const autoJoined = useRef(false);
 
   // operator presence badge
   useEffect(() => {
@@ -223,13 +167,25 @@ export function EmbeddableRoom({ slug, theme }: { slug: string; theme: RoomTheme
     }
   }, [slug, name]);
 
+  // Staff open the call in a modal with their name already supplied → skip the
+  // pre-join card and connect straight away.
+  useEffect(() => {
+    if (defaultName && !autoJoined.current) {
+      autoJoined.current = true;
+      join();
+    }
+  }, [defaultName, join]);
+
   const leave = useCallback(() => {
     cleanup.current();
     cleanup.current = () => {};
     setCall(null);
     setClient(null);
-    setPhase('ended');
-  }, []);
+    // In a modal (staff), close it and return to the dashboard; embedded on the
+    // website, fall back to the end screen so the guest can rejoin.
+    if (onExit) onExit();
+    else setPhase('ended');
+  }, [onExit]);
 
   if (phase === 'incall' && client && call) {
     return (
@@ -244,104 +200,69 @@ export function EmbeddableRoom({ slug, theme }: { slug: string; theme: RoomTheme
   // pre-join / joining / error — themed to the hotel
   const primary = theme.primary || '#0078D4';
   return (
-    <div
-      style={{ minHeight: '100dvh', display: 'grid', placeItems: 'center', padding: 16, background: '#0b0b0f', color: '#fff' }}
-    >
-      <div
-        style={{
-          width: '100%',
-          maxWidth: 420,
-          background: '#15151c',
-          border: '1px solid #26262e',
-          borderRadius: 12,
-          padding: 24,
-          boxShadow: '0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.4)',
-        }}
-      >
+    <div className="grid h-full place-items-center bg-background p-4 text-foreground">
+      <div className="w-full max-w-sm rounded-xl border bg-card p-6 shadow-sm">
         {theme.logo ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={theme.logo} alt={theme.hotelName} style={{ height: 40, marginBottom: 12 }} />
+          <img src={theme.logo} alt={theme.hotelName} className="mb-3 h-10" />
         ) : null}
         {phase === 'ended' ? (
           <>
-            <h1 style={{ fontSize: 22, fontWeight: 600, margin: 0 }}>The call has ended</h1>
-            <p style={{ margin: '6px 0 16px', opacity: 0.7, fontSize: 14 }}>Thank you for talking with {theme.hotelName}.</p>
+            <h1 className="text-xl font-semibold">Η κλήση ολοκληρώθηκε</h1>
+            <p className="mb-4 mt-1.5 text-sm text-muted-foreground">Ευχαριστούμε που μιλήσατε με {theme.hotelName}.</p>
             {theme.siteUrl ? (
               <a
                 href={theme.siteUrl}
                 target="_top"
-                style={{ display: 'block', padding: '12px 16px', borderRadius: 4, background: primary, color: '#fff', fontSize: 15, fontWeight: 600, textAlign: 'center', textDecoration: 'none' }}
+                className="block rounded-md px-4 py-3 text-center text-sm font-semibold text-white"
+                style={{ background: primary }}
               >
-                Back to the {theme.hotelName} website
+                Επιστροφή στην ιστοσελίδα {theme.hotelName}
               </a>
             ) : null}
             <button
               onClick={() => setPhase('prejoin')}
-              style={{ width: '100%', marginTop: 12, padding: '12px 16px', borderRadius: 4, border: '1px solid #33333d', background: 'transparent', color: '#fff', fontSize: 15, cursor: 'pointer' }}
+              className="mt-3 w-full rounded-md border bg-transparent px-4 py-3 text-sm font-medium hover:bg-muted"
             >
-              Rejoin the call
+              Επανασύνδεση
             </button>
           </>
         ) : (
           <>
-        <h1 style={{ fontSize: 22, fontWeight: 600, margin: 0 }}>{theme.hotelName} — Concierge</h1>
-        <p style={{ margin: '6px 0 16px', opacity: 0.7, fontSize: 14 }}>
-          Connect by video with our concierge team.
+        <h1 className="text-xl font-semibold">{theme.hotelName} — Concierge</h1>
+        <p className="mb-4 mt-1.5 text-sm text-muted-foreground">
+          Συνδεθείτε με βίντεο με την ομάδα concierge.
         </p>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16, fontSize: 13 }}>
+        <div className="mb-4 flex items-center gap-2 text-sm">
           <span
-            style={{
-              width: 8,
-              height: 8,
-              borderRadius: 99,
-              background: operatorOnline ? '#2bbf6a' : operatorOnline === false ? '#8a8a93' : '#c9a227',
-              boxShadow: operatorOnline ? '0 0 0 3px rgba(43,191,106,.2)' : 'none',
-            }}
+            className="h-2 w-2 rounded-full"
+            style={{ background: operatorOnline ? '#2bbf6a' : operatorOnline === false ? '#9ca3af' : '#c9a227' }}
           />
-          <span style={{ opacity: 0.85 }}>
-            {operatorOnline == null ? 'Checking availability…' : operatorOnline ? 'A concierge is online' : 'No concierge online — leave a request'}
+          <span className="text-muted-foreground">
+            {operatorOnline == null ? 'Έλεγχος διαθεσιμότητας…' : operatorOnline ? 'Ένας concierge είναι online' : 'Κανένας concierge online αυτή τη στιγμή'}
           </span>
         </div>
 
-        <label style={{ fontSize: 13, opacity: 0.85 }}>Your name</label>
+        <label className="text-sm text-muted-foreground" htmlFor="room-name">Το όνομά σας</label>
         <input
+          id="room-name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && name.trim() && join()}
-          placeholder="e.g. Maria P."
-          style={{
-            width: '100%',
-            marginTop: 6,
-            marginBottom: 16,
-            padding: '10px 12px',
-            borderRadius: 4,
-            border: '1px solid #33333d',
-            background: '#0f0f15',
-            color: '#fff',
-            fontSize: 16,
-          }}
+          placeholder="π.χ. Μαρία Π."
+          className="mb-4 mt-1.5 w-full rounded-md border bg-background px-3 py-2.5 text-base outline-none focus:ring-2 focus:ring-ring"
         />
 
-        {error ? <p style={{ color: '#ff6b6b', fontSize: 13, marginTop: 0 }}>{error}</p> : null}
+        {error ? <p className="mt-0 text-sm text-destructive">{error}</p> : null}
 
         <button
           onClick={join}
           disabled={!name.trim() || phase === 'joining'}
-          style={{
-            width: '100%',
-            padding: '12px 16px',
-            borderRadius: 4,
-            border: 'none',
-            background: primary,
-            color: '#fff',
-            fontSize: 15,
-            fontWeight: 600,
-            cursor: name.trim() && phase !== 'joining' ? 'pointer' : 'not-allowed',
-            opacity: name.trim() && phase !== 'joining' ? 1 : 0.6,
-          }}
+          className="w-full rounded-md px-4 py-3 text-sm font-semibold text-white disabled:opacity-60"
+          style={{ background: primary }}
         >
-          {phase === 'joining' ? 'Connecting…' : 'Join video call'}
+          {phase === 'joining' ? 'Σύνδεση…' : 'Είσοδος στην κλήση'}
         </button>
           </>
         )}

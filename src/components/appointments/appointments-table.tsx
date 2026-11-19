@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useCallModal } from '@/components/call/call-modal-provider';
 
 type Row = {
   id: string;
@@ -33,6 +34,7 @@ const timingBadge: Record<string, string> = {
 
 export function AppointmentsTable({ rows }: { rows: Row[] }) {
   const router = useRouter();
+  const { openCall } = useCallModal();
   const [busy, setBusy] = useState<string | null>(null);
 
   async function setStatus(id: string, status: string) {
@@ -102,14 +104,13 @@ export function AppointmentsTable({ rows }: { rows: Row[] }) {
                     ))}
                   </select>
                   {r.call?.streamCallId ? (
-                    <a
-                      href={`/room/${r.call.streamCallId}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      type="button"
+                      onClick={() => openCall(r.call!.streamCallId!)}
                       className="inline-block rounded-full bg-emerald-600 px-2.5 py-1 text-xs font-semibold text-white hover:bg-emerald-700"
                     >
                       Σύνδεση βίντεο
-                    </a>
+                    </button>
                   ) : null}
                 </div>
               </td>
