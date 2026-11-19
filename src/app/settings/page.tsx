@@ -2,6 +2,7 @@ import { Suspense } from 'react'
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { getAuthSession } from '@/lib/auth'
+import { prisma } from '@/lib/prisma'
 import { Settings } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -24,6 +25,22 @@ export default async function SettingsPage() {
 
     const user = session.user
 
+    const dc = await prisma.company.findFirst({
+      where: { default: true },
+      select: { name: true, AFM: true, address: true, city: true, ZIP: true, country: true, PHONE01: true, phone: true, email: true },
+    })
+    const license = {
+      licensor: {
+        name: process.env.LICENSOR_NAME ?? '',
+        address: process.env.LICENSOR_ADDRESS ?? '',
+        serial: process.env.LICENSOR_SERIAL ?? '',
+        dateIssued: process.env.LICENSE_DATE_ISSUED ?? '',
+      },
+      licensee: dc
+        ? { name: dc.name, afm: dc.AFM, address: dc.address, city: dc.city, zip: dc.ZIP, country: dc.country, phone: dc.PHONE01 ?? dc.phone, email: dc.email }
+        : null,
+    }
+
     return (
       <div className="min-h-screen bg-background app-shell">
         <Navigation user={user} />
@@ -44,7 +61,7 @@ export default async function SettingsPage() {
             {/* Settings Content */}
             <Suspense fallback={<SettingsSkeleton />}>
               <SettingsDataProvider>
-                <SettingsContent />
+                <SettingsContent license={license} />
               </SettingsDataProvider>
             </Suspense>
           </div>

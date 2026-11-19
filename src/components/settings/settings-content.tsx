@@ -2,14 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Building2, Network, Loader2, Plug } from 'lucide-react';
+import { Building2, Network, Loader2, Plug, ShieldCheck } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { CompanySettings } from './company-settings';
 import { DepartmentHierarchy } from './department-hierarchy';
 import { IntegrationSettings } from './integration-settings';
+import { LicenseSettings, type LicenseInfo } from './license-settings';
 
-export function SettingsContent() {
+export function SettingsContent({ license }: { license: LicenseInfo }) {
   const [isPageLoading, setIsPageLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('company');
   const searchParams = useSearchParams();
@@ -17,7 +18,7 @@ export function SettingsContent() {
   useEffect(() => {
     // Check if there's a tab query parameter
     const tabParam = searchParams.get('tab');
-    if (tabParam && ['company', 'departments', 'integrations'].includes(tabParam)) {
+    if (tabParam && ['company', 'departments', 'integrations', 'license'].includes(tabParam)) {
       setActiveTab(tabParam);
     }
     
@@ -43,7 +44,7 @@ export function SettingsContent() {
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-      <TabsList className="grid w-full grid-cols-3">
+      <TabsList className="grid w-full grid-cols-4">
         <TabsTrigger value="company" className="flex items-center space-x-2">
           <Building2 className="h-4 w-4" />
           <span>Εταιρία</span>
@@ -55,6 +56,10 @@ export function SettingsContent() {
         <TabsTrigger value="integrations" className="flex items-center space-x-2">
           <Plug className="h-4 w-4" />
           <span>Integrations</span>
+        </TabsTrigger>
+        <TabsTrigger value="license" className="flex items-center space-x-2">
+          <ShieldCheck className="h-4 w-4" />
+          <span>Άδεια χρήσης</span>
         </TabsTrigger>
       </TabsList>
 
@@ -96,6 +101,20 @@ export function SettingsContent() {
           </CardHeader>
           <CardContent>
             <IntegrationSettings />
+          </CardContent>
+        </Card>
+      </TabsContent>
+
+      <TabsContent value="license" className="space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Άδεια χρήσης</CardTitle>
+            <CardDescription>
+              Στοιχεία πωλητή (από τη διαμόρφωση) και κατόχου άδειας (προεπιλεγμένη εταιρία).
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <LicenseSettings license={license} />
           </CardContent>
         </Card>
       </TabsContent>
