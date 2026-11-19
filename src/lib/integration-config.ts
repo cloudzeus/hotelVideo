@@ -63,9 +63,12 @@ export async function getIntegrationConfig(): Promise<IntegrationConfig> {
 }
 
 export async function saveIntegrationConfig(companyId: string, config: Partial<IntegrationConfig>) {
+  // Merge into the existing row so sibling keys (e.g. availability) survive.
+  const existing = await prisma.appConfig.findUnique({ where: { companyId } });
+  const merged = { ...((existing?.config as object) ?? {}), ...config };
   return prisma.appConfig.upsert({
     where: { companyId },
-    create: { companyId, config: config as object },
-    update: { config: config as object },
+    create: { companyId, config: merged },
+    update: { config: merged },
   });
 }

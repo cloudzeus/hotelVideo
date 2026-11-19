@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Building2, Network, Loader2, Plug, ShieldCheck } from 'lucide-react';
+import { Building2, Network, Loader2, Plug, ShieldCheck, CalendarClock } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { CompanySettings } from './company-settings';
 import { DepartmentHierarchy } from './department-hierarchy';
 import { IntegrationSettings } from './integration-settings';
+import { AvailabilitySettings } from './availability-settings';
 import { LicenseSettings, type LicenseInfo } from './license-settings';
 
 export function SettingsContent({ license }: { license: LicenseInfo }) {
@@ -18,7 +19,7 @@ export function SettingsContent({ license }: { license: LicenseInfo }) {
   useEffect(() => {
     // Check if there's a tab query parameter
     const tabParam = searchParams.get('tab');
-    if (tabParam && ['company', 'departments', 'integrations', 'license'].includes(tabParam)) {
+    if (tabParam && ['company', 'departments', 'integrations', 'availability', 'license'].includes(tabParam)) {
       setActiveTab(tabParam);
     }
     
@@ -44,7 +45,7 @@ export function SettingsContent({ license }: { license: LicenseInfo }) {
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-      <TabsList className="grid w-full grid-cols-4">
+      <TabsList className="grid w-full grid-cols-5">
         <TabsTrigger value="company" className="flex items-center space-x-2">
           <Building2 className="h-4 w-4" />
           <span>Εταιρία</span>
@@ -56,6 +57,10 @@ export function SettingsContent({ license }: { license: LicenseInfo }) {
         <TabsTrigger value="integrations" className="flex items-center space-x-2">
           <Plug className="h-4 w-4" />
           <span>Integrations</span>
+        </TabsTrigger>
+        <TabsTrigger value="availability" className="flex items-center space-x-2">
+          <CalendarClock className="h-4 w-4" />
+          <span>Διαθεσιμότητα</span>
         </TabsTrigger>
         <TabsTrigger value="license" className="flex items-center space-x-2">
           <ShieldCheck className="h-4 w-4" />
@@ -101,6 +106,20 @@ export function SettingsContent({ license }: { license: LicenseInfo }) {
           </CardHeader>
           <CardContent>
             <IntegrationSettings />
+          </CardContent>
+        </Card>
+      </TabsContent>
+
+      <TabsContent value="availability" className="space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Ώρες εξυπηρέτησης</CardTitle>
+            <CardDescription>
+              Μέρες και ώρες εξυπηρέτησης — σπάνε σε slots των 30 λεπτών για τα ραντεβού από την ιστοσελίδα.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <AvailabilitySettings />
           </CardContent>
         </Card>
       </TabsContent>
